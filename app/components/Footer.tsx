@@ -3,9 +3,18 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { MapPin, Phone, Mail, Facebook, Twitter, Youtube, Linkedin, ArrowUp } from 'lucide-react'
+import { FaTiktok } from "react-icons/fa";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Facebook,
+  Youtube,
+  Instagram,
+  ArrowUp,
+} from 'lucide-react'
 
-// --- Data for links to keep the component clean ---
+
 const companyLinks = [
   { name: 'Home', href: '/' },
   { name: 'Who We Are', href: '/about' },
@@ -19,11 +28,12 @@ const servicesLinks = [
   { name: 'Meta Ads', href: '/services/meta-ads' },
 ]
 
+
 const socialLinks = [
-  { name: 'Facebook', icon: Facebook, href: '#' },
-  { name: 'Twitter', icon: Twitter, href: '#' },
-  { name: 'Youtube', icon: Youtube, href: '#' },
-  { name: 'Linkedin', icon: Linkedin, href: '#' },
+  { name: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/jubutix' },
+  { name: 'Youtube', icon: Youtube, href: 'https://www.youtube.com/@jubutix' }, 
+  { name: 'TikTok', icon: FaTiktok, href: 'https://www.tiktok.com/@jubutix' }, 
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/jubutix' }, 
 ]
 
 // --- Main Footer Component ---
@@ -125,6 +135,8 @@ const Footer = () => {
               <Link
                 key={social.name}
                 href={social.href}
+                target='_blank'
+                rel='noopener noreferrer'
                 aria-label={social.name}
                 className='text-slate-500 hover:text-white transition-colors'
               >
