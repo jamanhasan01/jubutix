@@ -29,7 +29,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href='/who-we-are'
+              href='/whoweare'
               className='uppercase font-semibold text-sm text-zinc-700 hover:text-brand-pink transition-colors'
             >
               Who We Are
