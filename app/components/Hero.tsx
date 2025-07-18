@@ -1,10 +1,15 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import Button from './Button'
-import heroImg from '../../public/heroImg.png'
-import Image from 'next/image'
 
-const Hero = () => {
+import Image, { StaticImageData } from 'next/image'
+interface heroProps {
+  heading: string
+  desc: string
+  img: StaticImageData
+}
+
+const Hero = ({ heading, desc, img }: heroProps) => {
   return (
     <section>
       <div className='container'>
@@ -14,12 +19,8 @@ const Hero = () => {
               {'✨ Your Website Builder'}
               <ArrowUpRight className='ml-2 size-4' />
             </Badge>
-            <h1 className='my-6'>
-              Grow your Business & Revenue with the champions of <span className="text-red-600"> Digital Marketing.</span>
-            </h1>
-            <p className='text-muted-foreground mb-8 max-w-xl lg:text-xl'>
-              From leads to Sales we are here to deliver the transformative Results.
-            </p>
+            <h1 className='my-6'>{heading}</h1>
+            <p className='text-muted-foreground mb-8 max-w-xl lg:text-xl'>{desc}</p>
             <div className='flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start'>
               <Button text='Work With Us' />
             </div>
@@ -29,7 +30,7 @@ const Hero = () => {
           <div className='lg:col-span-4 w-full '>
             <Image
               className='w-full'
-              src={heroImg}
+              src={img}
               width={1200}
               height={1200}
               alt='Digital Marketing Hero Image'

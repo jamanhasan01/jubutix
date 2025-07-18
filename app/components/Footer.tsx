@@ -3,17 +3,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { FaTiktok } from "react-icons/fa";
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Facebook,
-  Youtube,
-  Instagram,
-  ArrowUp,
-} from 'lucide-react'
-
+import { FaTiktok } from 'react-icons/fa'
+import { MapPin, Phone, Mail, Facebook, Youtube, Instagram, ArrowUp } from 'lucide-react'
 
 const companyLinks = [
   { name: 'Home', href: '/' },
@@ -28,12 +19,11 @@ const servicesLinks = [
   { name: 'Meta Ads', href: '/services/meta-ads' },
 ]
 
-
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/jubutix' },
-  { name: 'Youtube', icon: Youtube, href: 'https://www.youtube.com/@jubutix' }, 
-  { name: 'TikTok', icon: FaTiktok, href: 'https://www.tiktok.com/@jubutix' }, 
-  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/jubutix' }, 
+  { name: 'Youtube', icon: Youtube, href: 'https://www.youtube.com/@jubutix' },
+  { name: 'TikTok', icon: FaTiktok, href: 'https://www.tiktok.com/@jubutix' },
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/jubutix' },
 ]
 
 // --- Main Footer Component ---
@@ -78,15 +68,15 @@ const Footer = () => {
               <ul className='mt-4 space-y-4'>
                 <li className='flex items-start gap-3'>
                   <MapPin className='h-5 w-5 mt-1 flex-shrink-0 text-slate-400' />
-                  <span>HN 8/33 2nd Floor, Sangam Chauraha, Sector-H Aliganj, Lucknow.</span>
+                  <span>343/2 Choto Alampur, Debidwar, Comilla, Bangladesh</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <Phone className='h-5 w-5 mt-1 flex-shrink-0 text-slate-400' />
-                  <span>+91-9455071678</span>
+                  <span>+880 1805-212243</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <Mail className='h-5 w-5 mt-1 flex-shrink-0 text-slate-400' />
-                  <span>info@umartazkeer.com</span>
+                  <span>contact@jubutix.com</span>
                 </li>
               </ul>
             </div>

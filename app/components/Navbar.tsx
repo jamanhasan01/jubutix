@@ -45,18 +45,18 @@ const Navbar = () => {
             <ul className='absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 bg-white shadow-lg rounded-md p-2 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50'>
               <li>
                 <Link
-                  href='/services/digital-marketing'
+                  href='/services/seo'
                   className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
                 >
-                  Digital Marketing
+                   SEO Optimization
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/services/seo'
+                  href='/services/meta-ads'
                   className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
                 >
-                  SEO Optimization
+                  Meta Ads
                 </Link>
               </li>
               <li>
