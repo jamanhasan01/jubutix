@@ -1,25 +1,33 @@
 import React from 'react'
 
-type buttonprops={
-    text:string,
-    classname?:string
+type ButtonProps = {
+  text: string
+  classname?: string
+  icon?: React.ReactNode
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  type?: 'button' | 'submit' | 'reset'
 }
-
-const Button:React.FC<buttonprops> = ({ text, classname }) => {
+const Button: React.FC<ButtonProps> = ({ text, classname, icon, onClick, type = 'button' }) => {
   return (
     <button
+      type={type}
       className={`
         px-3 py-2 
-        bg-primary text-white 
-        rounded text-lg font-semibold 
+        bg-primary 
+        text-white 
+        flex 
+        gap-2 items-center
+        rounded text-base font-semibold 
         cursor-pointer 
         transition duration-300 ease-in-out 
         hover:scale-95 
         active:scale-90
+        uppercase
         ${classname}
       `}
+      onClick={onClick}
     >
-      {text}
+      {text} {icon}
     </button>
   )
 }

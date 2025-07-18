@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, ChevronDown } from 'lucide-react' // Changed icons
+import { Menu, X, ChevronDown, Phone } from 'lucide-react' // Changed icons
 import Logo from './Logo'
 import Button from './Button'
 
@@ -90,7 +90,7 @@ const Navbar = () => {
         {/* Desktop Action Button */}
         <div className='hidden md:block'>
           <Link href='/courses'>
-            <Button text={'login'} classname={'bg-green-600'} />
+            <Button text={'TALK TO US'} icon={<Phone size={20} />} />
           </Link>
         </div>
 
@@ -150,7 +150,12 @@ const Navbar = () => {
             </li>
             <li>
               <Link href='/courses'>
-                <Button text={'login'} classname='w-full mt-2 bg-green-600' />
+                <Button
+                  text={'TALK TO US'}
+                  classname='w-full mt-2 bg-green-600'
+                  // 2. Pass the icon as a JSX element to the 'icon' prop
+                  icon={<Phone size={20} />}
+                />
               </Link>
             </li>
           </ul>

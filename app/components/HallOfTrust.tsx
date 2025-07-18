@@ -36,9 +36,9 @@ const HallOfTrust = () => {
         {/* --- Logo Grid --- */}
         <div className='mt-12'>
           <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6  border-gray-200 gap-2'>
-            {logos.map((company) => (
+            {logos.map((company,i) => (
               <div
-                key={company.name}
+                key={i}
                 className='flex items-center justify-center p-6 border-r border-b border-gray-200 bg-white'
               >
                 <Image
