@@ -1,5 +1,6 @@
-// components/ServicesSection.jsx
+// components/ServicesSection.tsx
 
+import React from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import {
@@ -12,52 +13,52 @@ import {
 } from '@/components/ui/card'
 import { CheckCircle2, ArrowRight, Code2 } from 'lucide-react'
 
-// --- Services Data ---
-// This structure makes it easy to add or modify services in the future.
-const services = [
+// 1. Define the type for a single service object
+type Service = {
+  title: string
+  description: string
+  features: string[]
+  // The icon can be a string (for a URL) or a React Component
+  icon: string | React.ComponentType<{ className?: string }>
+}
+
+// 2. Apply the type to your services array
+const services: Service[] = [
   {
-    iconType: 'image',
-    icon: '/seo.png', // Replace with your actual icon path
+    icon: '/seo.png', // The path to the image
     title: 'SEO',
-    description:
-      "Outperform your biggest rivals with India's leading SEO Company. Generate incredible leads through the power of SEO. We know what GOOGLE wants to get you in SERPs.",
+    description: "Outperform your biggest rivals with India's leading SEO Company...",
     features: ['Local SEO', 'International SEO', 'Ecommerce SEO', 'Enterprise SEO'],
   },
   {
-    iconType: 'image',
-    icon: '/googleads.png', // Replace with your actual icon path
+    icon: '/googleads.png', // The path to the image
     title: 'Google Ads',
-    description:
-      "Let our experts take charge of your PPC campaign. Don't Settle For LESS, Achieve BIG With Our Performance Marketing Strategies.",
+    description: 'Let our experts take charge of your PPC campaign...',
     features: ['Google Ads', 'PMax Campaigns', 'Shopping Campaigns', 'Planning & Strategies'],
   },
   {
-    iconType: 'image',
-    icon: '/meta.png', // Replace with your actual icon path
+    icon: '/meta.png', // The path to the image
     title: 'Meta Ads',
-    description:
-      'From Generating leads from the businesses to Generating sales at better ROAS for your business. We exactly know how meta ecosystem works now.',
+    description: 'From Generating leads from the businesses to Generating sales...',
     features: ['Ads Creation & Brainstorming', 'Facebook Ads', 'Instagram Ads'],
   },
   {
-    iconType: 'image',
-    icon: '/development.png', // Using a lucide-react icon as an example
+    icon: Code2, // The actual component from lucide-react
     title: 'Development',
-    description:
-      'We understand the Concept of CRO for Landing Pages. We know How to make a website SEO Friendly. Get our Web Development Services.',
+    description: 'We understand the Concept of CRO for Landing Pages...',
     features: ['High Converting Landing Page', 'SEO Friendly Websites', 'Custom Coded Websites'],
   },
 ]
 
 const ServicesSection = () => {
   return (
-    <section className=''>
-      <div className='container'>
+    <section className='py-16 sm:py-24'>
+      <div className='container mx-auto px-4'>
         {/* Section Header */}
         <div className='text-center max-w-4xl mx-auto mb-12'>
-          <h1>
+          <h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
             Our ROI driven Services for both Ecommerce as well as{' '}
-            <span className='text-red-600'>Lead Generation Businesses!</span>
+            <span className='text-blue-600'>Lead Generation Businesses!</span>
           </h1>
           <p className='mt-4 text-lg text-gray-600'>
             Honest, 100% transparency and Data Driven Approach is how we operate.
@@ -71,8 +72,9 @@ const ServicesSection = () => {
               key={service.title}
               className='flex flex-col h-full hover:shadow-lg transition-shadow duration-300'
             >
-              <CardHeader className='items-center'>
-                {service.iconType === 'image' ? (
+              <CardHeader className='items-center text-center'>
+                {/* 3. Use typeof to safely check the type of the icon */}
+                {typeof service.icon === 'string' ? (
                   <Image
                     src={service.icon}
                     alt={`${service.title} icon`}
