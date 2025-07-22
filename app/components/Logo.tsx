@@ -1,5 +1,5 @@
 const Logo = () => (
-  <div className='flex items-center gap-2'>
+  <div className='flex items-center gap-2 text-primary'>
     {/* Placeholder for the violet 'VT' graphic */}
     <svg width='40' height='40' viewBox='0 0 100 100' className='text-brand-violet'>
       <path
@@ -19,7 +19,7 @@ const Logo = () => (
       />
     </svg>
     <div className='flex flex-col leading-tight'>
-      <span className='font-bold text-zinc-800 text-base'>UT DIGITAL</span>
+      <span className='font-bold text-zinc-800 text-base'>JUBUTIX</span>
       <span className='text-xs text-brand-pink tracking-widest uppercase'>MEDIA</span>
     </div>
   </div>

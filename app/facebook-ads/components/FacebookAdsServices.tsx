@@ -9,8 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+
 import { CheckCircle2 } from 'lucide-react'
+import Button from '@/app/components/Button';
 
 // --- Data for the service cards ---
 const servicesData = [
@@ -61,15 +62,15 @@ const servicesData = [
 
 const FacebookAdsServices = () => {
   return (
-    <section className="bg-slate-50 ">
+    <section className="bg-primary">
       <div className="container ">
         {/* --- Section Title --- */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800">
+          <h2 className='text-secondary'>
             Facebook Ads{' '}
             <span className="relative inline-block">
-              <span className="relative z-10">Services</span>
-              <span className="absolute left-0 bottom-0 w-full h-3 bg-red-400/80 -skew-x-12 z-0 transform translate-y-1"></span>
+            Service
+      
             </span>
           </h2>
         </div>
@@ -95,7 +96,7 @@ const FacebookAdsServices = () => {
                   <ul className="mt-3 space-y-3 text-gray-600">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start">
-                        <CheckCircle2 className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -104,9 +105,11 @@ const FacebookAdsServices = () => {
               </CardContent>
 
               <CardFooter>
-                 <Button asChild variant="link" className="text-primary font-semibold p-0">
-                  <Link href="#">Learn More</Link>
+                <Link href="#">
+                 <Button text='Learn More ' classname=''>
+                  
                 </Button>
+                </Link>
               </CardFooter>
             </Card>
           ))}

@@ -6,12 +6,11 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CheckSquare } from 'lucide-react'
 
-// Data for the partner cards. Easy to edit and scale.
 const partnerData = [
   {
     preTitle: 'LEADING GOOGLE PARTNER',
     title: 'Google Official Partners',
-    badgeImage: '/badges/google-partner-premier.png', // Replace with your image path
+    badgeImage: '/badges/google-partner-premier.png',
     advantageText:
       'Our Google-certified, award-winning specialists will strategically plan and execute your campaigns for maximum ROI.',
     link: '/contact-us',
@@ -19,7 +18,7 @@ const partnerData = [
   {
     preTitle: 'LEADING META BUSINESS PARTNER',
     title: 'Meta Official Partner',
-    badgeImage: '/badges/meta-partner.png', // Replace with your image path
+    badgeImage: '/badges/meta-partner.png', 
     advantageText:
       'Get your account in the hands of the people who spend big and are recognised by Meta as official Business Partner.',
     link: '/contact-us',

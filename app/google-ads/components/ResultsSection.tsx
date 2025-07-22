@@ -1,9 +1,9 @@
-// components/ResultsSection.tsx
-'use client' // The Carousel component uses hooks, so this needs to be a Client Component
+
+'use client' 
 
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+
 
 import {
   Carousel,
@@ -34,16 +34,12 @@ const resultImages = [
 
 const ResultsSection = () => {
   return (
-    <section className='bg-white '>
+    <section className='bg-primary '>
       <div className='container '>
         {/* --- Main Section Title --- */}
         <div className='text-center mb-12'>
-          <h1>
-            <span className='relative inline-block'>
-              <span className='relative z-10'>Results</span>
-              <span className='absolute left-0 bottom-0 w-full h-3 bg-red-600 -skew-x-12 z-0 transform translate-y-1'></span>
-            </span>{' '}
-            we Deliver
+          <h1 className='text-secondary'>
+            <span className='relative inline-block'>Results</span> we Deliver
           </h1>
         </div>
 
@@ -51,11 +47,11 @@ const ResultsSection = () => {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
           {/* --- Left Column: Text Content --- */}
           <div className='space-y-6'>
-            <h3>
+            <h3 className='text-secondary'>
               Our Strategies that can deliver{' '}
-              <span className='text-red-600'>Results like these :</span>
+              Results like these :
             </h3>
-            <p className='text-gray-600'>
+            <p className='text-white'>
               We have dedicated strategies for different kind of website. We Setup KPIs, analyse the
               website thoroughly from SEO perfective and then craft strategies using our years of
               experience to Boost SEO game.
@@ -65,12 +61,12 @@ const ResultsSection = () => {
               {strategies.map((item) => (
                 <div key={item} className='flex items-center'>
                   <CheckCircle2 className='h-5 w-5 text-green-500 mr-2 flex-shrink-0' />
-                  <span className='text-gray-700'>{item}</span>
+                  <span className='text-white'>{item}</span>
                 </div>
               ))}
             </div>
             <div className='pt-4'>
-             <Button text=' GET A FREE QUOTE NOW'/>
+              <Button text=' GET A FREE QUOTE NOW' classname='!text-primary bg-secondary'/>
             </div>
           </div>
 

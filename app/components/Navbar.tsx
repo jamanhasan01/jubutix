@@ -1,16 +1,36 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu, X, ChevronDown, Phone } from 'lucide-react' // Changed icons
 import Logo from './Logo'
 import Button from './Button'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isScoll, setisScoll] = useState(false)
+  console.log(isScoll)
+
+  useEffect(() => {
+    const handleScrollFunc = () => {
+      if (scrollY > 10) {
+        setisScoll(true)
+      } else {
+        setisScoll(false)
+      }
+    }
+    window.addEventListener('scroll', handleScrollFunc)
+    return () => {
+      window.removeEventListener('scroll', handleScrollFunc)
+    }
+  }, [])
 
   return (
-    <header className='w-full bg-white shadow-sm sticky top-0 z-50'>
+  <header
+  className={`w-full fixed top-0 z-50 transition-all duration-300 ${
+    isScoll ? 'bg-white/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
+  }`}
+>
       <nav className='max-w-7xl mx-auto px-8 py-4 flex justify-between items-center'>
         {/* Logo */}
         <Link href='/'>
@@ -45,26 +65,18 @@ const Navbar = () => {
             <ul className='absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 bg-white shadow-lg rounded-md p-2 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50'>
               <li>
                 <Link
-                  href='/services/seo'
+                  href='/google-ads'
                   className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
                 >
-                   SEO Optimization
+                  Google Ads
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/services/meta-ads'
+                  href='/facebook-ads'
                   className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
                 >
-                  Meta Ads
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/services/web-development'
-                  className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
-                >
-                  Web Development
+                  Facebook Ads
                 </Link>
               </li>
             </ul>
@@ -122,18 +134,13 @@ const Navbar = () => {
               <span className='text-sm font-medium text-zinc-700'>Services</span>
               <ul className='pl-4 mt-1 space-y-1'>
                 <li>
-                  <Link href='/services/digital-marketing' className='text-sm text-zinc-600'>
-                    Digital Marketing
-                  </Link>
-                </li>
-                <li>
-                  <Link href='/services/seo' className='text-sm text-zinc-600'>
+                  <Link href='/seo' className='text-sm text-zinc-600'>
                     SEO Optimization
                   </Link>
                 </li>
                 <li>
-                  <Link href='/services/web-development' className='text-sm text-zinc-600'>
-                    Web Development
+                  <Link href='/meta-ads' className='text-sm text-zinc-600'>
+                    Meta Ads
                   </Link>
                 </li>
               </ul>

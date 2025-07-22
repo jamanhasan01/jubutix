@@ -15,24 +15,24 @@ const achievements = [
 
 const PerformanceHero = () => {
   return (
-    <section >
+    <section  >
       <div className="container ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* --- Left Column: Text Content --- */}
           <div className="space-y-6">
-            <h1 >
+            <h2 >
               We are Performance Driven{" "}
-              <span className="text-red-600">Agency</span>
-            </h1>
-            <p className="text-lg text-gray-600 max-w-xl">
+              Agency
+            </h2>
+            <p >
               We believe in Data driven Decisions not Guess-work. Look at the
               results we can achieve –
             </p>
             <ul className="space-y-3 pt-2">
               {achievements.map((item, index) => (
                 <li key={index} className="flex items-start">
-                  <CheckCircle2 className="h-6 w-6 text-blue-500 mr-3 flex-shrink-0 mt-0.5" />
-                  <span className="font-semibold text-gray-700">{item}</span>
+                  <CheckCircle2 className="h-6 w-6 text-green-500  mr-3 flex-shrink-0 mt-0.5" />
+                  <span className="font-semibold">{item}</span>
                 </li>
               ))}
             </ul>

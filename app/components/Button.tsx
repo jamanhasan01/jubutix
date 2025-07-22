@@ -13,10 +13,12 @@ const Button: React.FC<ButtonProps> = ({ text, classname, icon, onClick, type = 
       type={type}
       className={`
         px-3 py-2 
-        bg-primary 
-        text-white 
+        bg-primary
+        text-secondary
         flex 
         gap-2 items-center
+        text-center
+        justify-center
         rounded text-base font-semibold 
         cursor-pointer 
         transition duration-300 ease-in-out 

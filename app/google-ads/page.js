@@ -1,6 +1,6 @@
 import Hero from '@/app/components/Hero'
 import React from 'react'
-import seoHeroImg from '../../../public/seoHeroImg.png'
+import seoHeroImg from '../../public/seoHeroImg.png'
 import HallOfTrust from '@/app/components/HallOfTrust'
 import ResultsSection from './components/ResultsSection'
 

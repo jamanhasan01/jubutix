@@ -21,11 +21,11 @@ const stats = [
 const OurMission = () => {
   return (
     <section className=''>
-      <div className='container'>
+      <div className='container pt-36'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
           {/* Left Column: Text Content */}
           <div className='space-y-6'>
-            <p className='font-semibold text-blue-600'>Our Philosophy</p>
+            <p className='font-semibold text-secondary'>Our Philosophy</p>
             <h1 className=''>
               More Than an Agency, We are Your Growth Engine.
             </h1>
@@ -47,9 +47,9 @@ const OurMission = () => {
                 key={stat.label}
                 className='bg-slate-100/70 p-6 rounded-lg flex items-center gap-6'
               >
-                <stat.icon className='h-12 w-12 text-blue-600 flex-shrink-0' />
+                <stat.icon className='h-12 w-12 text-secondary flex-shrink-0' />
                 <div>
-                  <p className='text-4xl font-bold text-gray-900'>{stat.value}</p>
+                  <p className='text-4xl font-bold text-primary'>{stat.value}</p>
                   <p className='text-base text-gray-600'>{stat.label}</p>
                 </div>
               </div>

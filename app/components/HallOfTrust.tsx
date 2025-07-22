@@ -21,14 +21,14 @@ const logos = [
 
 const HallOfTrust = () => {
   return (
-    <section className='bg-[#f5f0f0] '>
+    <section className=' '>
       <div className='container'>
         {/* --- Section Header --- */}
         <div className='text-center'>
-          <h1>
-            Hall of <span className='text-red-600'>Trust</span>
-          </h1>
-          <p className='mt-4 text-lg leading-8 text-gray-600'>
+          <h2>
+            Hall of Trust
+          </h2>
+          <p className='mt-4 text-center mx-auto'>
             We aren&apos;t just your agency - we are your partner in growth.
           </p>
         </div>

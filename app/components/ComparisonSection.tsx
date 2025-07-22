@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle2, XCircle } from 'lucide-react'
-import PartnerCards from './PartnerCards'
+
 
 // --- Data for the comparison lists ---
 const ourFeatures = [

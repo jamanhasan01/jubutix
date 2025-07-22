@@ -1,5 +1,5 @@
 import Hero from '@/app/components/Hero'
-import metaAdsHero from '../../../public/metaAdsHeroImg.png'
+import metaAdsHero from '../../public/metaAdsHeroImg.png'
 import HallOfTrust from '@/app/components/HallOfTrust'
 import FacebookAdsServices from './components/FacebookAdsServices'
 const metaAdsPage = () => {

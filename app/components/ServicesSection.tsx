@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
+
 import {
   Card,
   CardContent,
@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { CheckCircle2, ArrowRight, Code2 } from 'lucide-react'
+import Button from './Button'
 
 // 1. Define the type for a single service object
 type Service = {
@@ -52,15 +53,14 @@ const services: Service[] = [
 
 const ServicesSection = () => {
   return (
-    <section className='py-16 sm:py-24'>
-      <div className='container mx-auto px-4'>
+    <section className='bg-primary'>
+      <div className='container '>
         {/* Section Header */}
         <div className='text-center max-w-4xl mx-auto mb-12'>
-          <h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-            Our ROI driven Services for both Ecommerce as well as{' '}
-            <span className='text-blue-600'>Lead Generation Businesses!</span>
-          </h1>
-          <p className='mt-4 text-lg text-gray-600'>
+          <h2 className='text-secondary'>
+            Our ROI driven Services for both Ecommerce as well as Lead Generation Businesses
+          </h2>
+          <p className='mt-4 text-white'>
             Honest, 100% transparency and Data Driven Approach is how we operate.
           </p>
         </div>
@@ -83,20 +83,22 @@ const ServicesSection = () => {
                     className='h-16 w-16'
                   />
                 ) : (
-                  <service.icon className='h-16 w-16 text-blue-600' />
+                  <service.icon className='h-16 w-16 text-primary' />
                 )}
-                <CardTitle className='mt-4 text-2xl font-bold'>{service.title}</CardTitle>
+                <CardTitle className='mt-4 text-2xl font-bold text-left text-primary'>
+                  {service.title}
+                </CardTitle>
               </CardHeader>
               <CardContent className='flex-grow'>
                 <CardDescription className='text-base text-gray-600'>
                   {service.description}
                 </CardDescription>
                 <div className='mt-6'>
-                  <h4 className='font-semibold text-gray-800'>Start with...</h4>
+                  <h4 className='font-semibold '>Start with...</h4>
                   <ul className='mt-3 space-y-2 text-gray-600'>
                     {service.features.map((feature) => (
                       <li key={feature} className='flex items-start'>
-                        <CheckCircle2 className='h-5 w-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5' />
+                        <CheckCircle2 className='h-5 w-5 text-primary mr-2 flex-shrink-0 mt-0.5' />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -104,10 +106,12 @@ const ServicesSection = () => {
                 </div>
               </CardContent>
               <CardFooter className='justify-center'>
-                <Button variant='link' className='text-blue-600 font-semibold group'>
-                  Learn More
-                  <ArrowRight className='h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform' />
-                </Button>
+                <Button
+                  text='Learn More'
+                  icon={
+                    <ArrowRight className='h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform'/>
+                  }
+                ></Button>
               </CardFooter>
             </Card>
           ))}
