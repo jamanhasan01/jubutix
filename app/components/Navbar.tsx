@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react'
 import { Menu, X, ChevronDown, Phone } from 'lucide-react' // Changed icons
 import Logo from './Logo'
 import Button from './Button'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScoll, setisScoll] = useState(false)
-  console.log(isScoll)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScrollFunc = () => {
@@ -24,13 +25,15 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScrollFunc)
     }
   }, [])
-
+  if (pathname.startsWith('/dashboard')) {
+    return null
+  }
   return (
-  <header
-  className={`w-full fixed top-0 z-50 transition-all duration-300 ${
-    isScoll ? 'bg-white/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
-  }`}
->
+    <header
+      className={`w-full fixed top-0 z-50 transition-all duration-300 ${
+        isScoll ? 'bg-white/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      }`}
+    >
       <nav className='max-w-7xl mx-auto px-8 py-4 flex justify-between items-center'>
         {/* Logo */}
         <Link href='/'>

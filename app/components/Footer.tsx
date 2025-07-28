@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { FaTiktok } from 'react-icons/fa'
 import { MapPin, Phone, Mail, Facebook, Youtube, Instagram, ArrowUp } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 const companyLinks = [
   { name: 'Home', href: '/' },
@@ -28,10 +29,13 @@ const socialLinks = [
 
 // --- Main Footer Component ---
 const Footer = () => {
+    const pathname = usePathname()
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
-
+if (pathname.startsWith('/dashboard')) {
+    return null
+  }
   return (
     <footer className='bg-slate-900 text-slate-300'>
       <div className='container mx-auto px-4 py-16 sm:py-24'>
