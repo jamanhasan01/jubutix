@@ -1,7 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import Button from './Button'
-import Image, { StaticImageData } from 'next/image'
+import  { StaticImageData } from 'next/image'
 
 interface heroProps {
   heading: string
