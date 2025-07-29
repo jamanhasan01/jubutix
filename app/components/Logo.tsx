@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import favicon from '../../public/favicon.ico'
+import favicon from '../../public/favicon.png'
 const Logo = () => (
   <div className='flex items-center text-primary'>
     <div>
-      <Image src={favicon} width={40} height={40}></Image>
+      <Image src={favicon} width={40} height={40} alt='logo'></Image>
     </div>
 
     <span className='font-bold text-2xl text-primary'>JUBUTIX</span>
