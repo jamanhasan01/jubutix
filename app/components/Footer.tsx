@@ -30,9 +30,7 @@ const socialLinks = [
 // --- Main Footer Component ---
 const Footer = () => {
     const pathname = usePathname()
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+ 
 if (pathname.startsWith('/dashboard')) {
     return null
   }
@@ -138,14 +136,7 @@ if (pathname.startsWith('/dashboard')) {
               </Link>
             ))}
           </div>
-          <Button
-            onClick={scrollToTop}
-            variant='outline'
-            size='icon'
-            className='bg-slate-800 border-slate-700 hover:bg-slate-700 absolute right-4 -top-14 sm:-top-5'
-          >
-            <ArrowUp className='h-5 w-5' />
-          </Button>
+        
         </div>
       </div>
     </footer>

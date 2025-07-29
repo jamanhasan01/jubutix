@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       <Hero
-        heading={'Grow your Business & Revenue with the champions of Digital Marketing.'}
+        heading={'Grow your Business & Revenue with the champions '}
         desc={'From leads to Sales we are here to deliver the transformative Results.'}
         img={homeHeroImg}
       />
