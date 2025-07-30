@@ -61,7 +61,7 @@ const servicesData: Service[] = [
 
 const CoreServices = () => {
   return (
-    <section className='font-sans py-16 sm:py-24 bg-gray-50'>
+    <section className='bg-gray-50'>
       <div className='container'>
         <Title
           title={'What We Do'}
