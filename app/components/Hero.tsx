@@ -1,7 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import Button from './Button'
-import  { StaticImageData } from 'next/image'
+import { StaticImageData } from 'next/image'
 
 interface heroProps {
   heading: string
@@ -27,7 +27,7 @@ const Hero = ({ heading, desc, img }: heroProps) => {
           <p className='mx-auto max-w-2xl'>{desc}</p>
 
           <div className=' flex flex-col sm:flex-row items-center justify-center gap-4'>
-            <Button text='Work With Us' classname='' />
+            <Button text='Get a Free Audit' classname='' />
           </div>
         </div>
       </div>
