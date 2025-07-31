@@ -1,9 +1,7 @@
-// next.config.js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    domains: ['avatar.vercel.sh'],
-  },
-}
+import type { NextConfig } from "next";
 
-module.exports = nextConfig
+const nextConfig: NextConfig = {
+  trailingSlash: true,
+};
+
+export default nextConfig;
