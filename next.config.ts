@@ -1,7 +1,16 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  trailingSlash: true,
-};
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatar.vercel.sh',
+        port: '',
+        pathname: '/**', // This allows any path on the hostname
+      },
+    ],
+  },
+}
 
-export default nextConfig;
+export default nextConfig
