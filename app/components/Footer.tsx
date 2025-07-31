@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { FaTiktok } from 'react-icons/fa'
-import { MapPin, Phone, Mail, Facebook, Youtube, Instagram, ArrowUp } from 'lucide-react'
+import { MapPin, Phone, Mail, Facebook, Youtube, Instagram,  } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 const companyLinks = [

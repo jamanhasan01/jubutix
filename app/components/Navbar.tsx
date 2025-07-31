@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Menu, X, ChevronDown, Phone, ArrowUp } from 'lucide-react'
+import { Menu, X, ChevronDown, Phone } from 'lucide-react'
 import Logo from './Logo'
 import Button from './Button'
 import { usePathname } from 'next/navigation'

@@ -9,7 +9,7 @@ interface heroProps {
   img: StaticImageData
 }
 
-const Hero = ({ heading, desc, img }: heroProps) => {
+const Hero = ({ heading, desc,  }: heroProps) => {
   return (
     <section className='relative isolate overflow-hidden'>
       {/* Blurred background blob */}
