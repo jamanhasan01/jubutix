@@ -13,6 +13,7 @@ type Service = {
   iconColor: string
   title: string
   description: string
+  features: string[]
   linkText: string
   href: string
   beamColorFrom: string
@@ -23,56 +24,75 @@ type Service = {
 const servicesData: Service[] = [
   {
     id: 1,
-    icon: BsGraphUpArrow,
-    iconColor: 'text-violet-500 bg-violet-100',
-    title: 'Google Ads Management',
-    description: 'Targeted campaigns that get your business in front of ready-to-buy customers.',
-    linkText: 'Explore Google Ads',
-    href: '/services/google-ads',
-    beamColorFrom: '#9333ea', // Purple
-    beamColorTo: '#3b82f6', // Blue
-    beamDelay: 0,
-  },
-  {
-    id: 2,
-    icon: FaFire,
-    iconColor: 'text-orange-500 bg-orange-100',
-    title: 'Facebook & Instagram Ads',
-    description: 'Reach your ideal audience with engaging creatives and smart funnel strategies.',
-    linkText: 'Explore Meta Ads',
-    href: '/services/meta-ads',
-    beamColorFrom: '#f97316', // Orange
-    beamColorTo: '#ec4899', // Pink
-    beamDelay: 2,
-  },
-  {
-    id: 3,
     icon: TfiSearch,
     iconColor: 'text-pink-500 bg-pink-100',
     title: 'SEO Services',
-    description: 'Climb the rankings and drive long-term traffic with ethical, white-hat SEO.',
+    description:
+      'Rank higher, get found, and stay ahead of the competition with white-hat SEO strategies.',
+    features: [
+      'Keyword Research & Content Planning',
+      'On-Page & Technical SEO',
+      'High-Authority Link Building',
+      'Local, eCommerce & National SEO',
+    ],
     linkText: 'Explore SEO Services',
     href: '/services/seo',
     beamColorFrom: '#ec4899', // Pink
     beamColorTo: '#14b8a6', // Teal
+    beamDelay: 0,
+  },
+  {
+    id: 2,
+    icon: BsGraphUpArrow,
+    iconColor: 'text-violet-500 bg-violet-100',
+    title: 'Google Ads',
+    description: 'Drive instant, high-converting traffic using Google’s full suite of ads.',
+    features: [
+      'Search, Shopping, Display, YouTube',
+      'Campaign Setup, Bidding & Optimization',
+      'Conversion Tracking, GA4, GTM',
+    ],
+    linkText: 'Explore Google Ads Services',
+    href: '/services/google-ads',
+    beamColorFrom: '#9333ea', // Purple
+    beamColorTo: '#3b82f6', // Blue
+    beamDelay: 2,
+  },
+  {
+    id: 3,
+    icon: FaFire,
+    iconColor: 'text-orange-500 bg-orange-100',
+    title: 'Facebook & Instagram Ads',
+    description: 'Engage your ideal customers where they scroll most.',
+    features: [
+      'Paid Social Funnel Strategy',
+      'A/B Testing & Retargeting',
+      'Lead Generation & Catalog Ads',
+    ],
+    linkText: 'Explore Facebook Ads Services',
+    href: '/services/meta-ads',
+    beamColorFrom: '#f97316', // Orange
+    beamColorTo: '#ec4899', // Pink
     beamDelay: 4,
   },
 ]
+
 
 const CoreServices = () => {
   return (
     <section className='bg-gray-50'>
       <div className='container'>
         <Title
-          title={'What We Do'}
-          subTitle={"We provide the expertise to elevate your brand's digital presence."}
+          title={'What We Do Best'}
+          subTitle={
+            'We help your business grow fast — with clarity, transparency, and real results.'
+          }
         />
 
         <div className='mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
           {servicesData.map((service) => (
             <article
               key={service.id}
-              // 👇 FIX: Add `overflow-hidden` here to contain the animation
               className='relative overflow-hidden flex flex-col bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300'
             >
               <BorderBeam
@@ -85,23 +105,34 @@ const CoreServices = () => {
 
               <div className='flex-grow'>
                 <div
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${service.iconColor}`}
+                  className={`inline-flex items-center justify-center  rounded-lg ${service.iconColor}`}
                 >
                   <service.icon className='w-6 h-6' />
                 </div>
-                <h3 className='mt-5 text-xl font-semibold text-gray-900'>{service.title}</h3>
+                <h3 className='mt-4 text-xl font-semibold text-gray-900'>{service.title}</h3>
                 <p className='mt-2 text-base text-gray-600'>{service.description}</p>
+                <ul className=' space-y-2 text-gray-600 list-disc list-inside text-sm'>
+                  {service.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
               </div>
 
               <Link
                 href={service.href}
-                className='text-gray-700 font-semibold inline-block mt-6 hover:text-teal-600 transition-colors'
+                className='text-gray-700 font-semibold inline-block mt-6 hover:text-secondary transition-colors group'
               >
-                [{service.linkText} →]
+                [{service.linkText}{' '}
+                <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
+                  →
+                </span>
+                ]
               </Link>
             </article>
           ))}
         </div>
+
+     
       </div>
     </section>
   )

@@ -120,7 +120,7 @@ if (pathname.startsWith('/dashboard')) {
       <div className='bg-slate-950/50'>
         <div className='container mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center'>
           <p className='text-sm text-slate-500 text-center sm:text-left'>
-            &copy; {new Date().getFullYear()} UT Digital Media. All Rights Reserved.
+            &copy; {new Date().getFullYear()} jubutix. All Rights Reserved.
           </p>
           <div className='flex space-x-4 mt-4 sm:mt-0'>
             {socialLinks.map((social) => (

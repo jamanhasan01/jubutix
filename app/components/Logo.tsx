@@ -6,7 +6,7 @@ const Logo = () => (
     <div>
       <Image src={favicon} width={40} height={40} alt='Jubutix Logo' />
     </div>
-    <span className='font-bold text-xl font-bold text-primary'>JUBUTIX</span>
+    <span className='font-extrabold text-xl font-bold text-primary'>JUBUTIX</span>
   </div>
 )
 

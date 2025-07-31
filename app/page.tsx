@@ -2,7 +2,9 @@ import homeHeroImg from '../public/homeHeroImg.png'
 import CoreServices from './components/CoreServices'
 import Hero from './components/Hero'
 import TrustedbyBusiness from './components/TrustedbyBusiness'
-export default function Home() {
+import WeHelp from './components/WeHelp'
+import WhyChooseSection from './components/WhyChooseSection'
+export default function HomePage() {
   return (
     <div>
       <Hero
@@ -12,6 +14,8 @@ export default function Home() {
       />
       <TrustedbyBusiness />
       <CoreServices />
+      <WeHelp/>
+      <WhyChooseSection/>
     </div>
   )
 }
