@@ -97,7 +97,7 @@ const ReviewsSection = () => {
   const currentReview = reviews[reviewIndex < 0 ? reviews.length + reviewIndex : reviewIndex]
 
   return (
-    <section className='relative w-full overflow-hidden bg-primary'>
+    <section className='relative w-full overflow-hidden'>
       {/* Background Grid - consistent with the previous section */}
       <div className='absolute inset-0 z-0'>
         <div className='absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]'></div>
