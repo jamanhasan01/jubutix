@@ -135,8 +135,8 @@ const MetricItem = ({
 // --- Main Component ---
 const ResultsSection = () => {
   return (
-    <section className='w-full bg-gray-50 py-24 dark:bg-gray-900/95'>
-      <div className='container mx-auto max-w-7xl px-4'>
+    <section className='w-full bg-gray-50 dark:bg-gray-900/95'>
+      <div className='container '>
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

@@ -34,8 +34,8 @@ const Navbar = () => {
 
   return (
     <header
-      className={`w-full px-4 md:px-0  fixed top-0 z-50 transition-all duration-300 ${
-        isScroll ? ' ' : 'bg-transparent'
+      className={`w-full  fixed top-0 z-50 transition-all duration-300 ${
+        isScroll ? ' px-4 ' : 'bg-transparent'
       }`}
     >
       {!isScroll && <TopBar />}

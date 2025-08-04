@@ -115,7 +115,7 @@ export function RankTrackerDashboard() {
   ]
 
   return (
-    <section className='w-full max-w-7xl mx-auto bg-white dark:bg-zinc-900 rounded-xl shadow-lg overflow-hidden'>
+    <section className='w-full  bg-white dark:bg-zinc-900 rounded-xl shadow-lg overflow-hidden'>
       {/* 2. NAVIGATION with onClick handlers */}
       <div className='flex items-center border-b border-gray-200 dark:border-zinc-800 px-4 md:px-6 py-3'>
         {navLinks.map((link) => (

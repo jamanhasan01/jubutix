@@ -8,31 +8,31 @@ const socialLinks = [
     name: 'Facebook',
     icon: FaFacebook,
     href: 'https://www.facebook.com/jubutix',
-    color: 'text-secondary',
+    color: 'text-white',
   },
   {
     name: 'Youtube',
     icon: FaYoutube,
     href: 'https://www.youtube.com/@jubutix',
-    color: 'text-secondary',
+    color: 'text-white',
   },
   {
     name: 'TikTok',
     icon: FaTiktok,
     href: 'https://www.tiktok.com/@jubutix',
-    color: 'text-secondary',
+    color: 'text-white',
   },
   {
     name: 'Instagram',
     icon: Instagram,
     href: 'https://www.instagram.com/jubutix',
-    color: 'text-secondary',
+    color: 'text-white',
   },
 ]
 
 const TopBar = () => {
   return (
-    <div className='hidden md:flex text-secondary bg-primary text-sm '>
+    <div className='hidden md:flex text-white bg-primary text-sm '>
       <div className='container max-w-7xl mx-auto  flex justify-between items-center py-2'>
         {/* Left Side: Contact Information */}
         <div className='flex items-center gap-6 ml-2'>
