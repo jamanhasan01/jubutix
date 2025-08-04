@@ -6,6 +6,7 @@ import { Menu, X, ChevronDown, Phone } from 'lucide-react'
 import Logo from './Logo'
 import Button from './Button'
 import { usePathname } from 'next/navigation'
+import TopBar from './Topbar'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -33,11 +34,16 @@ const Navbar = () => {
 
   return (
     <header
-      className={`w-full fixed top-0 z-50 transition-all duration-300 ${
-        isScroll ? 'bg-white/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      className={`w-full px-4 md:px-0  fixed top-0 z-50 transition-all duration-300 ${
+        isScroll ? ' ' : 'bg-transparent'
       }`}
     >
-      <nav className='max-w-7xl mx-auto px-8 py-4 flex justify-between items-center'>
+      {!isScroll && <TopBar />}
+      <nav
+        className={`max-w-7xl mx-auto px-8 py-4 flex justify-between items-center ${
+          isScroll ? 'bg-black/10 backdrop-blur-md shadow-sm mt-4 rounded-full' : ''
+        }`}
+      >
         {/* Logo */}
         <Link href='/'>
           <Logo />
@@ -81,6 +87,14 @@ const Navbar = () => {
                   className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
                 >
                   Facebook Ads
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href='/seo'
+                  className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
+                >
+                  SEO
                 </Link>
               </li>
             </ul>
@@ -136,13 +150,19 @@ const Navbar = () => {
               <span className='text-sm font-medium text-zinc-700'>Services</span>
               <ul className='pl-4 mt-1 space-y-1'>
                 <li>
-                  <Link href='/seo' className='text-sm text-zinc-600'>
-                    SEO Optimization
+                  <Link href='/google-ads' className='text-sm text-zinc-600'>
+                    Google Ads
                   </Link>
                 </li>
                 <li>
-                  <Link href='/meta-ads' className='text-sm text-zinc-600'>
-                    Meta Ads
+                  <Link href='/facebook-ads' className='text-sm text-zinc-600'>
+                    Facebook Ads
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href='/seo' className='text-sm text-zinc-600'>
+                    SEO
                   </Link>
                 </li>
               </ul>

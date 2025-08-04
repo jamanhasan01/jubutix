@@ -1,5 +1,6 @@
-import { ArrowUpRight } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+'use client'
+
+import { motion } from 'framer-motion'
 import Button from './Button'
 import { StaticImageData } from 'next/image'
 
@@ -9,27 +10,59 @@ interface heroProps {
   img: StaticImageData
 }
 
-const Hero = ({ heading, desc,  }: heroProps) => {
+// FIX: Add "as const" to the end of the variant objects
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
+} as const;
+
+const Hero = ({ heading, desc }: heroProps) => {
   return (
     <section className='relative isolate overflow-hidden'>
-      {/* Blurred background blob */}
-      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-teal-500/20 rounded-full blur-[150px] z-[-1]'></div>
+
 
       <div className='container py-0'>
-        {/* Main flex layout */}
-        <div className='min-h-screen flex flex-col items-center justify-center text-center'>
-          <Badge className='border-secondary/50 bg-white/10 text-secondary' variant='outline'>
-            ✨ Your Website Builder
-            <ArrowUpRight className='ml-2 size-4' />
-          </Badge>
+        <motion.div
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+          className='min-h-screen flex flex-col items-center justify-center text-center'
+        >
+          {/* Heading */}
+          <motion.h1 variants={itemVariants} className='my-6'>
+            {heading}
+          </motion.h1>
 
-          <h1 className='my-6'>{heading}</h1>
-          <p className='mx-auto max-w-2xl'>{desc}</p>
+          {/* Description */}
+          <motion.p variants={itemVariants} className='mx-auto max-w-2xl'>
+            {desc}
+          </motion.p>
 
-          <div className=' flex flex-col sm:flex-row items-center justify-center gap-4'>
+          {/* Button Group */}
+          <motion.div
+            variants={itemVariants}
+            className=' flex flex-col sm:flex-row items-center justify-center gap-4'
+          >
             <Button text='Get a Free Audit' classname='' />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )
