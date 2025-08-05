@@ -24,16 +24,15 @@ export function HelpSidebar() {
         </div>
       </SheetTrigger>
 
-      <SheetContent className='fixed top-1/2 -translate-y-1/2 right-0 z-50  bg-primary text-white border-l-gray-800 w-[250px] h-60 p-6 rounded-xl'>
+      <SheetContent className='fixed top-1/2 -translate-y-1/2 right-0 z-50  bg-primary text-white border-l-gray-800 w-[250px] h-64 p-4 rounded-xl'>
         <SheetHeader>
-          <TypingAnimation
-            className='text-left text-2xl font-bold text-white'
-            text='We are here for you.'
-          />
+          <TypingAnimation className='text-left text-lg font-bold text-white'>
+            We are here for you.
+          </TypingAnimation>
         </SheetHeader>
 
         {/* This is the main container inside your SheetContent */}
-        <div className=' flex flex-col gap-6'>
+        <div className='flex flex-col gap-6'>
           {/* --- Group 1: Primary Actions --- */}
           <a href='tel:+8801805212243' className='flex items-center gap-4 group text-lg'>
             <Phone className='h-7 w-7 text-secondary' />
