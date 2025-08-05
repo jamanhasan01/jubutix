@@ -27,7 +27,7 @@ export function MessageFormPopup() {
     setIsSubmitting(true)
 
     // Your Formspree or backend API call remains the same
-    await fetch('https://formspree.io/f/your_unique_code', {
+    await fetch('', {
       method: 'POST',
       headers: { Accept: 'application/json' },
       body: JSON.stringify({ name, email, message }),

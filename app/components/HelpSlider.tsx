@@ -14,12 +14,12 @@ export function HelpSidebar() {
     <Sheet>
       <SheetTrigger asChild>
         <div className='fixed top-1/2 -translate-y-1/2 right-0 z-50 cursor-pointer'>
-          <div className='flex flex-col items-center gap-4 p-2 py-4 bg-secondary transition-colors duration-300 rounded-l-lg shadow-lg'>
-            <Avatar className='h-10 w-10 border-2 border-white/80'>
+          <div className='flex flex-col items-center justify-center gap-4 p-2  bg-secondary transition-colors duration-300 rounded-t-full shadow-lg '>
+            <Avatar className='h-13 w-13 border-2 border-white/80'>
               <AvatarImage src='/favicon.ico' alt='logo' />
               <AvatarFallback>SH</AvatarFallback>
             </Avatar>
-            <p className='font-bold text-lg text-white [writing-mode:vertical-rl] rotate-180'>
+            <p className='font-bold  text-xl text-white [writing-mode:vertical-rl] rotate-180'>
               Need Help?
             </p>
           </div>
