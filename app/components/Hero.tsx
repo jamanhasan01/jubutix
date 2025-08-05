@@ -11,6 +11,7 @@ interface heroProps {
   heading: string
   desc: string
   img?: StaticImageData // This prop is in your interface but not used, which is fine.
+  btn?:boolean
 }
 
 // Initial animation variants (these remain the same)
@@ -37,7 +38,7 @@ const itemVariants = {
 } as const
 
 
-const Hero = ({ heading, desc }: heroProps) => {
+const Hero = ({ heading, desc,btn=true }: heroProps) => {
   // 2. Create a ref for the section element
   const targetRef = useRef<HTMLDivElement>(null)
 
@@ -83,12 +84,12 @@ const Hero = ({ heading, desc }: heroProps) => {
           </motion.p>
 
           {/* Button Group */}
-          <motion.div
+       { btn==true &&  <motion.div
             variants={itemVariants}
             className='flex flex-col sm:flex-row items-center justify-center gap-4' // Added mt-8 for spacing
           >
             <Button text='Get a Free Audit' classname='' />
-          </motion.div>
+          </motion.div>}
         </motion.div>
       </div>
     </section>

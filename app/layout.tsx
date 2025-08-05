@@ -1,17 +1,21 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+// 1. Import Inter instead of Geist
+import { Inter, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTopButton from './components/ScrollToTopButton'
-
 import { HelpSidebar } from './components/HelpSlider'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+
+
+// 2. Initialize Inter and create a CSS variable for it
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
 })
 
+// We can keep Geist Mono for your monospace font
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
@@ -29,7 +33,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      {/* 3. Apply the new --font-inter variable to the body */}
+      <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
         <header>
           <Navbar />
         </header>

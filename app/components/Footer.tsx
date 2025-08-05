@@ -19,7 +19,6 @@ const servicesLinks = [
   { name: 'SEO', href: '/seo' },
   { name: 'Google Ads)', href: '/google-ads' },
   { name: 'Facebook Ads', href: '/facebook-ads' },
-
 ]
 
 const socialLinks = [
@@ -102,7 +101,6 @@ const Footer = () => {
               {/* Using the address from your location in Debidwar */}
               <li>Address: 343/2, Choto Alampur, Debidwar, Comilla, Bangladesh</li>
             </ul>
-          
           </div>
         </div>
 
