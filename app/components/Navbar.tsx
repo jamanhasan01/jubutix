@@ -13,6 +13,11 @@ const Navbar = () => {
   const [isScroll, setIsScroll] = useState(false)
   const pathname = usePathname()
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
+
   useEffect(() => {
     const handleScrollFunc = () => {
       if (window.scrollY > 10) {
@@ -32,9 +37,13 @@ const Navbar = () => {
     return null
   }
 
+  // Define service paths for active state checking
+  const servicePaths = ['/google-ads', '/facebook-ads', '/seo']
+  const isServiceActive = servicePaths.some((path) => pathname.startsWith(path))
+
   return (
     <header
-      className={`w-full  fixed top-0 z-50 transition-all duration-300 ${
+      className={`w-full fixed top-0 z-50 transition-all duration-300 ${
         isScroll ? ' px-4 ' : 'bg-transparent'
       }`}
     >
@@ -54,7 +63,9 @@ const Navbar = () => {
           <li>
             <Link
               href='/'
-              className='uppercase font-semibold text-sm text-zinc-700 hover:text-brand-pink transition-colors'
+              className={`uppercase font-semibold text-sm transition-colors ${
+                pathname === '/' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+              }`}
             >
               Home
             </Link>
@@ -62,47 +73,51 @@ const Navbar = () => {
           <li>
             <Link
               href='/whoweare'
-              className='uppercase font-semibold text-sm text-zinc-700 hover:text-brand-pink transition-colors'
+              className={`uppercase font-semibold text-sm transition-colors ${
+                pathname === '/whoweare' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+              }`}
             >
               Who We Are
             </Link>
           </li>
           <li className='relative group'>
-            <span className='uppercase font-semibold text-sm text-zinc-700 hover:text-brand-pink transition-colors flex items-center gap-1 cursor-pointer'>
+            <span
+              className={`uppercase font-semibold text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                isServiceActive ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+              }`}
+            >
               Services
               <ChevronDown className='w-4 h-4 transition-transform group-hover:rotate-180' />
             </span>
             <ul className='absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 bg-white shadow-lg rounded-md p-2 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50'>
-              <li>
-                <Link
-                  href='/google-ads'
-                  className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
-                >
-                  Google Ads
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/facebook-ads'
-                  className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
-                >
-                  Facebook Ads
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/seo'
-                  className='block px-4 py-2 text-sm text-zinc-700 rounded-md hover:bg-zinc-100 hover:text-brand-pink'
-                >
-                  SEO
-                </Link>
-              </li>
+              {servicePaths.map((path) => (
+                <li key={path}>
+                  <Link
+                    href={path}
+                    className={`block px-4 py-2 text-sm rounded-md ${
+                      pathname === path
+                        ? 'bg-secondary text-white'
+                        : 'text-black/80 font-semibold hover:bg-secondary hover:text-white'
+                    }`}
+                  >
+                    {/* Simple formatting for the link text from path */}
+                    {path
+                      .replace('/', '')
+                      .replace('-', ' ')
+                      .replace(/\b\w/g, (l) => l.toUpperCase())}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </li>
           <li>
             <Link
               href='/blogs'
-              className='uppercase font-semibold text-sm text-zinc-700 hover:text-brand-pink transition-colors'
+              className={`uppercase font-semibold text-sm transition-colors ${
+                pathname.startsWith('/blogs')
+                  ? 'text-secondary'
+                  : 'text-zinc-700 hover:text-secondary'
+              }`}
             >
               Blogs
             </Link>
@@ -110,7 +125,9 @@ const Navbar = () => {
           <li>
             <Link
               href='/contact-us'
-              className='uppercase font-semibold text-sm text-zinc-700 hover:text-brand-pink transition-colors'
+              className={`uppercase font-semibold text-sm transition-colors ${
+                pathname === '/contact-us' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+              }`}
             >
               Contact Us
             </Link>
@@ -119,7 +136,7 @@ const Navbar = () => {
 
         {/* Desktop Action Button */}
         <div className='hidden md:block'>
-          <Link href='/courses'>
+          <Link href='/contact-us'>
             <Button text={'TALK TO US'} icon={<Phone size={20} />} />
           </Link>
         </div>
@@ -127,7 +144,11 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <div className='md:hidden z-50'>
           <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? (
+              <X size={24} className='text-zinc-700' />
+            ) : (
+              <Menu size={24} className='text-zinc-700' />
+            )}
           </button>
         </div>
       </nav>
@@ -137,53 +158,80 @@ const Navbar = () => {
         <div className='md:hidden bg-white shadow-md px-8 pb-6'>
           <ul className='flex flex-col gap-4'>
             <li>
-              <Link href='/' className='text-sm font-medium text-zinc-700'>
+              <Link
+                href='/'
+                className={`text-sm font-medium ${
+                  pathname === '/' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+                }`}
+              >
                 Home
               </Link>
             </li>
             <li>
-              <Link href='/who-we-are' className='text-sm font-medium text-zinc-700'>
+              <Link
+                href='/whoweare'
+                className={`text-sm font-medium ${
+                  pathname === '/whoweare' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+                }`}
+              >
                 Who We Are
               </Link>
             </li>
             <li>
-              <span className='text-sm font-medium text-zinc-700'>Services</span>
-              <ul className='pl-4 mt-1 space-y-1'>
-                <li>
-                  <Link href='/google-ads' className='text-sm text-zinc-600'>
-                    Google Ads
-                  </Link>
-                </li>
-                <li>
-                  <Link href='/facebook-ads' className='text-sm text-zinc-600'>
-                    Facebook Ads
-                  </Link>
-                </li>
-
-                <li>
-                  <Link href='/seo' className='text-sm text-zinc-600'>
-                    SEO
-                  </Link>
-                </li>
+              <span
+                className={`text-sm font-medium ${
+                  isServiceActive ? 'text-secondary' : 'text-zinc-700'
+                }`}
+              >
+                Services
+              </span>
+              <ul className='pl-4 mt-2 space-y-2'>
+                {servicePaths.map((path) => (
+                  <li key={path}>
+                    <Link
+                      href={path}
+                      className={`text-sm ${
+                        pathname === path
+                          ? 'text-secondary font-semibold'
+                          : 'text-zinc-600 hover:text-secondary'
+                      }`}
+                    >
+                      {path
+                        .replace('/', '')
+                        .replace('-', ' ')
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </li>
             <li>
-              <Link href='/blogs' className='text-sm font-medium text-zinc-700'>
+              <Link
+                href='/blogs'
+                className={`text-sm font-medium ${
+                  pathname.startsWith('/blogs')
+                    ? 'text-secondary'
+                    : 'text-zinc-700 hover:text-secondary'
+                }`}
+              >
                 Blogs
               </Link>
             </li>
             <li>
-              <Link href='/contact-us' className='text-sm font-medium text-zinc-700'>
+              <Link
+                href='/contact-us'
+                className={`text-sm font-medium ${
+                  pathname === '/contact-us'
+                    ? 'text-secondary'
+                    : 'text-zinc-700 hover:text-secondary'
+                }`}
+              >
                 Contact Us
               </Link>
             </li>
             <li>
-              <Link href='/courses'>
-                <Button
-                  text={'TALK TO US'}
-                  classname='w-full mt-2 bg-green-600'
-                  icon={<Phone size={20} />}
-                />
+              <Link href='/contact-us'>
+                <Button text={'TALK TO US'} icon={<Phone size={20} />} />
               </Link>
             </li>
           </ul>
