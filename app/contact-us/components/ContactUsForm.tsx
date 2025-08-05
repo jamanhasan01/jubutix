@@ -1,13 +1,52 @@
 'use client'
 
 import React, { useState } from 'react'
-import Title from '../../components/Title' // Assuming you have this component
-import { MoveRight } from 'lucide-react' // Importing an icon for the button
-import Button from '../../components/Button'
-// --- Reusable Form Field Components ---
-// It's better practice to define these outside the main component.
 
-const InputField = ({ type = 'text', placeholder, name, value, onChange, required = false }) => (
+import Title from '../../components/Title'
+import Button from '../../components/Button'
+
+// Defines the props for our input fields
+interface InputFieldProps {
+  type?: string; // '?' makes the prop optional
+  placeholder: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+}
+
+// Defines the props for the textarea field
+interface TextAreaFieldProps {
+  placeholder: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  required?: boolean;
+}
+
+// Defines the props for the select dropdown field
+interface SelectFieldProps {
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: string[];
+  required?: boolean;
+}
+
+// Defines the shape of our form's state object
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  service: string;
+  message: string;
+}
+
+
+
+
+
+const InputField: React.FC<InputFieldProps> = ({ type = 'text', placeholder, name, value, onChange, required = false }) => (
   <input
     type={type}
     placeholder={placeholder}
@@ -15,11 +54,11 @@ const InputField = ({ type = 'text', placeholder, name, value, onChange, require
     value={value}
     onChange={onChange}
     required={required}
-    className='w-full px-4 py-3 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow'
+    className='w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all'
   />
 )
 
-const TextAreaField = ({ placeholder, name, value, onChange, required = false }) => (
+const TextAreaField: React.FC<TextAreaFieldProps> = ({ placeholder, name, value, onChange, required = false }) => (
   <textarea
     placeholder={placeholder}
     name={name}
@@ -27,18 +66,17 @@ const TextAreaField = ({ placeholder, name, value, onChange, required = false })
     onChange={onChange}
     required={required}
     rows={5}
-    className='w-full px-4 py-3 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow'
+    className='w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all'
   />
 )
 
-// NEW: Component for the dropdown/select field
-const SelectField = ({ name, value, onChange, options, required = false }) => (
+const SelectField: React.FC<SelectFieldProps> = ({ name, value, onChange, options, required = false }) => (
   <select
     name={name}
     value={value}
     onChange={onChange}
     required={required}
-    className='w-full px-4 py-3 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow'
+    className='w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all'
   >
     {options.map((option, index) => (
       <option key={index} value={option} disabled={index === 0}>
@@ -48,26 +86,28 @@ const SelectField = ({ name, value, onChange, options, required = false }) => (
   </select>
 )
 
-// NEW: Options for the dropdown menu
-const serviceOptions = [
+// --- Main Contact Form Component ---
+
+const serviceOptions: string[] = [
   'Select a service you are interested in',
   'Facebook Ads',
   'Google Ads',
   'SEO (Search Engine Optimization)',
 ]
 
-const ContactForm = () => {
-  // 1. State to hold all form data in one object
-  const [formData, setFormData] = useState({
+const ContactUsForm: React.FC = () => {
+  // 1. State to hold all form data, now typed with our FormData interface
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
-    service: serviceOptions[0], // NEW: Add 'service' to the initial state
+    service: serviceOptions[0],
     message: '',
   })
 
-  // 2. A single handler function to update state for any input
-  const handleChange = (e) => {
+  // 2. A single handler function to update state.
+  // The event type is a union to handle inputs, textareas, and selects.
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
@@ -75,98 +115,111 @@ const ContactForm = () => {
     }))
   }
 
-  // 3. Handle form submission
-  const handleSubmit = (e) => {
+  // 3. Handle form submission, with the event correctly typed.
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    // Basic validation to ensure a real service is selected
+    if (formData.service === serviceOptions[0]) {
+      alert('Please select a service.');
+      return;
+    }
+
     console.log('Form Submitted:', formData)
+    // A non-blocking confirmation is better than alert()
     alert('Thank you for your message! We will get in touch soon.')
 
-    // Optional: Clear the form after submission
+    // Reset the form after submission
     setFormData({
       name: '',
       email: '',
       phone: '',
-      service: serviceOptions[0], // FIX: Ensure 'service' is also cleared on submit
+      service: serviceOptions[0],
       message: '',
     })
   }
 
   return (
-    <section className='bg-white py-16 sm:py-24 relative'>
-      <div className='container mx-auto px-4'>
-        <Title
-          title='Send Us a Message'
-          subTitle='Have a question or ready to start a project? Fill out the form below and we will get back to you shortly.'
-        />
-        <form onSubmit={handleSubmit} className='mt-12 max-w-3xl mx-auto'>
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-            {/* Name Field */}
-            <div>
-              <InputField
-                placeholder='Name'
-                name='name'
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
+    
+        <section className='bg-gray-50'>
+          <div className='container '>
+            <Title
+              title='Send Us a Message'
+              subTitle='Have a question or ready to start a project? Fill out the form below and we will get back to you shortly.'
+            />
+            <form onSubmit={handleSubmit} className='mt-12 max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg'>
+              <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+                {/* Name Field */}
+                <div className="md:col-span-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <InputField
+                    placeholder='John Doe'
+                    name='name'
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-            {/* Email Field */}
-            <div>
-              <InputField
-                type='email'
-                placeholder='Email'
-                name='email'
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
+                {/* Email Field */}
+                <div className="md:col-span-1">
+                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <InputField
+                    type='email'
+                    placeholder='john.doe@example.com'
+                    name='email'
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-            {/* Phone Field */}
-            <div className='md:col-span-2'>
-              <InputField
-                type='tel'
-                placeholder='Phone'
-                name='phone'
-                value={formData.phone}
-                onChange={handleChange}
-              />
-            </div>
+                {/* Phone Field */}
+                <div className='md:col-span-2'>
+                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone (Optional)</label>
+                  <InputField
+                    type='tel'
+                    placeholder='(123) 456-7890'
+                    name='phone'
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
 
-            {/* NEW: Added the Service dropdown to the form */}
-            <div className='md:col-span-2'>
-              <SelectField
-                name='service'
-                value={formData.service}
-                onChange={handleChange}
-                options={serviceOptions}
-                required
-              />
-            </div>
+                {/* Service Dropdown */}
+                <div className='md:col-span-2'>
+                   <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">Service of Interest</label>
+                  <SelectField
+                    name='service'
+                    value={formData.service}
+                    onChange={handleChange}
+                    options={serviceOptions}
+                    required
+                  />
+                </div>
 
-            {/* Message Field */}
-            <div className='md:col-span-2'>
-              <TextAreaField
-                placeholder='Your Message'
-                name='message'
-                value={formData.message}
-                onChange={handleChange}
-                required
-              />
-            </div>
+                {/* Message Field */}
+                <div className='md:col-span-2'>
+                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
+                  <TextAreaField
+                    placeholder='Tell us about your project or question...'
+                    name='message'
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className='mt-4 text-center'>
+                  <Button text='Send Message' classname='w-full'/>
+              </div>
+            </form>
           </div>
-
-          {/* Submit Button */}
-          <div className='mt-8 text-center'>
-            {/* FIX: Replaced custom Button component with a standard <button> for reliability */}
-        <Button text='Submit' type='submit' classname='w-full'/>
-          </div>
-        </form>
-      </div>
-    </section>
+        </section>
+    
   )
 }
 
-export default ContactForm
+export default ContactUsForm

@@ -4,7 +4,8 @@ import './globals.css'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTopButton from './components/ScrollToTopButton'
-import FixedSocialIcons from './components/FixedSocialIcons'
+
+import { HelpSidebar } from './components/HelpSlider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -36,8 +37,8 @@ export default function RootLayout({
         <footer>
           <Footer />
         </footer>
-        <ScrollToTopButton/>
-        <FixedSocialIcons/>
+        <ScrollToTopButton />
+        <HelpSidebar />
       </body>
     </html>
   )

@@ -37,7 +37,7 @@ const socialConnectLinks = [
 
 const ConnectWithUs = () => {
   return (
-    <section className='bg-white py-16 sm:py-24'>
+    <section className='bg-white '>
       <div className='container mx-auto px-4'>
         {/* Section Title */}
         <h2 className='text-center text-3xl sm:text-4xl font-bold text-gray-800 mb-12'>
