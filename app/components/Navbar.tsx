@@ -94,7 +94,7 @@ const Navbar = () => {
                 <li key={path}>
                   <Link
                     href={path}
-                    className={`block px-4 py-2 text-sm rounded-md ${
+                    className={`block uppercase  px-4 py-2 text-sm rounded-md ${
                       pathname === path
                         ? 'bg-secondary text-white'
                         : 'text-black/80 font-semibold hover:bg-secondary hover:text-white'
