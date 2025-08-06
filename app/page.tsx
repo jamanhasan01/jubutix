@@ -1,4 +1,5 @@
 import homeHeroImg from '../public/homeHeroImg.png'
+import ClientLogos from './components/ClientLogos'
 import CoreServices from './components/CoreServices'
 import Hero from './components/Hero'
 import { RankTrackerDashboard } from './components/RankTrackerDashboard'
@@ -17,6 +18,7 @@ export default function HomePage() {
         img={homeHeroImg}
       />
       <TrustedbyBusiness />
+      <ClientLogos/>
       <RankTrackerDashboard/>
       <CoreServices />
       <WeHelp/>
