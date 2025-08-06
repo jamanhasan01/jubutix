@@ -192,9 +192,9 @@ const Navbar = () => {
                   <li key={path}>
                     <Link
                       href={path}
-                      className={`text-sm ${
+                      className={`text-sm  ${path == '/seo' ? 'uppercase' : 'capitalize'} ${
                         pathname === path
-                          ? 'text-secondary font-semibold'
+                          ? `text-secondary font-semibold`
                           : 'text-zinc-600 hover:text-secondary'
                       }`}
                     >

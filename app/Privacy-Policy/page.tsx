@@ -1,7 +1,6 @@
 // app/privacy-policy/page.tsx
 
 import React from 'react'
-import Link from 'next/link'
 import Hero from '../components/Hero'
 
 const PolicySection = ({ title, children }: { title: string; children: React.ReactNode }) => (
