@@ -17,7 +17,7 @@ const quickLinks = [
 
 const servicesLinks = [
   { name: 'SEO', href: '/seo' },
-  { name: 'Google Ads)', href: '/google-ads' },
+  { name: 'Google Ads', href: '/google-ads' },
   { name: 'Facebook Ads', href: '/facebook-ads' },
 ]
 
