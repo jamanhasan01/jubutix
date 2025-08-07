@@ -29,8 +29,8 @@ const ClientLogos = () => {
     <section className='bg-gray-50'>
       <div className='container mx-auto px-6'>
         <Title
-          title='   Trusted By Leading Companies'
-          subTitle='     We are proud to partner with innovative businesses across industries'
+          title=' 99% Client Satisfaction Score'
+          subTitle=' making us the most trusted AI-powered digital agency in Bangladesh.'
         />
 
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-8'>

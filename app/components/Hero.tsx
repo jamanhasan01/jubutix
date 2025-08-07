@@ -8,10 +8,11 @@ import { StaticImageData } from 'next/image'
 import { Particles } from '@/components/magicui/particles'
 
 interface heroProps {
-  heading: string
+  heading: any
   desc: string
   img?: StaticImageData // This prop is in your interface but not used, which is fine.
-  btn?:boolean
+  btn?: boolean
+  btn_text?: string
 }
 
 // Initial animation variants (these remain the same)
@@ -37,8 +38,7 @@ const itemVariants = {
   },
 } as const
 
-
-const Hero = ({ heading, desc,btn=true }: heroProps) => {
+const Hero = ({ heading, desc, btn = true, btn_text }: heroProps) => {
   // 2. Create a ref for the section element
   const targetRef = useRef<HTMLDivElement>(null)
 
@@ -60,10 +60,10 @@ const Hero = ({ heading, desc,btn=true }: heroProps) => {
     // Attach the ref to the section
     <section ref={targetRef} className='relative w-full isolate overflow-hidden min-h-screen '>
       {/* 5. Apply the background parallax style */}
-      <motion.div style={{ y: backgroundY }} className="absolute inset-0 -z-10">
+      <motion.div style={{ y: backgroundY }} className='absolute inset-0 -z-10'>
         <Particles />
       </motion.div>
-      
+
       <div className='container py-0'>
         <motion.div
           variants={containerVariants}
@@ -84,12 +84,14 @@ const Hero = ({ heading, desc,btn=true }: heroProps) => {
           </motion.p>
 
           {/* Button Group */}
-       { btn==true &&  <motion.div
-            variants={itemVariants}
-            className='flex flex-col sm:flex-row items-center justify-center gap-4' // Added mt-8 for spacing
-          >
-            <Button text='Get a Free Audit' classname='' />
-          </motion.div>}
+          {btn == true && (
+            <motion.div
+              variants={itemVariants}
+              className='flex flex-col sm:flex-row items-center justify-center gap-4' // Added mt-8 for spacing
+            >
+              <Button text={`${btn_text ? btn_text : 'Get a Free Audit'}`} classname='' />
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>

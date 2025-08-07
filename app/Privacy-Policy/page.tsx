@@ -18,14 +18,19 @@ const PrivacyPolicyPage = () => {
       {/* Header Section */}
 
       <Hero
-        heading='Our Privacy Policy:
-How We Keep Your Info Safe'
+        heading={
+          <>
+            Our Privacy Policy :
+            <br />
+            How We Keep Your Info Safe
+          </>
+        }
         desc='We believe in being clear and open about how we handle your personal information. Your trust is super important to us!'
         btn={false}
       />
 
       {/* Main Content Section */}
-      <main className='py-16 md:py-20 bg-gray-50'>
+      <main className='bg-gray-50'>
         <div className='container mx-auto px-6 max-w-4xl'>
           <div className='text-center mb-12 md:mb-16'>
             <h2 className='text-4xl md:text-5xl font-bold text-slate-800'>
