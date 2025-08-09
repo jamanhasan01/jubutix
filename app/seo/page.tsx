@@ -6,6 +6,7 @@ import SeoServicesSection from './components/SeoServicesSection'
 import { SeoHero } from './components/SeoHero'
 import WhyChooseSection from '../components/WhyChooseSection'
 import ContactUsForm from '../components/ContactUsForm'
+import { SeoFaq } from './components/SeoFaq'
 
 const SeoPage = () => {
   return (
@@ -21,6 +22,7 @@ with 1000+ Success Stories'
       <SeoHero />
       <SeoServicesSection />
       <WhyChooseSection />
+      <SeoFaq />
       <ContactUsForm />
     </main>
   )
