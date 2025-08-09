@@ -15,7 +15,7 @@ const SeoPage = () => {
         heading='Best SEO Service Agency
 with 1000+ Success Stories'
         desc='Beat your competition with the best SEO company in Bangladesh! Don’t be fed up with so-called SEO experts (who make more excuses than results)! Let our SEO services be your secret weapon!'
-        btn_text='Talk With Our Award-Winne'
+        btn_text='Contact Our Award-Winning Experts'
       />
       <Feature />
       <ClientLogos />
