@@ -114,14 +114,14 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href='/blogs'
+              href='/blog'
               className={`uppercase font-semibold text-sm transition-colors ${
-                pathname.startsWith('/blogs')
+                pathname.startsWith('/blog')
                   ? 'text-secondary'
                   : 'text-zinc-700 hover:text-secondary'
               }`}
             >
-              Blogs
+              Blog
             </Link>
           </li>
           <li>
@@ -209,14 +209,14 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href='/blogs'
+                href='/blog'
                 className={`text-sm font-medium ${
-                  pathname.startsWith('/blogs')
+                  pathname.startsWith('/blog')
                     ? 'text-secondary'
                     : 'text-zinc-700 hover:text-secondary'
                 }`}
               >
-                Blogs
+                Blog
               </Link>
             </li>
             <li>

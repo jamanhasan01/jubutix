@@ -66,7 +66,7 @@ export default function BlogListPage() {
           <div className="p-8 flex flex-col justify-center">
             <Badge variant="destructive" className="w-fit">{featuredPost.category}</Badge>
             <CardTitle className="mt-4 text-3xl font-bold">
-              <Link href={`/blogs/${featuredPost.slug}`} className="hover:text-blue-600 transition-colors">
+              <Link href={`/blog/${featuredPost.slug}`} className="hover:text-blue-600 transition-colors">
                 {featuredPost.title}
               </Link>
             </CardTitle>
@@ -89,7 +89,7 @@ export default function BlogListPage() {
           {otherPosts.map((post) => (
             <Card key={post.slug} className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <CardHeader className="p-0">
-                <Link href={`/blogs/${post.slug}`}>
+                <Link href={`/blog/${post.slug}`}>
                   <div className="relative h-52 w-full">
                     <Image src={post.imageUrl} alt={post.title} fill className="object-cover" />
                   </div>
@@ -98,7 +98,7 @@ export default function BlogListPage() {
               <CardContent className="p-6 flex-grow">
                 <Badge>{post.category}</Badge>
                 <CardTitle className="mt-3 text-xl font-bold">
-                  <Link href={`/blogs/${post.slug}`} className="hover:text-blue-600 transition-colors">
+                  <Link href={`/blog/${post.slug}`} className="hover:text-blue-600 transition-colors">
                     {post.title}
                   </Link>
                 </CardTitle>
