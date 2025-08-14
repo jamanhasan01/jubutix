@@ -2,6 +2,7 @@ import homeHeroImg from '../public/homeHeroImg.png'
 import ClientLogos from './components/ClientLogos'
 import CoreServices from './components/CoreServices'
 import Hero from './components/Hero'
+import PricingSection from './components/PricingSection'
 import { RankTrackerDashboard } from './components/RankTrackerDashboard'
 
 import RealResults from './components/RealResults'
@@ -18,13 +19,14 @@ export default function HomePage() {
         img={homeHeroImg}
       />
       <TrustedbyBusiness />
-      <ClientLogos/>
-      <RankTrackerDashboard/>
+      <ClientLogos />
+      <RankTrackerDashboard />
       <CoreServices />
-      <WeHelp/>
-      <WhyChooseSection/>
-      <ReviewsSection/>
-      <RealResults/>
+      <PricingSection />
+      <WeHelp />
+      <WhyChooseSection />
+      <ReviewsSection />
+      <RealResults />
     </div>
   )
 }
