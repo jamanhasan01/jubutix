@@ -50,7 +50,7 @@ const Footer = () => {
                   target='_blank'
                   rel='noopener noreferrer'
                   aria-label={social.name}
-                  className='text-slate-200 hover:text-white transition-colors duration-300'
+                  className='text-slate-200 hover:text-secondary transition-colors duration-300' // Changed here
                 >
                   <social.icon className='h-6 w-6' />
                 </a>
@@ -66,7 +66,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className='hover:text-white transition-colors duration-300 text-sm'
+                    className='hover:text-secondary transition-colors duration-300 text-sm' // Changed here
                   >
                     {link.name}
                   </Link>
@@ -83,7 +83,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className='hover:text-white transition-colors duration-300 text-sm'
+                    className='hover:text-secondary transition-colors duration-300 text-sm' // Changed here
                   >
                     {link.name}
                   </Link>
@@ -105,10 +105,30 @@ const Footer = () => {
         </div>
 
         {/* Bottom section with copyright */}
-        <div className='mt-12 border-t border-slate-800 pt-8 text-center'>
-          <p className='text-sm text-slate-200'>
-            &copy; {new Date().getFullYear()} Jubutix. All rights reserved.
-          </p>
+
+        <div className='mt-12 border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4'>
+          <div className='flex flex-wrap justify-center sm:justify-start gap-4'>
+            <Link href='/terms' className='hover:text-secondary transition-colors duration-300 text-sm'> {/* Changed here */}
+              Terms of use
+            </Link>
+            <Link
+              href='/privacy-policy'
+              className='hover:text-secondary transition-colors duration-300 text-sm' // Changed here
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href='/cookie-policy'
+              className='hover:text-secondary transition-colors duration-300 text-sm' // Changed here
+            >
+              Cookie Policy
+            </Link>
+          </div>
+          <div>
+            <p className='text-sm text-slate-200 whitespace-nowrap'>
+              &copy; {new Date().getFullYear()} Jubutix. All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
