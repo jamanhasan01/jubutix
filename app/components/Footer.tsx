@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 // Icons from two different libraries
 import { Facebook, Instagram, Linkedin } from 'lucide-react'
-import { FaTiktok } from 'react-icons/fa'
+import { FaTiktok, FaYoutube } from 'react-icons/fa'
 
 // --- Data Arrays Updated to Match Screenshot ---
 
@@ -24,6 +24,12 @@ const servicesLinks = [
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/jubutix' },
   { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/jubutix' },
+  {
+    name: 'Youtube',
+    icon: FaYoutube,
+    href: 'https://www.youtube.com/@jubutix',
+    color: 'text-white',
+  },
   { name: 'TikTok', icon: FaTiktok, href: 'https://www.tiktok.com/@jubutix' },
   { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/company/jubutix' }, // Added LinkedIn
 ]
@@ -108,7 +114,12 @@ const Footer = () => {
 
         <div className='mt-12 border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4'>
           <div className='flex flex-wrap justify-center sm:justify-start gap-4'>
-            <Link href='/terms' className='hover:text-secondary transition-colors duration-300 text-sm'> {/* Changed here */}
+            <Link
+              href='/terms'
+              className='hover:text-secondary transition-colors duration-300 text-sm'
+            >
+              {' '}
+              {/* Changed here */}
               Terms of use
             </Link>
             <Link
