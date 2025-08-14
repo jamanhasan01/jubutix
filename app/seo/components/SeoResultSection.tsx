@@ -1,11 +1,10 @@
 // components/seo-result-section.tsx
 
 import React from 'react'
-
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
-import { NumberTicker } from '@/components/magicui/number-ticker'
 import Title from '../../components/Title'
 import Button from '../../components/Button'
+
 export function SeoResultSection() {
   return (
     <section className='w-full'>
@@ -77,7 +76,8 @@ export function SeoResultSection() {
             <Card className='absolute bottom-4 right-0 md:bottom-4 md:right-4 w-full max-w-[280px] bg-white/80 backdrop-blur-sm shadow-xl'>
               <CardContent className='p-2'>
                 <blockquote className='text-sm text-gray-800'>
-                  "Sales! Sales! and Sales! Our ROI has greatly improved. Thanks, Bizcope team!"
+                  &ldquo;Sales! Sales! and Sales! Our ROI has greatly improved. Thanks, Bizcope
+                  team!&rdquo;
                 </blockquote>
               </CardContent>
               <CardFooter className='p-2 pt-0'>

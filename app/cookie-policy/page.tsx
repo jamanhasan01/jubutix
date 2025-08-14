@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Hero from '../components/Hero'
 
 const CookiePolicyPage = () => {
@@ -9,9 +8,9 @@ const CookiePolicyPage = () => {
         <div>
           <h2>Our website uses cookie policy.</h2>
           <p className='!max-w-full mt-3'>
-            Please read this cookie policy (“cookie policy”, "policy") carefully before using
-            [https://jubutix.com/] website (“website”, "service") operated by [Red Sparrow Limited
-            t/a Red Sparrow Digital] ("us", 'we", "our").
+            Please read this cookie policy (&ldquo;cookie policy&rdquo;, &ldquo;policy&rdquo;) carefully before using
+            [https://jubutix.com/] website (&ldquo;website&rdquo;, &ldquo;service&rdquo;) operated by [Red Sparrow Limited
+            t/a Red Sparrow Digital] (&ldquo;us&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;).
           </p>
         </div>
         <div>

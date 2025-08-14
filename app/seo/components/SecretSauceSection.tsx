@@ -1,5 +1,3 @@
-// app/components/secret-sauce-section.tsx
-
 import { TrendingUp, Filter, TrendingDown } from 'lucide-react'
 
 const originalFeatures = [
@@ -38,7 +36,7 @@ export default function SecretSauceSection() {
               <p className='mt-6 text-lg leading-7 text-muted-foreground'>
                 Most SEO agencies will offer you rubbish things: backlinks, directory submission,
                 forum submission, social bookmarking, blog commenting,...the list is endless. But
-                they don't tell you what they will deliver in terms of results.
+                they don&apos;t tell you what they will deliver in terms of results.
               </p>
               <p className='mt-4 text-lg leading-7 text-muted-foreground'>
                 Unfortunately, these are waste of time and money. We will ask you to forget
