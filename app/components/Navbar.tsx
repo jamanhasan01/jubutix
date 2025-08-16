@@ -38,7 +38,7 @@ const Navbar = () => {
   }
 
   // Define service paths for active state checking
-  const servicePaths = ['/google-ads', '/facebook-ads', '/seo']
+  const servicePaths = ['/seo','/google-ads', '/facebook-ads' ]
   const isServiceActive = servicePaths.some((path) => pathname.startsWith(path))
 
   return (
