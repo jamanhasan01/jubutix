@@ -79,7 +79,7 @@ const Hero = ({ heading, desc, btn = true, btn_text }: heroProps) => {
           {btn == true && (
             <motion.div
               variants={itemVariants}
-              className='flex flex-col sm:flex-row items-center justify-center gap-4 ' // Added mt-8 for spacing
+              className='flex flex-col sm:flex-row items-center justify-center gap-4 mt-5' // Added mt-8 for spacing
             >
               <Button text={`${btn_text ? btn_text : 'Get a Free Audit'}`} classname='' />
             </motion.div>
