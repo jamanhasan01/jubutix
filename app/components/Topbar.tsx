@@ -1,11 +1,12 @@
 // components/TopBar.tsx
 
-import { Phone, Mail, Instagram, Linkedin, Facebook } from 'lucide-react'
-import { FaTiktok, FaYoutube } from 'react-icons/fa'
+import { Phone, Mail } from 'lucide-react'
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaYoutube } from 'react-icons/fa'
 
 const socialLinks = [
-  { name: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/jubutix' },
-  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/jubutix' },
+  { name: 'Facebook', icon: FaFacebook, href: 'https://www.facebook.com/jubutix' },
+  { name: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/jubutix' },
+  { name: 'LinkedIn', icon: FaLinkedin, href: 'https://www.linkedin.com/company/jubutix' },
   {
     name: 'Youtube',
     icon: FaYoutube,
@@ -13,7 +14,6 @@ const socialLinks = [
     color: 'text-white',
   },
   { name: 'TikTok', icon: FaTiktok, href: 'https://www.tiktok.com/@jubutix' },
-  { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/company/jubutix' }, // Added LinkedIn
 ]
 
 const TopBar = () => {

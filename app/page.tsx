@@ -1,5 +1,5 @@
 import homeHeroImg from '../public/homeHeroImg.png'
-import ClientLogos from './components/ClientLogos'
+
 import CoreServices from './components/CoreServices'
 import Hero from './components/Hero'
 import PricingSection from './components/PricingSection'
@@ -19,7 +19,7 @@ export default function HomePage() {
         img={homeHeroImg}
       />
       <TrustedbyBusiness />
-      <ClientLogos />
+
       <RankTrackerDashboard />
       <CoreServices />
       <PricingSection />

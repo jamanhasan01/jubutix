@@ -8,8 +8,13 @@ import { TypingAnimation } from '@/components/magicui/typing-animation'
 // 1. Import our new, self-contained popup component
 import { MessageFormPopup } from './MessageFormPopup'
 import { FaTelegram, FaWhatsapp } from 'react-icons/fa'
+import { usePathname } from 'next/navigation'
 
 export function HelpSidebar() {
+  let pathname=usePathname()
+  if (pathname.startsWith("/dashboard")) {
+    return null
+  }
   return (
     <Sheet>
       <SheetTrigger asChild>

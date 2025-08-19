@@ -1,8 +1,17 @@
 import Hero from '@/app/components/Hero'
 import React from 'react'
 import seoHeroImg from '../../public/seoHeroImg.png'
-import HallOfTrust from '@/app/components/HallOfTrust'
-import ResultsSection from './components/ResultsSection'
+import { CtaSection } from './components/CtaSection'
+import { OptimizationSection } from './components/Optimization-Section'
+import Feature from '../seo/components/Feature'
+import TrustedbyBusiness from '../components/TrustedbyBusiness'
+import { PpcGoalsSection } from './components/PpcGoalsSection'
+import { StatsSection } from './components/StatsSection'
+import { PpcServicesSection } from './components/PpcServicesSection'
+import { CampaignServicesSection } from './components/CampaignServicesSection'
+import ContactUsForm from '../components/ContactUsForm'
+
+
 
 const seoPage = () => {
   return (
@@ -14,8 +23,15 @@ with Better ROI.'
 SEO market share'
         img={seoHeroImg}
       />
-      <HallOfTrust/>
-      <ResultsSection/>
+      <Feature/>
+      <TrustedbyBusiness/>
+      <PpcGoalsSection/>
+      <PpcServicesSection/>
+      <CampaignServicesSection/>
+      <OptimizationSection/>
+      <StatsSection/>
+      <CtaSection/>
+      <ContactUsForm/>
 
     </main>
   )

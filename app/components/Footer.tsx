@@ -1,11 +1,8 @@
 'use client'
 import Link from 'next/link'
 
-// Icons from two different libraries
-import { Facebook, Instagram, Linkedin } from 'lucide-react'
-import { FaTiktok, FaYoutube } from 'react-icons/fa'
-
-// --- Data Arrays Updated to Match Screenshot ---
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaYoutube } from 'react-icons/fa'
+import { usePathname } from 'next/navigation'
 
 const quickLinks = [
   { name: 'Home', href: '/' },
@@ -22,8 +19,9 @@ const servicesLinks = [
 ]
 
 const socialLinks = [
-  { name: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/jubutix' },
-  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/jubutix' },
+  { name: 'Facebook', icon: FaFacebook, href: 'https://www.facebook.com/jubutix' },
+  { name: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/jubutix' },
+  { name: 'LinkedIn', icon: FaLinkedin, href: 'https://www.linkedin.com/company/jubutix' },
   {
     name: 'Youtube',
     icon: FaYoutube,
@@ -31,10 +29,13 @@ const socialLinks = [
     color: 'text-white',
   },
   { name: 'TikTok', icon: FaTiktok, href: 'https://www.tiktok.com/@jubutix' },
-  { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/company/jubutix' }, // Added LinkedIn
 ]
 
 const Footer = () => {
+  let pathname = usePathname()
+  if (pathname.startsWith('/dashboard')) {
+    return null
+  }
   return (
     // Using a dark slate color to match the screenshot
     <footer className='bg-primary text-white'>
@@ -112,8 +113,8 @@ const Footer = () => {
 
         {/* Bottom section with copyright */}
 
-        <div className='mt-12 border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4'>
-          <div className='flex flex-wrap justify-center sm:justify-start gap-4'>
+        <div className='mt-12 border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between  gap-4'>
+          <div className='flex flex-wrap justify-center  sm:justify-start gap-4'>
             <Link
               href='/terms'
               className='hover:text-secondary transition-colors duration-300 text-sm'
@@ -135,7 +136,7 @@ const Footer = () => {
               Cookie Policy
             </Link>
           </div>
-          <div>
+          <div className=''>
             <p className='text-sm text-slate-200 whitespace-nowrap'>
               &copy; {new Date().getFullYear()} Jubutix. All rights reserved.
             </p>
