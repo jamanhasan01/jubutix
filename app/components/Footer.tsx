@@ -32,7 +32,7 @@ const socialLinks = [
 ]
 
 const Footer = () => {
-  let pathname = usePathname()
+  const pathname = usePathname()
   if (pathname.startsWith('/dashboard')) {
     return null
   }

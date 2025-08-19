@@ -3,14 +3,13 @@
 import React, { useState, ReactNode } from 'react'
 import Link from 'next/link'
 import Logo from '@/app/components/Logo'
-// --- Import the new icons you want to use ---
 import {
   FaHome,
   FaFeatherAlt,
   FaChevronDown,
-  FaListAlt, // Icon for 'All Posts'
-  FaPlusSquare, // Icon for 'Add New'
-  FaTags, // Icon for 'Categories'
+  FaListAlt,
+  FaPlusSquare,
+  FaTags,
 } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 
@@ -19,19 +18,18 @@ type NavLink = {
   name: string
   link: string
   icon: ReactNode
-  subItems?: never // Ensures subItems don't exist on a direct link
+  subItems?: never
 }
 
-// 1. UPDATE SUB-ITEM TYPE TO INCLUDE AN ICON
 type NavSubMenu = {
   name: string
   icon: ReactNode
   subItems: {
     name: string
     link: string
-    icon: ReactNode // Add icon property here
+    icon: ReactNode
   }[]
-  link?: never // Ensures a direct link doesn't exist on a submenu parent
+  link?: never
 }
 
 type NavItemType = NavLink | NavSubMenu
@@ -40,7 +38,6 @@ type NavItemProps = {
   item: NavItemType
 }
 
-// 2. UPDATE DATA STRUCTURE WITH ICONS FOR SUB-ITEMS
 const navLinks: NavItemType[] = [
   { name: 'Dashboard', link: '/dashboard', icon: <FaHome className='w-5 h-5' /> },
   {
@@ -50,31 +47,35 @@ const navLinks: NavItemType[] = [
       {
         name: 'All Posts',
         link: '/dashboard/blog/posts',
-        icon: <FaListAlt className='w-4 h-4' />, // Added icon
+        icon: <FaListAlt className='w-4 h-4' />,
       },
       {
         name: 'Add New',
         link: '/dashboard/blog/new',
-        icon: <FaPlusSquare className='w-4 h-4' />, // Added icon
+        icon: <FaPlusSquare className='w-4 h-4' />,
       },
       {
         name: 'Categories',
         link: '/dashboard/blog/categories',
-        icon: <FaTags className='w-4 h-4' />, // Added icon
+        icon: <FaTags className='w-4 h-4' />,
       },
     ],
   },
 ]
 
-// --- Typed Reusable NavItem Component ---
+// --- Corrected Reusable NavItem Component ---
 const NavItem = ({ item }: NavItemProps) => {
   const pathname = usePathname()
 
+  // FIX: Move useState to the top level of the component.
+  // We safely check if any sub-item is active for the initial state.
+  // Optional chaining (?.) prevents errors if 'subItems' doesn't exist.
+  // Nullish coalescing (??) provides a default 'false' value.
+  const isParentActive = item.subItems?.some((subItem) => subItem.link === pathname) ?? false
+  const [isOpen, setIsOpen] = useState(isParentActive)
+
   // --- Sub-Menu Item Logic ---
   if (item.subItems) {
-    const isParentActive = item.subItems.some((subItem) => subItem.link === pathname)
-    const [isOpen, setIsOpen] = useState(isParentActive)
-
     const toggleSubMenu = () => {
       setIsOpen(!isOpen)
     }
@@ -99,11 +100,9 @@ const NavItem = ({ item }: NavItemProps) => {
               const isSubActive = pathname === subItem.link
               return (
                 <li key={subItem.name}>
-                  {/* 3. RENDER THE ICON IN THE LINK */}
                   <Link
                     href={subItem.link}
                     className={`flex items-center gap-3 p-2 text-sm rounded-lg ${
-                      // Use flex and gap for alignment
                       isSubActive ? 'bg-primary text-white' : 'text-gray-500 hover:bg-gray-100'
                     }`}
                   >

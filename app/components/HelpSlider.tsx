@@ -11,7 +11,7 @@ import { FaTelegram, FaWhatsapp } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 
 export function HelpSidebar() {
-  let pathname=usePathname()
+  const pathname=usePathname()
   if (pathname.startsWith("/dashboard")) {
     return null
   }
