@@ -11,6 +11,7 @@ import TrustedbyBusiness from './components/TrustedbyBusiness'
 import WeHelp from './components/WeHelpSlider'
 import WhyChooseSection from './components/WhyChooseSection'
 export default function HomePage() {
+  
   return (
     <div>
       <Hero

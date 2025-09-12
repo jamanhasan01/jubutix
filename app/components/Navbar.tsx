@@ -7,12 +7,15 @@ import Logo from './Logo'
 import Button from './Button'
 import { usePathname } from 'next/navigation'
 import TopBar from './Topbar'
+import { useSession } from 'next-auth/react'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScroll, setIsScroll] = useState(false)
   const pathname = usePathname()
+ const { data: session } = useSession()
 
+ 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false)
@@ -40,7 +43,7 @@ const Navbar = () => {
   // Define service paths for active state checking
   const servicePaths = ['/seo','/google-ads', '/facebook-ads' ]
   const isServiceActive = servicePaths.some((path) => pathname.startsWith(path))
-
+ console.log(session);
   return (
     <header
       className={`w-full fixed top-0 z-50 transition-all duration-300 ${

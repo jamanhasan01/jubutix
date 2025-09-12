@@ -171,11 +171,14 @@
     @apply text-2xl md:text-3xl font-bold text-gray-900 leading-tight;
   }
   p {
-    @apply text-muted-foreground text-black  max-w-xl lg:text-xl mx-auto;
+    @apply text-muted-foreground text-black  max-w-xl lg:text-xl ;
   }
 }
 @layer components {
   .container {
     @apply w-full max-w-7xl py-16 mx-auto px-4 sm:px-6 lg:px-8;
   }
+}
+.ProseMirror p {
+  text-align: left !important;
 }

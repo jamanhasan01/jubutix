@@ -65,7 +65,7 @@ const posts = [
 ]
 
 // --- All Posts Page Component ---
-const AllPostsPage = () => {
+const AllBlogsPage = () => {
   return (
     <div className='flex flex-col w-full min-h-screen bg-muted/40'>
       <main className='flex flex-col flex-1 gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
@@ -149,4 +149,4 @@ const AllPostsPage = () => {
   )
 }
 
-export default AllPostsPage
+export default AllBlogsPage

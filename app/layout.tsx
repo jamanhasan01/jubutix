@@ -6,9 +6,10 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import { HelpSidebar } from './components/HelpSlider'
-
-
-
+import { SessionProvider } from 'next-auth/react'
+import NextAuthProvider from '@/provider/NextAuthProvider'
+import { Toaster } from 'sonner'
+import { ClientToaster } from './components/ClientToaster'
 // 2. Initialize Inter and create a CSS variable for it
 const inter = Inter({
   variable: '--font-inter',
@@ -35,15 +36,18 @@ export default function RootLayout({
     <html lang='en'>
       {/* 3. Apply the new --font-inter variable to the body */}
       <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
-        <header>
-          <Navbar />
-        </header>
-        <main>{children}</main>
-        <footer>
-          <Footer />
-        </footer>
-        <ScrollToTopButton />
-        <HelpSidebar />
+        <NextAuthProvider>
+          <ClientToaster />
+          <header>
+            <Navbar />
+          </header>
+          <main>{children}</main>
+          <footer>
+            <Footer />
+          </footer>
+          <ScrollToTopButton />
+          <HelpSidebar />
+        </NextAuthProvider>
       </body>
     </html>
   )

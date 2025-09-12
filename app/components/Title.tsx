@@ -14,7 +14,7 @@ const Title = ({ title, subTitle, classname, h, p }: TitleProps) => {
       <h2 className={`capitalize text-3xl font-bold leading-tight text-primary md:text-4xl  ${h}`}>
         {title}
       </h2>
-      <p className={`mt-4 text-lg leading-relaxed text-gray-600 mb-12 max-w-2xl  ${p}`}>
+      <p className={`mt-4 text-lg leading-relaxed text-gray-600 mb-12 max-w-2xl mx-auto ${p} `}>
         {subTitle}
       </p>
     </div>
