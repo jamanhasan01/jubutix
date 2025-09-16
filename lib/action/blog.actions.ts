@@ -1,11 +1,12 @@
 'use server'
 
-import cloudinary from './cloudinary'
-import connectDB from './dbConnect'
+import cloudinary from '../cloudinary'
+import connectDB from '../dbConnect'
 
 import { revalidatePath } from 'next/cache'
-import { BlogPost } from './types'
+import { BlogPost } from '../types'
 import { Blog } from '@/models/blog.model'
+import { UploadApiResponse } from 'cloudinary'
 
 type ActionState = {
   message: string
@@ -29,11 +30,12 @@ export async function createBlog(
       const arrayBuffer = await file.arrayBuffer()
       const buffer = Buffer.from(arrayBuffer)
 
-      const uploadResult = await new Promise<any>((resolve, reject) => {
+      const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
         cloudinary.uploader
           .upload_stream({ folder: 'blogs' }, (error, result) => {
             if (error) reject(error)
-            else resolve(result)
+            else if (result) resolve(result)
+            else reject(new Error('Cloudinary upload failed without a result.'))
           })
           .end(buffer)
       })
@@ -41,8 +43,6 @@ export async function createBlog(
       coverImageUrl = uploadResult.secure_url
     }
 
-    // 3. Create a strongly-typed object.
-    // This will give you IntelliSense and prevent typos.
     const newBlogData = {
       title: title as string,
       slug: slug as string,
@@ -56,24 +56,27 @@ export async function createBlog(
     }
 
     await connectDB()
-
-    // 4. Pass the typed object to your Mongoose model.
     await Blog.create(newBlogData)
 
     revalidatePath('/')
     return { message: 'Blog created successfully!', status: 'success' }
-  } catch (error: any) {
-    if (error.name == 'ValidationError') {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name === 'ValidationError') {
       const validationError: Record<string, string> = {}
 
-      for (const key in error.errors) {
-        validationError[key] = error.errors[key].message
+      const mongooseError = error as unknown as {
+        errors: { [path: string]: { message: string } }
       }
-      console.log('error get from validationError object ',validationError)
+
+      for (const key in mongooseError.errors) {
+        validationError[key] = mongooseError.errors[key].message
+      }
+      console.log('error get from validationError object ', validationError)
 
       return { message: 'ValidationError', status: 'error', errors: validationError }
     }
 
-    return { message: 'Failed to create blog. Please try again.', status: 'error' }
+    // ✅ FIX: This return statement ensures the function always returns a value, even for non-validation errors.
+    return { message: 'An unexpected error occurred. Please try again.', status: 'error' }
   }
 }

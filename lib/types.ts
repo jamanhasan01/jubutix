@@ -16,3 +16,4 @@ export type BlogPost = {
   createdAt: string
   updatedAt: string
 }
+

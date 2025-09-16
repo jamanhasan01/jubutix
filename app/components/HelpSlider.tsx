@@ -12,7 +12,9 @@ import { usePathname } from 'next/navigation'
 
 export function HelpSidebar() {
   const pathname=usePathname()
-  if (pathname.startsWith("/dashboard")) {
+    if ( pathname.startsWith('/dashboard') ||
+  pathname.startsWith('/sign-in') ||
+  pathname.startsWith('/sign-up')) {
     return null
   }
   return (

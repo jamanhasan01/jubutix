@@ -39,15 +39,28 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      return baseUrl
-    },
-    async session({ session, user, token }) {
-      return session
-    },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    // Called whenever a JWT is created or updated
+    async jwt({ token, user }) {
+      if (user) {
+        // On first login, attach user info to token
+
+        token.name = user.name
+        token.email = user.email
+      }
       return token
     },
+
+    // Called whenever a session is checked (client-side)
+    async session({ session, token }) {
+      if (token) {
+        session.user = {
+          name: token.name,
+          email: token.email,
+        }
+      }
+      return session
+    },
+    
   },
 })
 

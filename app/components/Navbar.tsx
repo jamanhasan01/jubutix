@@ -13,9 +13,12 @@ const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScroll, setIsScroll] = useState(false)
   const pathname = usePathname()
- const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
- 
+  // Define service paths for active state checking
+  const servicePaths = ['/seo', '/google-ads', '/facebook-ads']
+  const isServiceActive = servicePaths.some((path) => pathname.startsWith(path))
+
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false)
@@ -36,14 +39,14 @@ const Navbar = () => {
     }
   }, [])
 
-  if (pathname.startsWith('/dashboard')) {
+  // Move the conditional return AFTER all hooks
+  if ( pathname.startsWith('/dashboard') ||
+  pathname.startsWith('/sign-in') ||
+  pathname.startsWith('/sign-up')) {
     return null
   }
 
-  // Define service paths for active state checking
-  const servicePaths = ['/seo','/google-ads', '/facebook-ads' ]
-  const isServiceActive = servicePaths.some((path) => pathname.startsWith(path))
- console.log(session);
+
   return (
     <header
       className={`w-full fixed top-0 z-50 transition-all duration-300 ${
@@ -56,10 +59,7 @@ const Navbar = () => {
           isScroll ? 'bg-black/10 backdrop-blur-md shadow-sm mt-4 rounded-full' : ''
         }`}
       >
-        {/* Logo */}
-        <Link href='/'>
-          <Logo />
-        </Link>
+        <Logo />
 
         {/* Desktop Nav */}
         <ul className='hidden md:flex items-center gap-10'>

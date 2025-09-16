@@ -13,7 +13,7 @@ import { Type } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useActionState } from 'react' // Correct import for React 19+
 import TiptapEditor from './Tiptap'
-import { createBlog } from '@/lib/actions'
+import { createBlog } from '@/lib/action/blog.actions'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import {
