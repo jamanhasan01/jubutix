@@ -1,74 +1,131 @@
-// app/blog/[slug]/page.tsx
-
+import { getBlogWithSlug } from '@/lib/action/blog.actions'
+import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Facebook, Linkedin, Twitter } from 'lucide-react'
+import type { Metadata, ResolvingMetadata } from 'next'
 
-// --- Mock Data for a Single Post ---
-// In a real app, you would fetch this data based on the `slug` param
-const post = {
-  slug: 'mastering-seo-in-2025',
-  title: 'Mastering SEO in 2025: A Guide for Dominating SERPs',
-  category: 'SEO',
-  imageUrl: '/results/result-1.png', // Replace with actual image
-  author: { name: 'Umar Tazkeer', imageUrl: '/person.jpg' },
-  date: 'July 15, 2025',
-  content: ( // This would come from your CMS, likely as Markdown/HTML
-    <>
-      <p>The world of Search Engine Optimization (SEO) is in a constant state of flux. What worked yesterday might not work today, and what works today will almost certainly evolve by tomorrow. As we look towards 2025, several key trends are emerging that will define who wins and who loses in the search engine results pages (SERPs).</p>
-      <h2>The Rise of AI-Powered Search</h2>
-      <p>With advancements like Google is Search Generative Experience (SGE), the very nature of search is changing. Users are getting direct answers, which means ranking #1 in the traditional sense is no longer the only goal. Your content must be valuable enough to be featured in these AI-powered summaries.</p>
-      <blockquote>This is not just about keywords anymore; it is about providing comprehensive, authoritative answers to complex questions.</blockquote>
-      <ul>
-        <li>Focus on semantic search and entity-based SEO.</li>
-        <li>Structure your content with clear Q&A formats.</li>
-        <li>Build topical authority around your core areas of expertise.</li>
-      </ul>
-      <h2>User Experience as a Core Ranking Factor</h2>
-      <p>Google continues to double down on user experience metrics. Your site must be fast, mobile-friendly, and easy to navigate. Core Web Vitals are no longer just a suggestion—they are a requirement for competitive niches.</p>
-    </>
-  ),
-};
+interface Props {
+  params: Promise<{ slug: string }>
+}
 
-// --- Single Post Page Component ---
-// The `params` object will contain the slug from the URL
-export default function BlogPostPage() {
-  // In a real app, you'd use params.slug to fetch the correct post data
-  
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params
+  const blog = await getBlogWithSlug(slug)
+
+  if (!blog) {
+    return {
+      title: 'Blog Post Not Found',
+      description: 'The blog post you are looking for does not exist.',
+    }
+  }
+
+  return {
+    title: blog.title,
+  }
+}
+
+const TableOfContents = () => (
+  <div className='rounded-lg border p-4'>
+    <h3 className='mb-3 font-semibold'>In This Article</h3>
+    <ul className='space-y-2'>
+      <li>
+        <a href='#section1' className='text-sm text-muted-foreground hover:text-primary'>
+          What is This Blog About?
+        </a>
+      </li>
+      <li>
+        <a href='#section2' className='text-sm text-muted-foreground hover:text-primary'>
+          Key Integrations
+        </a>
+      </li>
+      <li>
+        <a href='#section3' className='text-sm text-muted-foreground hover:text-primary'>
+          Disadvantages to Consider
+        </a>
+      </li>
+      <li>
+        <a href='#section4' className='text-sm text-muted-foreground hover:text-primary'>
+          Conclusion
+        </a>
+      </li>
+    </ul>
+  </div>
+)
+
+const ShareButtons = () => (
+  <div className='flex items-center space-x-2'>
+    <span className='font-semibold'>Share</span>
+    <a href='#' className='rounded-full border p-2 hover:bg-muted'>
+      <Linkedin size={18} />
+    </a>
+    <a href='#' className='rounded-full border p-2 hover:bg-muted'>
+      <Facebook size={18} />
+    </a>
+    <a href='#' className='rounded-full border p-2 hover:bg-muted'>
+      <Twitter size={18} />
+    </a>
+  </div>
+)
+
+export default async function BlogDetailsPage({ params }: Props) {
+  const { slug } = await params
+
+  const blog = await getBlogWithSlug(slug)
+
+  if (!blog) {
+    notFound()
+  }
+
+  const publishedDate = new Date(blog.createdAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+
   return (
-    <main className="bg-white py-16 sm:py-24">
-      <div className="container mx-auto px-4">
-        <article className="max-w-4xl mx-auto">
-          {/* --- Article Header --- */}
-          <header className="text-center mb-8">
-            <Badge variant="default" className="mb-4">{post.category}</Badge>
-            <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl leading-tight">
-              {post.title}
-            </h1>
-            <div className="mt-6 flex justify-center items-center gap-4">
-              <Avatar>
-                <AvatarImage src={post.author.imageUrl} alt={post.author.name} />
-                <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-semibold text-gray-900">{post.author.name}</p>
-                <p className="text-sm text-gray-500">{post.date}</p>
-              </div>
+    <section>
+      <div className='container mt-20'>
+        {/* === HEADER SECTION === */}
+        <div className='mx-auto max-w-3xl text-center'>
+          <h1 className='mb-4 text-4xl font-bold tracking-tight md:text-5xl'>{blog.title}</h1>
+          <div className='mt-6 flex items-center justify-center space-x-4'>
+            <Avatar>
+              <AvatarImage src={blog.user.profileImage} alt={blog.user.name} />
+              <AvatarFallback>{blog.user.name.charAt(0).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className='font-semibold'>{blog.user.name}</p>
+              <p className='text-sm text-muted-foreground'>Published on {publishedDate}</p>
             </div>
-          </header>
-
-          {/* --- Featured Image --- */}
-          <div className="relative h-64 sm:h-80 lg:h-96 w-full rounded-lg overflow-hidden my-8 shadow-lg">
-            <Image src={post.imageUrl} alt={post.title} fill className="object-cover" />
           </div>
+        </div>
 
-          {/* --- Article Content --- */}
-          {/* The 'prose' class from @tailwindcss/typography styles all the content inside */}
-          <div className="prose prose-lg max-w-none prose-h2:font-bold prose-h2:text-gray-800 prose-a:text-blue-600 hover:prose-a:text-blue-800">
-            {post.content}
-          </div>
-        </article>
+        {/* === COVER IMAGE === */}
+        <div className='relative my-8 h-64 w-full overflow-hidden rounded-lg md:h-[450px]'>
+          <Image src={blog.coverImage} alt={blog.title} fill className='object-cover' priority />
+        </div>
+
+        {/* === MAIN LAYOUT (CONTENT + SIDEBAR) === */}
+        <div className='mx-auto grid max-w-5xl grid-cols-1 gap-12 lg:grid-cols-3'>
+          {/* Left Column: Article Content */}
+          <article
+            className='prose prose-lg max-w-none dark:prose-invert lg:col-span-2'
+            dangerouslySetInnerHTML={{ __html: blog.content }}
+          />
+
+          {/* Right Column: Sidebar */}
+          <aside className='lg:col-span-1'>
+            <div className='sticky top-24 space-y-6'>
+              <ShareButtons />
+              <TableOfContents />
+            </div>
+          </aside>
+        </div>
       </div>
-    </main>
-  );
+    </section>
+  )
 }

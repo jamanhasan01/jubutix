@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import Title from './Title'
 import Button from './Button'
 
-// Defines the props for our input fields
+
 interface InputFieldProps {
   type?: string // '?' makes the prop optional
   placeholder: string
@@ -24,7 +24,6 @@ interface TextAreaFieldProps {
   required?: boolean
 }
 
-// Defines the props for the select dropdown field
 interface SelectFieldProps {
   name: string
   value: string
@@ -120,8 +119,7 @@ const ContactUsForm: React.FC = () => {
     message: '',
   })
 
-  // 2. A single handler function to update state.
-  // The event type is a union to handle inputs, textareas, and selects.
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -142,8 +140,8 @@ const ContactUsForm: React.FC = () => {
       return
     }
 
-    console.log('Form Submitted:', formData)
-    // A non-blocking confirmation is better than alert()
+   
+    
     alert('Thank you for your message! We will get in touch soon.')
 
     // Reset the form after submission

@@ -1,6 +1,5 @@
-// app/providers.tsx
-"use client" // This is the most important line
 
+"use client"
 import { SessionProvider } from "next-auth/react"
 import type { ReactNode } from "react"
 

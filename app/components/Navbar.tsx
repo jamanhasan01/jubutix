@@ -7,13 +7,12 @@ import Logo from './Logo'
 import Button from './Button'
 import { usePathname } from 'next/navigation'
 import TopBar from './Topbar'
-import { useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScroll, setIsScroll] = useState(false)
   const pathname = usePathname()
-  const { data: session, status } = useSession()
 
   // Define service paths for active state checking
   const servicePaths = ['/seo', '/google-ads', '/facebook-ads']
@@ -40,12 +39,13 @@ const Navbar = () => {
   }, [])
 
   // Move the conditional return AFTER all hooks
-  if ( pathname.startsWith('/dashboard') ||
-  pathname.startsWith('/sign-in') ||
-  pathname.startsWith('/sign-up')) {
+  if (
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/sign-in') ||
+    pathname.startsWith('/sign-up')
+  ) {
     return null
   }
-
 
   return (
     <header

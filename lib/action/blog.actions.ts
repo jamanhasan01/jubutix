@@ -4,9 +4,11 @@ import cloudinary from '../cloudinary'
 import connectDB from '../dbConnect'
 
 import { revalidatePath } from 'next/cache'
-import { BlogPost } from '../types'
-import { Blog } from '@/models/blog.model'
+
 import { UploadApiResponse } from 'cloudinary'
+import slugify from 'slugify'
+import { auth } from '../auth'
+import { Blog } from '@/models/Blog.model'
 
 type ActionState = {
   message: string
@@ -23,6 +25,7 @@ export async function createBlog(
       formData.entries()
     )
     const file = formData.get('coverImage') as File | null
+    const session = await auth()
 
     let coverImageUrl = ''
 
@@ -45,7 +48,7 @@ export async function createBlog(
 
     const newBlogData = {
       title: title as string,
-      slug: slug as string,
+      slug: slugify(slug as string).toLowerCase(),
       content: content as string,
       category: category as string,
       coverImage: coverImageUrl,
@@ -53,6 +56,7 @@ export async function createBlog(
         metaTitle: meta_title as string,
         metaDescription: meta_description as string,
       },
+      user: session?.user.id,
     }
 
     await connectDB()
@@ -71,12 +75,33 @@ export async function createBlog(
       for (const key in mongooseError.errors) {
         validationError[key] = mongooseError.errors[key].message
       }
-      console.log('error get from validationError object ', validationError)
 
       return { message: 'ValidationError', status: 'error', errors: validationError }
     }
 
-    // ✅ FIX: This return statement ensures the function always returns a value, even for non-validation errors.
     return { message: 'An unexpected error occurred. Please try again.', status: 'error' }
+  }
+}
+
+export async function getAllBlogs() {
+  try {
+    await connectDB()
+
+    const blogs = await Blog.find({}).sort({ createdAt: -1 }).lean()
+
+    return JSON.parse(JSON.stringify(blogs))
+  } catch (error) {
+    return []
+  }
+}
+export async function getBlogWithSlug(slug: string) {
+  try {
+    await connectDB()
+
+    const blogs = await Blog.findOne({ slug }).populate('user', 'name  profileImage').lean()
+
+    return JSON.parse(JSON.stringify(blogs))
+  } catch (error) {
+    return []
   }
 }

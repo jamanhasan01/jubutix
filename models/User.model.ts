@@ -9,7 +9,11 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     profileImage: {
       type: String,
-      required: true,
+      default: null,
+    },
+    emailVerified: {
+      type: Date,
+      default: null, 
     },
     role: { type: String, enum: ['admin', 'editor', 'user'], default: 'user' },
   },

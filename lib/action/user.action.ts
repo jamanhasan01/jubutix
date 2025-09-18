@@ -4,7 +4,7 @@ import { UploadApiResponse } from 'cloudinary'
 import cloudinary from '../cloudinary'
 import bcrypt from 'bcrypt'
 import connectDB from '../dbConnect'
-import User from '@/models/User'
+import User from '@/models/User.model'
 
 type ActionState = {
   message: string
@@ -19,6 +19,7 @@ export const Create_User = async (
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const file = formData.get('profile') as File
+  
 
   try {
     let profileImage = ''

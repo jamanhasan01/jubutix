@@ -1,5 +1,4 @@
 import { Schema, model, models } from 'mongoose'
-
 const seoSchema = new Schema(
   {
     metaTitle: {
@@ -40,6 +39,11 @@ const blogSchema = new Schema(
       required: [true, 'Blog content cannot be empty.'],
     },
     seo: seoSchema,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref:'User',
+      required: [true, 'Author is required'],
+    },
   },
   { timestamps: true }
 )

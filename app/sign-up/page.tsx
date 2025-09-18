@@ -58,7 +58,7 @@ const RegistrationPage = () => {
               <button
                 type='button' // Important: type="button" prevents form submission
                 onClick={() => setShowPassword(!showPassword)} // Toggle the state
-                className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+                className='absolute right-3 top-2/3 transform -translate-y-1/2 text-gray-500'
               >
                 {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </button>

@@ -33,7 +33,7 @@ const BlogForm = () => {
   const [content, setContent] = useState('')
   const [state, formAction, isPending] = useActionState(createBlog, null)
   const formRef = useRef(null)
-  console.log(state)
+
 
   useEffect(() => {
     if (state?.message) {
