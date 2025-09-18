@@ -137,6 +137,16 @@ const Navbar = () => {
               Contact Us
             </Link>
           </li>
+          <li>
+            <Link
+              href='/dashboard'
+              className={`uppercase font-semibold text-sm transition-colors ${
+                pathname === '/dashboard' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+              }`}
+            >
+             Dashboard
+            </Link>
+          </li>
         </ul>
 
         {/* Desktop Action Button */}
@@ -232,6 +242,18 @@ const Navbar = () => {
                 }`}
               >
                 Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link
+                href='/dashboard'
+                className={`text-sm font-medium ${
+                  pathname === '/dashboard'
+                    ? 'text-secondary'
+                    : 'text-zinc-700 hover:text-secondary'
+                }`}
+              >
+                Dashboard
               </Link>
             </li>
             <li>
