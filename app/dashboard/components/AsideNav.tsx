@@ -14,13 +14,6 @@ import {
 import { usePathname } from 'next/navigation'
 
 // --- Type Definitions ---
-type NavLink = {
-  name: string
-  link: string
-  icon: ReactNode
-  subItems?: never
-}
-
 type NavSubMenu = {
   name: string
   icon: ReactNode
@@ -29,7 +22,14 @@ type NavSubMenu = {
     link: string
     icon: ReactNode
   }[]
-  link?: never
+  link?: string
+}
+
+type NavLink = {
+  name: string
+  link: string
+  icon: ReactNode
+  subItems?: never
 }
 
 type NavItemType = NavLink | NavSubMenu
@@ -38,80 +38,116 @@ type NavItemProps = {
   item: NavItemType
 }
 
+// --- Navigation Data ---
 const navLinks: NavItemType[] = [
   { name: 'Dashboard', link: '/dashboard', icon: <FaHome className='w-5 h-5' /> },
   {
-    name: 'Blog',
+    name: 'Posts',
+    link: '/dashboard/posts',
     icon: <FaFeatherAlt className='w-5 h-5' />,
     subItems: [
       {
         name: 'All Posts',
-        link: '/dashboard/blog/posts',
+        link: '/dashboard/posts',
         icon: <FaListAlt className='w-4 h-4' />,
       },
       {
-        name: 'Add New',
-        link: '/dashboard/blog/new',
+        name: 'Add Post',
+        link: '/dashboard/posts/new-post',
         icon: <FaPlusSquare className='w-4 h-4' />,
       },
       {
         name: 'Categories',
-        link: '/dashboard/blog/categories',
+        link: '/dashboard/posts/categories',
         icon: <FaTags className='w-4 h-4' />,
       },
     ],
   },
 ]
 
-// --- Corrected Reusable NavItem Component ---
+// --- MODIFIED NavItem Component for Hybrid Menu ---
 const NavItem = ({ item }: NavItemProps) => {
   const pathname = usePathname()
-
-  // FIX: Move useState to the top level of the component.
-  // We safely check if any sub-item is active for the initial state.
-  // Optional chaining (?.) prevents errors if 'subItems' doesn't exist.
-  // Nullish coalescing (??) provides a default 'false' value.
   const isParentActive = item.subItems?.some((subItem) => subItem.link === pathname) ?? false
-  const [isOpen, setIsOpen] = useState(isParentActive)
 
-  // --- Sub-Menu Item Logic ---
+  // 1. We need two state variables now
+  const [isFlyoutVisible, setIsFlyoutVisible] = useState(false)
+  const [isDropdownVisible, setIsDropdownVisible] = useState(isParentActive)
+
+  const handleToggleDropdown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsDropdownVisible(!isDropdownVisible)
+  }
+
   if (item.subItems) {
-    const toggleSubMenu = () => {
-      setIsOpen(!isOpen)
-    }
-
     return (
-      <li>
-        <button
-          onClick={toggleSubMenu}
-          className={`flex items-center justify-between w-full gap-3 p-3 text-sm font-medium rounded-lg ${
-            isParentActive ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-100'
-          }`}
-        >
-          <div className='flex items-center gap-3'>
-            {item.icon}
-            <span>{item.name}</span>
+      <li
+        className='relative'
+        onMouseEnter={() => setIsFlyoutVisible(true)}
+        onMouseLeave={() => setIsFlyoutVisible(false)}
+      >
+        <button onClick={handleToggleDropdown} className='w-full'>
+          <div
+            className={`flex items-center justify-between w-full rounded-lg transition-colors ${
+              isParentActive || isDropdownVisible
+                ? 'bg-gray-100 text-gray-900'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <Link
+              href={item.link || '#'}
+              className='flex items-center gap-3 p-3 text-sm font-medium grow'
+            >
+              {item.icon}
+              <span>{item.name}</span>
+            </Link>
+
+            <FaChevronDown
+              className={`w-3 h-3 mr-3 transition-transform ${
+                isDropdownVisible ? 'rotate-180' : ''
+              }`}
+            />
           </div>
-          <FaChevronDown className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
-        {isOpen && (
+
+        {/* 4. Conditionally render the FLYOUT menu (on hover) */}
+        {/* It only shows if the dropdown is NOT open */}
+        {isFlyoutVisible && !isDropdownVisible && (
+          <ul className='absolute top-0 left-full ml-0 w-48 p-2 space-y-1 bg-gray-800 text-white rounded-lg shadow-xl z-10'>
+            {item.subItems.map((subItem) => (
+              <li key={subItem.name}>
+                <Link
+                  href={subItem.link}
+                  className={`flex items-center w-full gap-3 p-2 text-sm rounded-md ${
+                    pathname === subItem.link ? 'bg-primary' : 'hover:bg-gray-700'
+                  }`}
+                >
+                  {subItem.icon}
+                  <span>{subItem.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* 5. Conditionally render the DROPDOWN menu (on click) */}
+        {isDropdownVisible && (
           <ul className='pl-6 mt-2 space-y-2 border-l border-gray-200'>
-            {item.subItems.map((subItem) => {
-              const isSubActive = pathname === subItem.link
-              return (
-                <li key={subItem.name}>
-                  <Link
-                    href={subItem.link}
-                    className={`flex items-center gap-3 p-2 text-sm rounded-lg ${
-                      isSubActive ? 'bg-primary text-white' : 'text-gray-500 hover:bg-gray-100'
-                    }`}
-                  >
-                    {subItem.icon}
-                    <span>{subItem.name}</span>
-                  </Link>
-                </li>
-              )
-            })}
+            {item.subItems.map((subItem) => (
+              <li key={subItem.name}>
+                <Link
+                  href={subItem.link}
+                  className={`flex items-center gap-3 p-2 text-sm rounded-lg ${
+                    pathname === subItem.link
+                      ? 'bg-primary text-white'
+                      : 'text-gray-500 hover:bg-gray-100'
+                  }`}
+                >
+                  {subItem.icon}
+                  <span>{subItem.name}</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         )}
       </li>
@@ -135,6 +171,7 @@ const NavItem = ({ item }: NavItemProps) => {
   )
 }
 
+// --- Main Sidebar Component ---
 const AsideNav = () => {
   return (
     <aside className='flex flex-col h-full bg-white border-r border-gray-200'>

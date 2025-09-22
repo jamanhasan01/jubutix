@@ -34,7 +34,6 @@ const BlogForm = () => {
   const [state, formAction, isPending] = useActionState(createBlog, null)
   const formRef = useRef(null)
 
-
   useEffect(() => {
     if (state?.message) {
       if (state.status === 'success') {
@@ -53,33 +52,33 @@ const BlogForm = () => {
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
               <Type className='w-5 h-5' />
-              Blog
+              Post
             </CardTitle>
             <CardDescription>Title, Slug, Cover Image, Content, Category</CardDescription>
           </CardHeader>
 
           <CardContent className='grid md:grid-cols-2 gap-6'>
             <div className='space-y-2'>
-              <Label htmlFor='title'>Title</Label>
-              {/* ✅ Added placeholder */}
+              <Label htmlFor='title'>Add Title</Label>
+
               <Input type='text' name='title' id='title' placeholder='The Ultimate Guide to...' />
               {state?.errors?.title && <p className='text-sm text-red-500'>{state.errors.title}</p>}
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='slug'>Slug</Label>
-              {/* ✅ Added placeholder */}
+              <Label htmlFor='slug'>Add Slug</Label>
+
               <Input type='text' name='slug' id='slug' placeholder='e.g., the-ultimate-guide' />
               {state?.errors?.slug && <p className='text-sm text-red-500'>{state.errors.slug}</p>}
             </div>
             <div className='space-y-2'>
-              <Label>Cover Image</Label>
+              <Label>Set Feature Image</Label>
               <Input type='file' name='coverImage' accept='image/*' />
               {state?.errors?.coverImage && (
                 <p className='text-sm text-red-500'>{state.errors.coverImage}</p>
               )}
             </div>
             <div className='space-y-2'>
-              <Label>Select Category</Label>
+              <Label>Select Categories</Label>
               <Select name='category'>
                 <SelectTrigger className='w-full'>
                   <SelectValue placeholder='Choose a category...' />
@@ -147,7 +146,7 @@ const BlogForm = () => {
 
           <CardContent className='flex flex-col gap-4'>
             <Button type='submit' disabled={isPending}>
-              {isPending ? 'Creating Post...' : 'Create Post'}
+              {isPending ? 'Publishing...' : 'Publish'}
             </Button>
           </CardContent>
         </Card>
