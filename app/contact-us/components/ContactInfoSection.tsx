@@ -18,7 +18,7 @@ const contactDetails = [
   {
     icon: MapPin,
     title: 'Location',
-    detail: '343/2 Choto Alampur, Debidwar, Comilla, Bangladesh',
+    detail: '7th Floor Holding No - 832, South Bagichagaon, Cumilla 3500',
   },
 ]
 

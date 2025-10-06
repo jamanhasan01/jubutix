@@ -72,7 +72,7 @@ const ShareButtons = () => (
   </div>
 )
 
-export default async function BlogDetailsPage({ params }: Props) {
+export default async function ViewBlogPage({ params }: Props) {
   const { slug } = await params
 
   const blog = await getBlogBySlug(slug)
@@ -88,8 +88,8 @@ export default async function BlogDetailsPage({ params }: Props) {
   })
 
   return (
-    <section>
-      <div className='container mt-20'>
+    <section className='bg-white'>
+      <div className='container'>
         {/* === HEADER SECTION === */}
         <div className='mx-auto max-w-3xl text-center'>
           <h1 className='mb-4 text-4xl font-bold tracking-tight md:text-5xl'>{blog.title}</h1>

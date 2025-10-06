@@ -9,7 +9,7 @@ const quickLinks = [
   { name: 'Our Services', href: '/services' },
   { name: 'Case Studies', href: '/case-studies' },
   { name: 'Our Process', href: '/process' },
-  { name: 'About Us', href: '/about' },
+  { name: 'About Us', href: '/about-us' },
 ]
 
 const servicesLinks = [
@@ -33,9 +33,11 @@ const socialLinks = [
 
 const Footer = () => {
   const pathname = usePathname()
-  if ( pathname.startsWith('/dashboard') ||
-  pathname.startsWith('/sign-in') ||
-  pathname.startsWith('/sign-up')) {
+  if (
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/sign-in') ||
+    pathname.startsWith('/sign-up')
+  ) {
     return null
   }
   return (
@@ -108,7 +110,7 @@ const Footer = () => {
               <li>Email: contact@jubutix.com</li>
               <li>Phone: +880 1805-212243</li>
               {/* Using the address from your location in Debidwar */}
-              <li>Address: 343/2, Choto Alampur, Debidwar, Comilla, Bangladesh</li>
+              <li>Address: 7th Floor Holding No - 832, South Bagichagaon, Cumilla 3500</li>
             </ul>
           </div>
         </div>

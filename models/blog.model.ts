@@ -25,9 +25,9 @@ const blogSchema = new Schema(
       unique: true,
     },
     excerpt: String,
-    coverImage: {
+    featureImage: {
       type: String,
-      required: [true, 'Cover image is required'],
+      required: [true, 'feature image is required'],
     },
     category: {
       type: String,
@@ -44,6 +44,11 @@ const blogSchema = new Schema(
       ref:'User',
       required: [true, 'Author is required'],
     },
+    status:{
+      type:String,
+      enum:['published',"draft"],
+      required:true
+    }
   },
   { timestamps: true }
 )

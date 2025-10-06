@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card'
-import { getAllBlogs } from '@/lib/action/blog.actions'
+import { getBlogsByStatus } from '@/lib/action/blog.actions'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -9,7 +9,7 @@ type Blog = {
   _id: string
   title: string
   slug: string
-  coverImage: string
+  featureImage: string
   category: string
   seo: {
     metaDescription: string
@@ -18,7 +18,7 @@ type Blog = {
 }
 
 const Blogs = async () => {
-  const blogs: Blog[] = await getAllBlogs()
+  const blogs: Blog[] = await getBlogsByStatus('published')
 
   // Helper function for date formatting
   const formatDate = (dateString: string) => {
@@ -40,7 +40,7 @@ const Blogs = async () => {
                 {/* Image is now a direct child, not in CardHeader */}
                 <div className='relative h-52 w-full'>
                   <Image
-                    src={blog.coverImage}
+                    src={blog.featureImage}
                     alt={blog.title}
                     fill
                     className='object-cover transition-transform duration-300 group-hover:scale-105'

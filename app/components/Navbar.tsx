@@ -75,12 +75,12 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href='/whoweare'
+              href='/about-us'
               className={`uppercase font-semibold text-sm transition-colors ${
-                pathname === '/whoweare' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+                pathname === '/about-us' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
               }`}
             >
-              Who We Are
+              About Us
             </Link>
           </li>
           <li className='relative group'>
@@ -184,9 +184,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href='/whoweare'
+                href='/about-us'
                 className={`text-sm font-medium ${
-                  pathname === '/whoweare' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
+                  pathname === '/about-us' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
                 }`}
               >
                 Who We Are
