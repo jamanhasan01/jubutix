@@ -3,7 +3,8 @@ import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Facebook, Linkedin, Twitter } from 'lucide-react'
 import type { Metadata, ResolvingMetadata } from 'next'
-import { getBlogBySlug } from '@/lib/action/blog.actions'
+import { getBlogPost } from '@/lib/action/blog.actions'
+
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -14,7 +15,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { slug } = await params
-  const blog = await getBlogBySlug(slug)
+  const blog = await getBlogPost(slug)
 
 
   if (!blog) {
@@ -75,7 +76,7 @@ const ShareButtons = () => (
 export default async function BlogDetailsPage({ params }: Props) {
   const { slug } = await params
 
-  const blog = await getBlogBySlug(slug)
+  const blog = await getBlogPost(slug)
 
   if (!blog) {
     notFound()

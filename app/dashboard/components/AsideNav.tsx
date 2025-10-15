@@ -113,7 +113,7 @@ const NavItem = ({ item }: NavItemProps) => {
         {/* 4. Conditionally render the FLYOUT menu (on hover) */}
         {/* It only shows if the dropdown is NOT open */}
         {isFlyoutVisible && !isDropdownVisible && (
-          <ul className='absolute top-0 left-full ml-0 w-48 p-2 space-y-1 bg-gray-800 text-white rounded-lg shadow-xl z-10'>
+          <ul className='absolute top-0 left-full ml-0 w-48 p-2 space-y-1 bg-gray-800 text-white rounded-lg shadow-xl z-50'>
             {item.subItems.map((subItem) => (
               <li key={subItem.name}>
                 <Link
