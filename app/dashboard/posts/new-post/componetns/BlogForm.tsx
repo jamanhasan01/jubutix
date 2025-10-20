@@ -50,7 +50,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialPost }) => {
       if (state.status === 'success') {
         toast.success(state.message)
         if (!isEditing) {
-          router.push('/dashboard/all-posts') // Redirect to all-posts after successful creation
+          router.push('/dashboard/posts') 
           setContent('')
           formRef.current?.reset()
         }

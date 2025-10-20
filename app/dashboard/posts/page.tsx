@@ -1,30 +1,62 @@
+// app/dashboard/posts/page.tsx (Server Component)
+
+import React from 'react'
 import { getAllBlogs } from '@/lib/action/blog.actions'
-
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { PlusCircle } from 'lucide-react'
 import AllPostsTable from '../components/AllPostsTable'
+import { Pagination, SearchAndFilter } from '../components/SearchAndFilter'
 
-export default async function AllPostsPage() {
-  const posts = await getAllBlogs()
+// NOTE: Define available categories on the server side for consistency
+const AVAILABLE_CATEGORIES = ['Technology', 'Lifestyle', 'Travel', 'Food'] 
 
+// Define the component props based on Next.js App Router conventions
+interface PostsPageProps {
+  // searchParams automatically receives the query parameters from the URL
+  searchParams: {
+    page?: string
+    search?: string
+    category?: string
+  }
+}
+
+export default async function PostsPage({ searchParams }: PostsPageProps) {
+  // 🔑 FIX: Await the searchParams object before accessing its properties.
+  const awaitedSearchParams = await searchParams;
+
+  // 1. Extract and sanitize parameters from URL, providing defaults
+  const currentPage = parseInt(awaitedSearchParams.page || '1')
+  const searchQuery = awaitedSearchParams.search || ''
+  const categoryFilter = awaitedSearchParams.category || '' // Empty string represents 'all'
+  const limit = 10 
+
+  // 2. Fetch the paginated, searched, and filtered data
+  const { blogs, totalPages } = await getAllBlogs({
+    page: currentPage,
+    limit,
+    search: searchQuery,
+    category: categoryFilter,
+  })
+
+  // 3. Render the UI
   return (
-    <div className='flex flex-col w-full min-h-screen bg-muted/40'>
-      <main className='flex flex-col flex-1 gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
-        <div className='flex items-center pt-4'>
-          <div className='ml-auto flex items-center gap-2'>
-            <Link href='/dashboard/blog/new-post'>
-              <Button size='sm' className='h-8 gap-1'>
-                <PlusCircle className='h-3.5 w-3.5' />
-                <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>Add New Post</span>
-              </Button>
-            </Link>
-          </div>
-        </div>
+    <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
+      <div className='flex items-center justify-between mb-4'>
+        <h1 className='text-lg font-semibold md:text-2xl'>All Blog Posts</h1>
+        {/* The client component handles search and filter input, updating the URL */}
+        <SearchAndFilter 
+          currentSearch={searchQuery}
+          currentCategory={categoryFilter}
+          categories={AVAILABLE_CATEGORIES}
+        />
+      </div>
 
-        {/* Pass the fetched data to the client component */}
-        <AllPostsTable posts={posts} />
-      </main>
-    </div>
+      {/* Renders the table with the fetched data */}
+      <AllPostsTable posts={blogs} />
+      
+      {/* Pagination Component */}
+      <div className="flex justify-center mt-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
+      </div>
+
+    </main>
   )
 }

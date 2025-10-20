@@ -38,7 +38,6 @@ const handleFileUpload = async (file: File, folder: string): Promise<string | nu
 
     return uploadResult.secure_url
   } catch (error) {
-    console.error('File upload error:', error)
     return null
   }
 }
@@ -53,7 +52,6 @@ export async function createBlog(
   previousState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  // 🛑 FIX 1: Destructure the form field as 'status' to match the button name in the client component.
   const { title, slug, content, category, meta_title, meta_description, status } =
     Object.fromEntries(formData.entries()) as {
       title: string
@@ -62,7 +60,7 @@ export async function createBlog(
       category: string
       meta_title: string
       meta_description: string
-      status: string // Changed from 'action' to 'status'
+      status: string
     }
 
   const file = formData.get('featureImage') as File | null
@@ -73,13 +71,13 @@ export async function createBlog(
       message: 'Authentication failed. Please log in.',
       status: 'error',
     }
-  } // --- START Validation with Draft Logic --- // Check required text fields (required for both published and draft)
+  }
   if (!title || !slug || !content || !category || !meta_title || !meta_description) {
     return {
       message: 'Title, slug, content, category, and SEO fields are required.',
       status: 'error',
     }
-  } // 🛑 FIX 2: Only enforce feature image requirement if the post is being published
+  }
 
   if (status === 'published' && (!file || file.size === 0)) {
     return { message: 'Feature image is required to publish a blog post.', status: 'error' }
@@ -101,7 +99,7 @@ export async function createBlog(
       title,
       slug: slugify(slug).toLowerCase(),
       content,
-      category, // Conditionally include featureImage, which will be an empty string for a draft without an image
+      category,
       ...(featureImageUrl && { featureImage: featureImageUrl }),
       seo: {
         metaTitle: meta_title,
@@ -136,6 +134,7 @@ export async function createBlog(
     return { message: 'An unexpected error occurred. Please try again.', status: 'error' }
   }
 }
+
 // =================================================================
 // 2. ACTION: editBlog (Update Existing Post)
 // =================================================================
@@ -156,7 +155,6 @@ export async function editBlog(
   const status = formData.get('status') as string // This will work now
   const file = formData.get('featureImage') as File | null
 
-  console.log('status ', status)
   if (!id) {
     return { message: 'Blog ID is missing.', status: 'error' }
   }
@@ -256,18 +254,66 @@ export async function deleteBlog(
 // 4. ACTION: Data Fetching Functions
 // =================================================================
 
-export async function getAllBlogs() {
+export async function getAllBlogs({ 
+  page = 1, 
+  limit = 10, 
+  search = '', 
+  category = '' 
+}: { 
+  page?: number, 
+  limit?: number, 
+  search?: string, 
+  category?: string 
+}) {
   try {
+    // 1. Establish database connection
     await connectDB()
-    const blogs = await Blog.find({})
+
+    // 2. Build the MongoDB filter (query) object
+    let query: any = {}
+    
+    // Add search filter (case-insensitive title match)
+    if (search) {
+      query.title = { $regex: search, $options: 'i' }
+    }
+    
+    // Add category filter (if provided and not 'all')
+    if (category && category.toLowerCase() !== 'all') {
+      query.category = category
+    }
+
+    // 3. Calculate pagination variables
+    const skipAmount = (page - 1) * limit
+    
+    // 4. Get the total count of documents matching the filter (for totalPages calculation)
+    const totalCount = await Blog.countDocuments(query)
+
+    // 5. Fetch the paginated and filtered blogs
+    const blogs = await Blog.find(query)
       .sort({ createdAt: -1 })
+      .skip(skipAmount)        // Skip to the correct page
+      .limit(limit)            // Limit to 10 posts
       .populate('user', 'name profileImage')
       .lean()
-    return JSON.parse(JSON.stringify(blogs))
+
+    // 6. Calculate total pages
+    const totalPages = Math.ceil(totalCount / limit)
+
+    // Return serializable data
+    return {
+      blogs: JSON.parse(JSON.stringify(blogs)),
+      totalPages,
+    }
+
   } catch (error) {
-    return []
+    console.error('Error fetching blogs:', error)
+    return { blogs: [], totalPages: 0 }
   }
 }
+
+// =================================================================
+// 4. ACTION: this blog fetch based on id for (edit,view , delete)
+// =================================================================
 
 export async function getBlogPost(identifier: string) {
   try {
@@ -275,9 +321,7 @@ export async function getBlogPost(identifier: string) {
 
     let blog
 
-    // Check if it's a valid MongoDB ObjectId (24 character hex string)
     if (identifier.match(/^[0-9a-fA-F]{24}$/)) {
-      // Search by ID
       blog = await Blog.findById(identifier).populate('user', 'name profileImage').lean()
     } else {
       // Search by slug

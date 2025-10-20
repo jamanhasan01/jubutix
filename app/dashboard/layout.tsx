@@ -11,7 +11,7 @@ type DashboardLayoutProp = {
 
 const DashboardLayout = async ({ children }: DashboardLayoutProp) => {
   const session = await auth()
-  console.log('seasion print from dabhbard ley out', session)
+
 
   if (session?.user?.role !== 'admin') {
     redirect('/login')
