@@ -1,12 +1,22 @@
 import React from 'react'
 import AsideNav from './components/AsideNav'
 import DashbaordHeader from './components/DashbaordHeader'
+import { auth } from '@/lib/auth'
+import { Search } from 'lucide-react'
+import { redirect } from 'next/navigation'
 
 type DashboardLayoutProp = {
   children: React.ReactNode
 }
 
-const DashboardLayout = ({ children }: DashboardLayoutProp) => {
+const DashboardLayout = async ({ children }: DashboardLayoutProp) => {
+  const session = await auth()
+  console.log('seasion print from dabhbard ley out', session)
+
+  if (session?.user?.role !== 'admin') {
+    redirect('/login')
+  }
+
   return (
     // Full-screen layout with column flex for top bar
     <div className='flex h-screen overflow-hidden'>

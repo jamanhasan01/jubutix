@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       {/* 3. Apply the new --font-inter variable to the body */}
-      <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
+      <body  className={`${inter.variable} ${geistMono.variable} antialiased `}>
         <NextAuthProvider>
           <ClientToaster />
           <header>

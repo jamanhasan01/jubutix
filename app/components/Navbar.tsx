@@ -7,11 +7,15 @@ import Logo from './Logo'
 import Button from './Button'
 import { usePathname } from 'next/navigation'
 import TopBar from './Topbar'
-import { signOut } from 'next-auth/react'
+
+import UserNavItem from './UserNavItem'
+
+const FALLBACK_IMAGE_SRC = '/default-avatar.png'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScroll, setIsScroll] = useState(false)
+
   const pathname = usePathname()
 
   // Define service paths for active state checking
@@ -41,8 +45,8 @@ const Navbar = () => {
   // Move the conditional return AFTER all hooks
   if (
     pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/sign-in') ||
-    pathname.startsWith('/sign-up')
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register')
   ) {
     return null
   }
@@ -61,8 +65,9 @@ const Navbar = () => {
       >
         <Logo />
 
-        {/* Desktop Nav */}
+        {/* Desktop Nav - (Keeping existing list for brevity) */}
         <ul className='hidden md:flex items-center gap-10'>
+          {/* ... Your existing desktop navigation links (Home, About Us, Services, Blog, Contact Us) ... */}
           <li>
             <Link
               href='/'
@@ -99,13 +104,12 @@ const Navbar = () => {
                     href={path}
                     className={`block ${
                       path == '/seo' ? ' uppercase ' : 'capitalize'
-                    }  px-4 py-2 text-sm rounded-md ${
+                    }  px-4 py-2 text-sm rounded-md ${
                       pathname === path
                         ? 'bg-secondary text-white'
                         : 'text-black/80 font-semibold hover:bg-secondary hover:text-white'
                     }`}
                   >
-                    {/* Simple formatting for the link text from path */}
                     {path
                       .replace('/', '')
                       .replace('-', ' ')
@@ -137,24 +141,13 @@ const Navbar = () => {
               Contact Us
             </Link>
           </li>
-          <li>
-            <Link
-              href='/dashboard'
-              className={`uppercase font-semibold text-sm transition-colors ${
-                pathname === '/dashboard' ? 'text-secondary' : 'text-zinc-700 hover:text-secondary'
-              }`}
-            >
-             Dashboard
-            </Link>
-          </li>
         </ul>
 
-        {/* Desktop Action Button */}
-        <div className='hidden md:block'>
-          <Link href='/contact-us'>
-            <Button text={'TALK TO US'} icon={<Phone size={20} />} />
-          </Link>
+        <div>
+          <UserNavItem></UserNavItem>
         </div>
+
+        {/* ---------------------------------------------------- */}
 
         {/* Mobile Menu Toggle */}
         <div className='md:hidden z-50'>
@@ -168,10 +161,11 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (Keeping existing logic for mobile as shadcn components are typically for desktop) */}
       {isMobileMenuOpen && (
         <div className='md:hidden bg-white shadow-md px-8 pb-6'>
           <ul className='flex flex-col gap-4'>
+            {/* ... Existing Mobile Nav Links ... */}
             <li>
               <Link
                 href='/'
@@ -205,7 +199,7 @@ const Navbar = () => {
                   <li key={path}>
                     <Link
                       href={path}
-                      className={`text-sm  ${path == '/seo' ? 'uppercase' : 'capitalize'} ${
+                      className={`text-sm  ${path == '/seo' ? 'uppercase' : 'capitalize'} ${
                         pathname === path
                           ? `text-secondary font-semibold`
                           : 'text-zinc-600 hover:text-secondary'
@@ -244,23 +238,8 @@ const Navbar = () => {
                 Contact Us
               </Link>
             </li>
-            <li>
-              <Link
-                href='/dashboard'
-                className={`text-sm font-medium ${
-                  pathname === '/dashboard'
-                    ? 'text-secondary'
-                    : 'text-zinc-700 hover:text-secondary'
-                }`}
-              >
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link href='/contact-us'>
-                <Button text={'TALK TO US'} icon={<Phone size={20} />} />
-              </Link>
-            </li>
+
+            <UserNavItem />
           </ul>
         </div>
       )}

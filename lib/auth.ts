@@ -33,6 +33,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           if (!isPasswordMatch) {
             throw new Error('Incorrect password.')
           }
+          if (user.role !== 'admin') {
+            throw new Error('You are not authorized to access the admin dashboard.')
+          }
           return {
             id: user._id.toString(),
             name: user.name,
@@ -67,7 +70,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         id: token.id as string,
         name: token.name as string,
         email: token.email as string,
-        image: token.picture as string | null, // pull from picture
+        image: token.picture as string | null,
+        role: token.role as string,
         emailVerified: null,
       }
       return session

@@ -13,6 +13,9 @@
     background-position: 0% 50%;
   }
 }
+html {
+  overflow-x: hidden;
+}
 
 .animate-gradient {
   animation: gradient-flow 15s ease infinite;

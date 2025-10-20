@@ -35,8 +35,8 @@ const Footer = () => {
   const pathname = usePathname()
   if (
     pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/sign-in') ||
-    pathname.startsWith('/sign-up')
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register')
   ) {
     return null
   }
