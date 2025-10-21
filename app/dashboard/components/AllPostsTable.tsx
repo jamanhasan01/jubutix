@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/table'
 // Assuming this function is correctly implemented as a server action
 import { deleteBlog } from '@/lib/action/blog.actions' 
+import { BlogPost } from '@/types/blog.types'
 
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
@@ -42,7 +43,7 @@ interface Post {
 
 // 2. Define the shape of the component's props
 interface AllPostsTableProps {
-  posts: Post[]
+  posts: BlogPost[]
 }
 
 // 3. Define the return type of the server action for useActionState
@@ -101,7 +102,7 @@ export default function AllPostsTable({ posts }: AllPostsTableProps) {
                   <TableCell>
                     <Badge
                       variant={
-                        post.status === 'publish'
+                        post.status === 'published'
                           ? 'default'
                           : post.status === 'draft'
                           ? 'secondary'

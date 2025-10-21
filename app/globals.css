@@ -173,9 +173,9 @@ html {
   h3 {
     @apply text-2xl md:text-3xl font-bold text-gray-900 leading-tight;
   }
-  p {
+  /* p {
     @apply text-muted-foreground text-black  max-w-xl lg:text-xl ;
-  }
+  } */
 }
 @layer components {
   .container {

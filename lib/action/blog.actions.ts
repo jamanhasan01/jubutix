@@ -8,6 +8,12 @@ import { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 import { auth } from '../auth'
 import { Blog } from '@/models/Blog.model'
+import {
+  BlogPost,
+  BlogQueryFilter,
+  GetAllBlogsParams,
+  GetAllBlogsResponse,
+} from '@/types/blog.types'
 
 // -----------------------------------------------------------------
 // Export ActionState so the client component can import it
@@ -254,29 +260,22 @@ export async function deleteBlog(
 // 4. ACTION: Data Fetching Functions
 // =================================================================
 
-export async function getAllBlogs({ 
-  page = 1, 
-  limit = 10, 
-  search = '', 
-  category = '' 
-}: { 
-  page?: number, 
-  limit?: number, 
-  search?: string, 
-  category?: string 
-}) {
+export async function getAllBlogs({
+  page = 1,
+  limit = 10,
+  search = '',
+  category = '',
+}: GetAllBlogsParams): Promise<GetAllBlogsResponse> {
   try {
-    // 1. Establish database connection
     await connectDB()
 
-    // 2. Build the MongoDB filter (query) object
-    let query: any = {}
-    
+    const query: BlogQueryFilter = {}
+
     // Add search filter (case-insensitive title match)
     if (search) {
       query.title = { $regex: search, $options: 'i' }
     }
-    
+
     // Add category filter (if provided and not 'all')
     if (category && category.toLowerCase() !== 'all') {
       query.category = category
@@ -284,33 +283,31 @@ export async function getAllBlogs({
 
     // 3. Calculate pagination variables
     const skipAmount = (page - 1) * limit
-    
-    // 4. Get the total count of documents matching the filter (for totalPages calculation)
+
+    // 4. Get the total count of documents matching the filter
     const totalCount = await Blog.countDocuments(query)
 
     // 5. Fetch the paginated and filtered blogs
     const blogs = await Blog.find(query)
       .sort({ createdAt: -1 })
-      .skip(skipAmount)        // Skip to the correct page
-      .limit(limit)            // Limit to 10 posts
+      .skip(skipAmount) // Skip to the correct page
+      .limit(limit) // Limit to 'limit' posts
       .populate('user', 'name profileImage')
-      .lean()
+      .lean() // Returns plain JavaScript objects
 
     // 6. Calculate total pages
     const totalPages = Math.ceil(totalCount / limit)
 
-    // Return serializable data
+   
     return {
       blogs: JSON.parse(JSON.stringify(blogs)),
       totalPages,
     }
-
   } catch (error) {
     console.error('Error fetching blogs:', error)
     return { blogs: [], totalPages: 0 }
   }
 }
-
 // =================================================================
 // 4. ACTION: this blog fetch based on id for (edit,view , delete)
 // =================================================================

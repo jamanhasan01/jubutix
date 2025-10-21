@@ -111,14 +111,14 @@ export default async function ViewBlogPage({ params }: Props) {
         </div>
 
         {/* === MAIN LAYOUT (CONTENT + SIDEBAR) === */}
-        <div className='mx-auto grid max-w-5xl grid-cols-1 gap-12 lg:grid-cols-3'>
+        <div className='mx-auto  w-full '>
           {/* Right Column: Sidebar */}
-          <aside className='lg:col-span-1'>
+          {/* <aside className='lg:col-span-1'>
             <div className='sticky top-24 space-y-6'>
               <ShareButtons />
               <TableOfContents />
             </div>
-          </aside>
+          </aside> */}
           {/* Left Column: Article Content */}
           <article
             className='prose prose-lg max-w-none dark:prose-invert lg:col-span-2'

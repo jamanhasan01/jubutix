@@ -157,7 +157,7 @@ export default function LoginForm() {
 
             {/* Added Registration Link for better UX flow */}
             <p className='text-sm text-center text-gray-500'>
-              Don't have an account?{' '}
+              {`Don't have an account?`}{' '}
               <Link href='/register' className='text-secondary font-semibold hover:underline'>
                 Create Account
               </Link>

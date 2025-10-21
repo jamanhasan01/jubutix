@@ -1,34 +1,32 @@
-// app/dashboard/posts/page.tsx (Server Component)
-
+// app/dashboard/posts/page.tsx
 import React from 'react'
 import { getAllBlogs } from '@/lib/action/blog.actions'
 import AllPostsTable from '../components/AllPostsTable'
 import { Pagination, SearchAndFilter } from '../components/SearchAndFilter'
 
-// NOTE: Define available categories on the server side for consistency
-const AVAILABLE_CATEGORIES = ['Technology', 'Lifestyle', 'Travel', 'Food'] 
+const AVAILABLE_CATEGORIES = ['Technology', 'Lifestyle', 'Travel', 'Food']
 
-// Define the component props based on Next.js App Router conventions
-interface PostsPageProps {
-  // searchParams automatically receives the query parameters from the URL
-  searchParams: {
-    page?: string
-    search?: string
-    category?: string
-  }
-}
+// ✅ Fix: mark both props as Promises (as expected by Next.js 15 PageProps)
+export default async function PostsPage({
+  searchParams,
+  params,
+}: {
+  searchParams: Promise<{
+    page?: string | null
+    search?: string | null
+    category?: string | null
+  }>
+  params: Promise<Record<string, string>>
+}) {
+  // ✅ Await both since they are Promises now
+  const resolvedSearchParams = await searchParams
+  const resolvedParams = await params // (not used, but satisfies type check)
 
-export default async function PostsPage({ searchParams }: PostsPageProps) {
-  // 🔑 FIX: Await the searchParams object before accessing its properties.
-  const awaitedSearchParams = await searchParams;
+  const currentPage = parseInt(resolvedSearchParams.page || '1')
+  const searchQuery = resolvedSearchParams.search || ''
+  const categoryFilter = resolvedSearchParams.category || ''
+  const limit = 10
 
-  // 1. Extract and sanitize parameters from URL, providing defaults
-  const currentPage = parseInt(awaitedSearchParams.page || '1')
-  const searchQuery = awaitedSearchParams.search || ''
-  const categoryFilter = awaitedSearchParams.category || '' // Empty string represents 'all'
-  const limit = 10 
-
-  // 2. Fetch the paginated, searched, and filtered data
   const { blogs, totalPages } = await getAllBlogs({
     page: currentPage,
     limit,
@@ -36,27 +34,22 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
     category: categoryFilter,
   })
 
-  // 3. Render the UI
   return (
     <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
       <div className='flex items-center justify-between mb-4'>
         <h1 className='text-lg font-semibold md:text-2xl'>All Blog Posts</h1>
-        {/* The client component handles search and filter input, updating the URL */}
-        <SearchAndFilter 
+        <SearchAndFilter
           currentSearch={searchQuery}
           currentCategory={categoryFilter}
           categories={AVAILABLE_CATEGORIES}
         />
       </div>
 
-      {/* Renders the table with the fetched data */}
       <AllPostsTable posts={blogs} />
-      
-      {/* Pagination Component */}
-      <div className="flex justify-center mt-4">
+
+      <div className='flex justify-center mt-4'>
         <Pagination totalPages={totalPages} currentPage={currentPage} />
       </div>
-
     </main>
   )
 }

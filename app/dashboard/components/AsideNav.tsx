@@ -52,15 +52,11 @@ const navLinks: NavItemType[] = [
         icon: <FaListAlt className='w-4 h-4' />,
       },
       {
-        name: 'Add Post',
+        name: 'Add New Post',
         link: '/dashboard/posts/new-post',
         icon: <FaPlusSquare className='w-4 h-4' />,
       },
-      {
-        name: 'Categories',
-        link: '/dashboard/posts/categories',
-        icon: <FaTags className='w-4 h-4' />,
-      },
+
     ],
   },
 ]
@@ -110,8 +106,6 @@ const NavItem = ({ item }: NavItemProps) => {
           </div>
         </button>
 
-        {/* 4. Conditionally render the FLYOUT menu (on hover) */}
-        {/* It only shows if the dropdown is NOT open */}
         {isFlyoutVisible && !isDropdownVisible && (
           <ul className='absolute top-0 left-full ml-0 w-48 p-2 space-y-1 bg-gray-800 text-white rounded-lg shadow-xl z-50'>
             {item.subItems.map((subItem) => (
