@@ -4,21 +4,11 @@ import { getBlogsByStatus } from '@/lib/action/blog.actions'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-
-type Blog = {
-  _id: string
-  title: string
-  slug: string
-  featureImage: string
-  category: string
-  seo: {
-    metaDescription: string
-  }
-  createdAt: string
-}
+import type { BlogPost } from '@/types/blog.types'
 
 const Blogs = async () => {
-  const blogs: Blog[] = await getBlogsByStatus('published')
+  const blogs: BlogPost[] = await getBlogsByStatus('published')
+
 
   // Helper function for date formatting
   const formatDate = (dateString: string) => {
@@ -35,43 +25,64 @@ const Blogs = async () => {
         {blogs && blogs.length > 0 ? (
           blogs.map((blog) => (
             <Link href={`/blog/${blog.slug}`} key={blog._id} className='group'>
-              {/* ✅ RESTRUCTURED CARD: Removed CardHeader and CardFooter */}
-              <Card className='flex h-full flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all group-hover:shadow-xl'>
-                {/* Image is now a direct child, not in CardHeader */}
-                <div className='relative h-52 w-full'>
+              <Card className='flex h-full flex-col overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-md transition-all duration-300 hover:shadow-xl border  px-0 py-0'>
+                {/* --- Feature Image --- */}
+                <div className='relative h-46 w-full overflow-hidden'>
                   <Image
                     src={blog.featureImage}
                     alt={blog.title}
                     fill
-                    className='object-cover transition-transform duration-300 group-hover:scale-105'
+                    className='object-cover transition-transform duration-500 group-hover:scale-105 border '
                   />
                 </div>
 
-                {/* All text content is now in CardContent for consistent padding */}
-                <CardContent className='flex flex-grow flex-col p-6'>
-                  {/* ✅ CATEGORY & DATE: Wrapped in a flex container */}
-                  <div className='mb-4 flex w-full items-center justify-between text-sm text-muted-foreground'>
-                    <p className='font-medium text-primary'>{blog.category}</p>
-                    <p>{formatDate(blog.createdAt)}</p>
+                {/* --- Blog Content --- */}
+                <CardContent className='flex flex-col flex-grow pb-5'>
+                  {/* Category & Date */}
+                  <div className='mb-3 flex items-center justify-between'>
+                    {blog.category ? (
+                      <Badge variant='secondary' className='text-xs font-medium px-2 py-1'>
+                        {blog.category}
+                      </Badge>
+                    ) : (
+                      <span />
+                    )}
+                    <p className='text-xs text-muted-foreground'>{formatDate(blog.createdAt)}</p>
                   </div>
 
-                  <CardTitle className='mb-3 text-2xl font-semibold leading-tight'>
-                    {blog.title}
+                  {/* Title */}
+                  <CardTitle className='mb-2 text-xl font-semibold leading-snug group-hover:text-primary transition-colors'>
+                    {blog.title.length > 55 ? blog.title.slice(0, 55) + '…' : blog.title}
                   </CardTitle>
 
-                  {/* ✅ TRUNCATED DESCRIPTION with "Read More" */}
-                  <CardDescription className='mt-auto'>
-                    {blog.seo.metaDescription.substring(0, 100)}...
-                    <span className='ml-2 font-semibold text-primary transition-colors group-hover:text-primary/80'>
-                      Read More
-                    </span>
+                  {/* Description */}
+                  <CardDescription className='text-sm text-muted-foreground mb-5 line-clamp-3'>
+                    {blog.seo?.metaDescription || 'No description available.'}
                   </CardDescription>
+
+                  {/* --- Author Section --- */}
+                  {blog.user && (
+                    <div className='mt-auto flex items-center gap-3 border-t pt-3'>
+                      <div className='relative h-9 w-9 rounded-full overflow-hidden'>
+                        <Image
+                          src={blog?.user?.profileImage || '/default-avatar.png'}
+                          alt={blog.user.name}
+                          fill
+                          className='object-cover'
+                        />
+                      </div>
+                      <div>
+                        <p className='text-xs text-muted-foreground'>Writer By</p>
+                        <p className='text-sm font-medium'>{blog.user.name}</p>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </Link>
           ))
         ) : (
-          <p className='col-span-full text-center'>No blog posts found.</p>
+          <p className='col-span-full text-center text-muted-foreground'>No blog posts found.</p>
         )}
       </div>
     </div>

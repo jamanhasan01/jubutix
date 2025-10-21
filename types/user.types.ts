@@ -3,6 +3,6 @@
     name: string
     email: string
     emailVerified?: Date | null
-    image?: string | null
+    profileImage?: string | null
     role?: string | null
   }

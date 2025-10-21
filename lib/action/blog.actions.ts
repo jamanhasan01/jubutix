@@ -304,7 +304,7 @@ export async function getAllBlogs({
       totalPages,
     }
   } catch (error) {
-    console.error('Error fetching blogs:', error)
+   
     return { blogs: [], totalPages: 0 }
   }
 }
