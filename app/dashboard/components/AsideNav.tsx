@@ -10,6 +10,7 @@ import {
   FaListAlt,
   FaPlusSquare,
   FaTags,
+  FaUser,
 } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 
@@ -41,6 +42,7 @@ type NavItemProps = {
 // --- Navigation Data ---
 const navLinks: NavItemType[] = [
   { name: 'Dashboard', link: '/dashboard', icon: <FaHome className='w-5 h-5' /> },
+  { name: 'Users', link: '/dashboard/users', icon: <FaUser className='w-5 h-5' /> },
   {
     name: 'Posts',
     link: '/dashboard/posts',
@@ -56,7 +58,6 @@ const navLinks: NavItemType[] = [
         link: '/dashboard/posts/new-post',
         icon: <FaPlusSquare className='w-4 h-4' />,
       },
-
     ],
   },
 ]
