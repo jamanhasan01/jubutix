@@ -52,8 +52,6 @@ const handleFileUpload = async (file: File, folder: string): Promise<string | nu
 // 1. ACTION: createBlog (Create New Post)
 // =================================================================
 
-// @/lib/action/blog.actions.ts (Updated createBlog function)
-
 export async function createBlog(
   previousState: ActionState,
   formData: FormData
@@ -271,45 +269,38 @@ export async function getAllBlogs({
 
     const query: BlogQueryFilter = {}
 
-    // Add search filter (case-insensitive title match)
     if (search) {
       query.title = { $regex: search, $options: 'i' }
     }
 
-    // Add category filter (if provided and not 'all')
     if (category && category.toLowerCase() !== 'all') {
       query.category = category
     }
 
-    // 3. Calculate pagination variables
     const skipAmount = (page - 1) * limit
-
-    // 4. Get the total count of documents matching the filter
     const totalCount = await Blog.countDocuments(query)
 
-    // 5. Fetch the paginated and filtered blogs
     const blogs = await Blog.find(query)
       .sort({ createdAt: -1 })
-      .skip(skipAmount) // Skip to the correct page
-      .limit(limit) // Limit to 'limit' posts
+      .skip(skipAmount)
+      .limit(limit)
       .populate('user', 'name profileImage')
-      .lean() // Returns plain JavaScript objects
+      .lean()
 
-    // 6. Calculate total pages
     const totalPages = Math.ceil(totalCount / limit)
 
-   
     return {
       blogs: JSON.parse(JSON.stringify(blogs)),
       totalPages,
     }
   } catch (error) {
-   
     return { blogs: [], totalPages: 0 }
   }
 }
+
+
 // =================================================================
-// 4. ACTION: this blog fetch based on id for (edit,view , delete)
+// 5. ACTION: this blog fetch based on id for (edit,view , delete)
 // =================================================================
 
 export async function getBlogPost(identifier: string) {
@@ -330,6 +321,9 @@ export async function getBlogPost(identifier: string) {
     return null
   }
 }
+// =================================================================
+// 5. ACTION: this blog fetch based on id for (edit,view , delete)
+// =================================================================
 
 export async function getBlogsByStatus(status: 'published' | 'draft') {
   try {
@@ -343,3 +337,92 @@ export async function getBlogsByStatus(status: 'published' | 'draft') {
     return []
   }
 }
+
+
+// =================================================================
+// 6. ACTION: this is all blogs coute (totalPosts,publishedCount , draftCount)
+// =================================================================
+
+// @/lib/action/blog.actions.ts
+
+// ... (Existing code before action 4)
+
+// =================================================================
+// 4. ACTION: Data Fetching Functions
+// =================================================================
+
+// ... (Existing getAllBlogs function)
+// ... (Existing getBlogPost function)
+
+// NEW ACTION: Get Blog Metrics
+export async function getBlogMetrics(): Promise<{
+  totalPosts: number
+  publishedCount: number
+  draftCount: number
+}> {
+  try {
+    await connectDB()
+
+    const totalPosts = await Blog.countDocuments({})
+    const publishedCount = await Blog.countDocuments({ status: 'published' })
+    const draftCount = await Blog.countDocuments({ status: 'draft' })
+
+    return {
+      totalPosts,
+      publishedCount,
+      draftCount,
+    }
+  } catch (error) {
+    console.error('Error fetching blog metrics:', error)
+    return { totalPosts: 0, publishedCount: 0, draftCount: 0 }
+  }
+}
+
+// ... (Existing getBlogsByStatus function)
+
+// @/lib/action/blog.actions.ts
+
+// ... (Existing code before action 4)
+
+// =================================================================
+// 4. ACTION: Data Fetching Functions
+// =================================================================
+
+// ... (Existing getAllBlogs, getBlogMetrics)
+
+// NEW ACTION: Get Category Breakdown for ALL Data
+export async function getCategoryBreakdown(): Promise<
+  { category: string; count: number }[]
+> {
+  try {
+    await connectDB()
+
+    const breakdown = await Blog.aggregate([
+      // 1. Group by category and count the documents in each group
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+        },
+      },
+      // 2. Project the results to match the desired output shape
+      {
+        $project: {
+          _id: 0, // Exclude the MongoDB ID
+          category: '$_id', // Rename _id to category
+          count: 1, // Keep the count
+        },
+      },
+      // 3. Sort by count (optional, but helpful)
+      { $sort: { count: -1 } },
+    ])
+
+    return JSON.parse(JSON.stringify(breakdown))
+  } catch (error) {
+    console.error('Error fetching category breakdown:', error)
+    return []
+  }
+}
+
+
+// ... (Existing getBlogPost and getBlogsByStatus functions)

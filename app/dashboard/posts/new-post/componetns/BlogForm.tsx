@@ -219,7 +219,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialPost }) => {
                   ? 'Updating...'
                   : 'Publishing...'
                 : isEditing
-                ? 'Update Post'
+                ? 'Update & Publish'
                 : 'Publish'}
             </Button>
           </CardContent>
