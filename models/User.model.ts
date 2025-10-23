@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 
-export type Role = 'admin' | 'editor' | 'user'
+export type Role = 'admin' | 'moderator' | 'user'
 
 const UserSchema = new Schema(
   {
@@ -13,9 +13,9 @@ const UserSchema = new Schema(
     },
     emailVerified: {
       type: Date,
-      default: null, 
+      default: null,
     },
-    role: { type: String, enum: ['admin', 'editor', 'user'], default: 'user' },
+    role: { type: String, enum: ['admin', 'moderator', 'user'], default: 'user' },
   },
   { timestamps: true }
 )
