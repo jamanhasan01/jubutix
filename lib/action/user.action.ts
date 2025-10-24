@@ -72,20 +72,23 @@ type AllUsersResponse = {
   users: UserType[]
 }
 
-// Fix: Change the return type to AllUsersResponse
+
 export const getAllUsers = async (): Promise<AllUsersResponse> => {
   try {
-    // Assuming connectDB() and User.find({}) are defined elsewhere
-    // and User.find({}) returns documents that match the UserType structure.
+ 
     await connectDB()
     const users = await User.find({})
-    // The component expects the array of users inside an object with key 'users'
     return { users: JSON.parse(JSON.stringify(users)) }
   } catch (error) {
-    // It's better to throw the error or return a structure indicating an error,
-    // but for type-safety, if an error is caught, we must ensure the return type is met.
-    // Returning an empty array on error is a common pattern for data fetching.
+
     console.error('Failed to fetch users:', error)
     return { users: [] }
   }
+}
+
+
+export const editUserRole=async(role:string)=>{
+console.log('this role log form server action', role);
+return { success: true, message: `Role for user  updated to ${role}` };
+
 }

@@ -168,7 +168,7 @@ html {
     @apply text-pretty text-5xl font-bold lg:text-7xl text-primary;
   }
   h2 {
-    @apply text-3xl sm:text-4xl font-bold text-primary;
+    @apply text-3xl sm:text-4xl font-bold text-primary ; 
   }
   h3 {
     @apply text-2xl md:text-3xl font-bold text-gray-900 leading-tight;
@@ -185,3 +185,6 @@ html {
 .ProseMirror p {
   text-align: left !important;
 }
+
+
+

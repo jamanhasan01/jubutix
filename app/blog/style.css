@@ -1,0 +1,20 @@
+h2 {
+  margin-top: 6% !important;
+}
+
+p {
+  font-size: medium;
+  margin-top: 16px !important;
+}
+
+.blog-container ul {
+  list-style: disc; /* Use a bullet point */
+  padding-left: 1.5em; /* Add some indentation */
+  line-height: 12px;
+}
+
+.blog-container ol {
+  list-style: decimal; /* Use numbers */
+  padding-left: 1.5em; /* Add some indentation */
+  line-height: 20px;
+}

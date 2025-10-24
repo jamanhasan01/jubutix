@@ -13,9 +13,10 @@ import Color from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
 import FontFamily from '@tiptap/extension-font-family'
 import FontSize from '@tiptap/extension-font-size'
-import  { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
+import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 
-
+// ⭐ ADDED OrderedList and ensure all list components are imported
+import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 
 import { useEffect, useRef, useState } from 'react'
 import {
@@ -55,7 +56,20 @@ export default function TiptapEditor({ value, onChange }: TiptapProps) {
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ heading: false }),
+      // ⭐ CONFIGURE STARTERKIT: Disable extensions we are adding/configuring separately
+      StarterKit.configure({ 
+        heading: false,
+        bulletList: false, // Disable StarterKit's list
+        orderedList: false, // Disable StarterKit's list
+        listItem: false, // Disable StarterKit's list item
+        blockquote: false, // You added a blockquote button, so disable it here if you want to configure it. Leaving it in StarterKit is usually fine unless you need custom behavior.
+      }),
+      // ⭐ EXPLICITLY ADD THE LIST EXTENSIONS
+      BulletList,
+      OrderedList,
+      ListItem,
+      
+      // Other explicitly configured extensions
       Heading.configure({ levels: [1, 2, 3] }),
       Underline,
       Link.configure({

@@ -26,8 +26,11 @@ interface BlogFormProps {
   initialPost?: BlogPost | null
 }
 
-// --- Component Logic ---
-const blogCategories = ['Technology', 'Marketing', 'Web Development', 'Business', 'Lifestyle']
+// --- Component Logic ---Digital Marketing
+
+
+
+const blogCategories = ['Digital Marketing','Google Ads', 'Facebook Ads','SEO']
 
 const BlogForm: React.FC<BlogFormProps> = ({ initialPost }) => {
   const isEditing = !!initialPost

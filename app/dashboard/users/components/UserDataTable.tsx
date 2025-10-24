@@ -23,7 +23,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { UserType } from '@/types/user.types' // Assuming UserType is here
-import { OptionsSectionDialog } from './OptionsChnageDialog'
+import { OptionsSectionDialog } from '../../components/OptionsChnageDialog'
+import { editUserRole } from '@/lib/action/user.action'
 
 interface UserDataTableProps {
   users: UserType[]
@@ -33,6 +34,7 @@ const userRoleOfArr = ['admin', 'moderator', 'user']
 
 const UserDataTable = ({ users: recentUsers }: UserDataTableProps) => {
   const getValueOfRole = (value: string) => {
+    editUserRole(value)
     console.log('value', value)
   }
 

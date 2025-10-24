@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { optionsSectionDialogProps } from '@/types/options.sectoin.dialog.type'
+import { optionsSectionDialogProps } from '@/types/dialog'
 
 import { useState } from 'react'
 
