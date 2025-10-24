@@ -23,8 +23,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-   serverActions: {
-    bodySizeLimit: '5mb', // Or '5mb', '10mb', etc. as needed
+  
+  
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '5mb', // Or '5mb', '10mb', etc. as needed
+    },
   },
 }
 

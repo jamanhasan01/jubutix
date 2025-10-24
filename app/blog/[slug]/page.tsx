@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaYoutube } from 'react-icons/fa'
+import { FaFacebook, FaLinkedin } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import type { Metadata, ResolvingMetadata } from 'next'
 import { getBlogPost } from '@/lib/action/blog.actions'
@@ -28,7 +28,7 @@ interface ShareButtonsProps {
 }
 
 // 🔑 REQUIRED ENV VARIABLE for Absolute URLs in Metadata
-const WEBSITE_URL = process.env.WEBSITE_URL 
+const WEBSITE_URL = process.env.WEBSITE_URL
 
 // --- 🚀 FIXED: Metadata Generation ---
 
@@ -46,26 +46,34 @@ export async function generateMetadata(
     }
   }
 
+  // ⚠️ FIX APPLIED HERE:
+  // 1. Check for the required ENV variable at runtime.
+  if (!WEBSITE_URL) {
+    // Fail loudly if the required variable is missing
+    throw new Error('WEBSITE_URL environment variable is not set. It is required for metadataBase.')
+  }
+  // 2. Use a type assertion after the check to satisfy the TypeScript compiler.
+  const websiteUrl = WEBSITE_URL as string
+
   return {
-    // 1. CRITICAL FIX: Set metadataBase to automatically prepend the base URL
-    metadataBase: new URL(WEBSITE_URL),
+    // Now websiteUrl is guaranteed to be a string
+    metadataBase: new URL(websiteUrl),
 
     title: `jubutix | ${blog.seo.metaTitle}` || `jubutix | ${blog.title}`,
     description: blog.seo.metaDescription,
-    
+
     openGraph: {
       title: blog.seo.metaTitle || blog.title,
       description: blog.seo.metaDescription,
-      // 2. This relative path now correctly becomes an absolute URL thanks to metadataBase
-      url: `/blog/${blog.slug}`, 
-      siteName: 'jubutix', // Added for completeness
+
+      url: `/blog/${blog.slug}`,
+      siteName: 'jubutix',
       type: 'article',
       images: [
         {
-          // 3. This image path is now correctly absolute
-          url: blog.featureImage, 
+          // This image path is now correctly absolute
+          url: blog.featureImage,
           alt: blog.title,
-          // LinkedIn recommends 1200x627, but size detection is automatic
         },
       ],
     },
@@ -74,17 +82,22 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: blog.seo.metaTitle || blog.title,
       description: blog.seo.metaDescription,
-      // 4. Twitter images are also now correctly absolute
-      images: [blog.featureImage], 
+      // Twitter images are also now correctly absolute
+      images: [blog.featureImage],
     },
   }
 }
+
+// --------------------------------------------------------------------------------
 
 // --- Content Processing (Kept the same) ---
 
 function processBlogContent(htmlContent: string): { modifiedHtml: string; tocItems: TocItem[] } {
   const $ = cheerio.load(htmlContent)
   const headings: TocItem[] = []
+
+  // NOTE: You imported FaTiktok and FaYoutube but didn't use them. They are removed from the imports.
+  // NOTE: FaXTwitter is kept as it's used in ShareButtons.
 
   $('h2, h3').each((index, element) => {
     const $element = $(element)
@@ -110,6 +123,8 @@ function processBlogContent(htmlContent: string): { modifiedHtml: string; tocIte
 
   return { modifiedHtml, tocItems: headings }
 }
+
+// --------------------------------------------------------------------------------
 
 // --- Table of Contents Component (Kept the same) ---
 
@@ -138,10 +153,13 @@ const TableOfContents = ({ items }: { items: TocItem[] }) => {
   )
 }
 
+// --------------------------------------------------------------------------------
+
 // --- ShareButtons Component (Kept the same) ---
+
 const ShareButtons = ({ url, title }: ShareButtonsProps) => {
   // Ensure we use the full URL from the parent component
-  const encodedUrl = encodeURIComponent(url) 
+  const encodedUrl = encodeURIComponent(url)
   const encodedTitle = encodeURIComponent(title)
 
   const linkedInShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`
@@ -184,6 +202,8 @@ const ShareButtons = ({ url, title }: ShareButtonsProps) => {
   )
 }
 
+// --------------------------------------------------------------------------------
+
 // --- BlogDetailsPage Component ---
 
 export default async function BlogDetailsPage({ params }: Props) {
@@ -203,9 +223,11 @@ export default async function BlogDetailsPage({ params }: Props) {
     day: 'numeric',
   })
 
-  // The base URL must be read from the environment
-  const baseUrl = process.env.WEBSITE_URL 
-  // 5. This generates the FULL absolute URL for the ShareButtons component
+  const baseUrl = process.env.WEBSITE_URL
+
+ 
+
+  // This generates the FULL absolute URL for the ShareButtons component
   const blogUrl = `${baseUrl}/blog/${blog.slug}`
 
   return (
@@ -238,7 +260,7 @@ export default async function BlogDetailsPage({ params }: Props) {
           <aside className='lg:col-span-1'>
             <div className='sticky top-24 space-y-6'>
               {/* Passing the full absolute URL */}
-              <ShareButtons url={blogUrl} title={blog.title} /> 
+              <ShareButtons url={blogUrl} title={blog.title} />
               <TableOfContents items={tocItems} />
             </div>
           </aside>
