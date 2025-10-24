@@ -1,10 +1,16 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Facebook, Linkedin, Twitter } from 'lucide-react'
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaYoutube } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
 import type { Metadata, ResolvingMetadata } from 'next'
 import { getBlogPost } from '@/lib/action/blog.actions'
 import * as cheerio from 'cheerio'
+
+// Assuming this path is correct for your styles
+import '../style.css'
+
+// --- Type Definitions ---
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -15,6 +21,16 @@ interface TocItem {
   text: string
   level: number
 }
+
+interface ShareButtonsProps {
+  url: string // The full URL of the blog post
+  title: string // The title of the blog post
+}
+
+// 🔑 REQUIRED ENV VARIABLE for Absolute URLs in Metadata
+const WEBSITE_URL = process.env.WEBSITE_URL 
+
+// --- 🚀 FIXED: Metadata Generation ---
 
 export async function generateMetadata(
   { params }: Props,
@@ -31,28 +47,40 @@ export async function generateMetadata(
   }
 
   return {
+    // 1. CRITICAL FIX: Set metadataBase to automatically prepend the base URL
+    metadataBase: new URL(WEBSITE_URL),
+
     title: `jubutix | ${blog.seo.metaTitle}` || `jubutix | ${blog.title}`,
     description: blog.seo.metaDescription,
+    
     openGraph: {
       title: blog.seo.metaTitle || blog.title,
       description: blog.seo.metaDescription,
-      url: `/blog/${blog.slug}`,
+      // 2. This relative path now correctly becomes an absolute URL thanks to metadataBase
+      url: `/blog/${blog.slug}`, 
+      siteName: 'jubutix', // Added for completeness
+      type: 'article',
       images: [
         {
-          url: blog.featureImage,
+          // 3. This image path is now correctly absolute
+          url: blog.featureImage, 
           alt: blog.title,
+          // LinkedIn recommends 1200x627, but size detection is automatic
         },
       ],
     },
 
     twitter: {
       card: 'summary_large_image',
-      title: blog.metaTitle || blog.title,
-      description: blog.metaDescription,
-      images: [blog.featureImage],
+      title: blog.seo.metaTitle || blog.title,
+      description: blog.seo.metaDescription,
+      // 4. Twitter images are also now correctly absolute
+      images: [blog.featureImage], 
     },
   }
 }
+
+// --- Content Processing (Kept the same) ---
 
 function processBlogContent(htmlContent: string): { modifiedHtml: string; tocItems: TocItem[] } {
   const $ = cheerio.load(htmlContent)
@@ -83,6 +111,8 @@ function processBlogContent(htmlContent: string): { modifiedHtml: string; tocIte
   return { modifiedHtml, tocItems: headings }
 }
 
+// --- Table of Contents Component (Kept the same) ---
+
 const TableOfContents = ({ items }: { items: TocItem[] }) => {
   if (items.length === 0) {
     return null
@@ -108,22 +138,53 @@ const TableOfContents = ({ items }: { items: TocItem[] }) => {
   )
 }
 
-const ShareButtons = () => (
-  <div className='flex items-center space-x-2'>
-    <span className='font-semibold'>Share</span>
-    <a href='#' className='rounded-full border p-2 hover:bg-muted transition-colors'>
-      <Linkedin size={18} />
-    </a>
-    <a href='#' className='rounded-full border p-2 hover:bg-muted transition-colors'>
-      <Facebook size={18} />
-    </a>
-    <a href='#' className='rounded-full border p-2 hover:bg-muted transition-colors'>
-      <Twitter size={18} />
-    </a>
-  </div>
-)
+// --- ShareButtons Component (Kept the same) ---
+const ShareButtons = ({ url, title }: ShareButtonsProps) => {
+  // Ensure we use the full URL from the parent component
+  const encodedUrl = encodeURIComponent(url) 
+  const encodedTitle = encodeURIComponent(title)
 
-import '../style.css'
+  const linkedInShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+  const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`
+
+  return (
+    <div className='flex items-center justify-center space-x-2'>
+      <span className='font-semibold'>Share</span>
+
+      <div className='flex'>
+        <a
+          href={linkedInShareUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='p-2 rounded-full text-black/85 transition-colors hover:text-secondary'
+        >
+          <FaLinkedin size={26} />
+        </a>
+
+        <a
+          href={facebookShareUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='p-2 rounded-full text-black/85 transition-colors hover:text-secondary'
+        >
+          <FaFacebook size={26} />
+        </a>
+
+        <a
+          href={twitterShareUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='p-2 rounded-full text-black/85 transition-colors hover:text-secondary'
+        >
+          <FaXTwitter size={26} />
+        </a>
+      </div>
+    </div>
+  )
+}
+
+// --- BlogDetailsPage Component ---
 
 export default async function BlogDetailsPage({ params }: Props) {
   const { slug } = await params
@@ -142,19 +203,24 @@ export default async function BlogDetailsPage({ params }: Props) {
     day: 'numeric',
   })
 
+  // The base URL must be read from the environment
+  const baseUrl = process.env.WEBSITE_URL 
+  // 5. This generates the FULL absolute URL for the ShareButtons component
+  const blogUrl = `${baseUrl}/blog/${blog.slug}`
+
   return (
     <section>
       <div className='container mt-20'>
-        <div className='mx-auto max-w-3xl text-center'>
+        <div className='text-center'>
           <h1 className='mb-4 text-4xl font-bold tracking-tight md:text-5xl'>{blog.title}</h1>
-          <div className='mt-6 flex items-center justify-center space-x-4'>
-            <Avatar>
+          <div className='flex items-center justify-center space-x-4'>
+            <Avatar className='w-12 h-12'>
               <AvatarImage src={blog.user.profileImage} alt={blog.user.name} />
               <AvatarFallback>{blog.user.name.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
-            <div>
-              <p className='font-semibold'>{blog.user.name}</p>
-              <p className='text-sm text-muted-foreground'>Published on {publishedDate}</p>
+            <div className='mb-4 flex flex-col justify-center items-start'>
+              <p className='font-semibold uppercase'>{blog.user.name}</p>
+              <p className='text-sm text-muted-foreground !-mt-0'>Published on {publishedDate}</p>
             </div>
           </div>
         </div>
@@ -171,7 +237,8 @@ export default async function BlogDetailsPage({ params }: Props) {
 
           <aside className='lg:col-span-1'>
             <div className='sticky top-24 space-y-6'>
-              <ShareButtons />
+              {/* Passing the full absolute URL */}
+              <ShareButtons url={blogUrl} title={blog.title} /> 
               <TableOfContents items={tocItems} />
             </div>
           </aside>

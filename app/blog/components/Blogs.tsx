@@ -62,8 +62,8 @@ const Blogs = async () => {
 
                   {/* --- Author Section --- */}
                   {blog.user && (
-                    <div className='mt-auto flex items-center gap-3 border-t pt-3'>
-                      <div className='relative h-9 w-9 rounded-full overflow-hidden'>
+                    <div className='mt-auto flex items-center gap-3 '>
+                      <div className='relative h-12 w-12 rounded-full overflow-hidden'>
                         <Image
                           src={blog?.user?.profileImage || '/default-avatar.png'}
                           alt={blog.user.name}
@@ -71,9 +71,9 @@ const Blogs = async () => {
                           className='object-cover'
                         />
                       </div>
-                      <div>
-                        <p className='text-xs text-muted-foreground'>Writer By</p>
-                        <p className='text-sm font-medium'>{blog.user.name}</p>
+                      <div className='flex flex-col justify-center'>
+                        <p className='text-xs text-muted-foreground'>Post By</p>
+                        <p className='text-sm font-medium uppercase '>{blog.user.name}</p>
                       </div>
                     </div>
                   )}
