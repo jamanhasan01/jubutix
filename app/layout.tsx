@@ -11,6 +11,7 @@ import { HelpSidebar } from './components/HelpSlider'
 import NextAuthProvider from '@/provider/NextAuthProvider'
 
 import { ClientToaster } from './components/ClientToaster'
+import { DataLayerInitializer } from './components/DataLayerInitializer'
 // 2. Initialize Inter and create a CSS variable for it
 const inter = Inter({
   variable: '--font-inter',
@@ -40,6 +41,7 @@ export default function RootLayout({
       <GoogleTagManager gtmId={`${process.env.GTM_ID}`} />
 
       <body className={`${inter.variable} ${geistMono.variable} antialiased `}>
+        <DataLayerInitializer />
         <NextAuthProvider>
           <ClientToaster />
           <header>
