@@ -225,7 +225,7 @@ export function DataLayerInitializer() {
         if (lastPushPath.current !== pathname) {
             const pageViewEvent: DataLayerPageEvent = {
                 ...baseData,
-                event: 'pageview', 
+                event: 'page_view', 
                 event_category: 'Page Navigation',
                 event_label: pathname,
             };
