@@ -88,7 +88,7 @@ export const getAllUsers = async (): Promise<AllUsersResponse> => {
 
 
 export const editUserRole=async(role:string)=>{
-console.log('this role log form server action', role);
+
 return { success: true, message: `Role for user  updated to ${role}` };
 
 }

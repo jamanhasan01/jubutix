@@ -11,7 +11,8 @@ import ScrollToTopButton from './components/ScrollToTopButton'
 import { HelpSidebar } from './components/HelpSlider'
 import NextAuthProvider from '@/provider/NextAuthProvider'
 import { ClientToaster } from './components/ClientToaster'
-import { DataLayerInitializer } from './components/DataLayerInitializer' // আপনার ইনিশিয়ালাইজার
+import DataLayerInitializer from './components/DataLayerInitializer'
+
 
 // 2. Initialize Inter and create a CSS variable for it
 const inter = Inter({
@@ -44,9 +45,9 @@ export default function RootLayout({
 
       <body className={`${inter.variable} ${geistMono.variable} antialiased `}>
         {/* DataLayerInitializer: এটি GTM লোড হওয়ার পরেই ডেটা পুশ করে */}
-        <DataLayerInitializer /> 
         
         <NextAuthProvider>
+        <DataLayerInitializer /> 
           <ClientToaster />
           <header>
             <Navbar />

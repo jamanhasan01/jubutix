@@ -18,6 +18,8 @@ const FALLBACK_IMAGE_SRC = '/default-avatar.png'
 
 const UserNavItem = () => {
   const { data: session } = useSession()
+
+  
   // Function to handle logout
   const handleLogout = async () => {
     // Dropdown closes automatically upon click on MenuItem

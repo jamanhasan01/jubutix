@@ -8,12 +8,10 @@ declare global {
   type DataLayerElement = DataLayerPageEvent | Record<string, any>
 }
 
-
-
 // 1. ইউজার ডেটা
 export type DataLayerUser = {
   user_id?: string
-  user_type?: 'authenticated' | 'guest' | string // 👈 যোগ করা হয়েছে
+  user_type?: 'authenticated' | 'guest' | string
   user_email?: string
   user_segment?: 'premium' | 'standard' | 'prospect' | string
 }
@@ -27,14 +25,23 @@ export type DataLayerScreen = {
   device_type?: 'Mobile' | 'Tablet' | 'Desktop'
 }
 
-// 3. জিওলোকেশন ডেটা
 export type DataLayerLocation = {
-  location_status: 'n/a' | 'success' | 'denied' | 'timeout' | 'unavailable'
+  // "unsupported" যোগ করা হয়েছে 👇
+  location_status:
+    | 'n/a'
+    | 'success'
+    | 'denied'
+    | 'timeout'
+    | 'unavailable'
+    | 'missing_key'
+    | 'error'
+    | 'unsupported'
   user_latitude?: number
   user_longitude?: number
   user_city?: string
   user_country?: string
 }
+// ... (বাকি টাইপগুলি অপরিবর্তিত)
 
 // 4. পেজভিউ/ইভেন্ট ডেটা (বেস অবজেক্ট)
 export type DataLayerPageEvent = DataLayerUser &
@@ -43,16 +50,16 @@ export type DataLayerPageEvent = DataLayerUser &
     event: string
     page_path: string
 
-    // 👈 নতুন সাধারণ পেজ প্যারামিটার
     document_referrer?: string
     user_language?: string
     page_title?: string
-    is_page_active?: boolean // ট্যাবে বর্তমানে ফোকাস আছে কিনা
+    is_page_active?: boolean
 
     event_category?: string
     event_label?: string
     time_on_page_ms?: number
     time_on_page_s?: number
+    page_location?: string // সম্পূর্ণ URL
 
     [key: string]: any
   }

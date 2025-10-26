@@ -35,7 +35,7 @@ const userRoleOfArr = ['admin', 'moderator', 'user']
 const UserDataTable = ({ users: recentUsers }: UserDataTableProps) => {
   const getValueOfRole = (value: string) => {
     editUserRole(value)
-    console.log('value', value)
+
   }
 
   return (
