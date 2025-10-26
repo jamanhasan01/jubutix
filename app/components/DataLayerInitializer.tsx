@@ -5,25 +5,22 @@ import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 // নিশ্চিত করুন: 'npm install uuid @types/uuid' করা হয়েছে
 import { v4 as uuidv4 } from 'uuid'; 
-
-// NOTE: নিশ্চিত করুন যে আপনার types/globals.d.ts ফাইলটিতে user_type, document_referrer, 
-// এবং is_page_active প্রপার্টিগুলো যোগ করা হয়েছে।
 import { DataLayerLocation, DataLayerPageEvent, DataLayerScreen, DataLayerUser } from '@/types/globals'; 
 
 // =====================================================================
 // 1. MOCK DATA & CONFIGURATION
 // =====================================================================
+// OpenCage API Key: রিভার্স জিওকোডিং এর জন্য। 
 const OPENCAGE_API_KEY = process.env.NEXT_PUBLIC_OPENCAGE_API_KEY || 'YOUR_OPENCAGE_API_KEY_HERE';
 const SESSION_TRACKING_INTERVAL_MS = 30000; // 30 সেকেন্ড অন্তর সেশন টাইম ট্র্যাক করবে
 
-// MOCK অথেন্টিকেশন স্টেট: আপনার প্রকৃত লগইন/অথ সিস্টেম দিয়ে এটি পরিবর্তন করুন।
+// MOCK অথেন্টিকেশন স্টেট: আপনার প্রকৃত অথেন্টিকেশন সিস্টেম দিয়ে এটি পরিবর্তন করুন।
 const MOCK_AUTH_STATE = {
-  isLoggedIn: false, 
+  isLoggedIn: false, // ডিফল্টভাবে লগইন নেই ধরে নিচ্ছি
   id: 'USER-12345-NEXT',
   email: 'dev.test@example.com',
   segment: 'prospect' as const,
 };
-// ---------------------------------------------------------------------
 
 // =====================================================================
 // 2. UTILITY HOOKS
@@ -65,7 +62,7 @@ function useWindowDimensions() {
     return dimensions;
 }
 
-// জিওলোকেশন ডেটা এবং রিভার্স জিওকোডিং (শহর, দেশ) ফেচ করার জন্য
+// জিওলোকেশন ডেটা এবং রিভার্স জিওকোডিং ফেচ করার জন্য
 function useGeolocation() {
     const [locationData, setLocationData] = useState<DataLayerLocation>({ location_status: 'n/a' });
 
@@ -87,7 +84,7 @@ function useGeolocation() {
                     return { user_city: city, user_country: components.country };
                 }
             } catch (error) {
-                // console.error('Reverse Geocoding failed:', error);
+                // Error logging can be added here
             }
             return {};
         };
@@ -128,7 +125,7 @@ export function DataLayerInitializer() {
 
     const lastPushPath = useRef<string | null>(null);
     const startTime = useRef(Date.now());
-    const [isPageActive, setIsPageActive] = useState(true); // ফোকাস স্টেট ট্র্যাক করার জন্য
+    const [isPageActive, setIsPageActive] = useState(true);
 
     const locationDependencies = [
         locationData.location_status,
@@ -171,11 +168,11 @@ export function DataLayerInitializer() {
         };
 
         return {
-            // অতিরিক্ত ট্র্যাকিং প্যারামিটার যোগ করা হয়েছে
+            // অতিরিক্ত ট্র্যাকিং প্যারামিটার
             document_referrer: isClient ? document.referrer : '', 
             user_language: isClient ? navigator.language : '', 
             page_title: isClient ? document.title : '',
-            is_page_active: isPageActive, // বর্তমানে ট্যাবে ফোকাস আছে কিনা
+            is_page_active: isPageActive,
 
             page_path: currentPath,
             ...userData,
@@ -189,10 +186,9 @@ export function DataLayerInitializer() {
         if (typeof window === 'undefined') return;
 
         const intervalId = setInterval(() => {
-            if (window.dataLayer && isPageActive) { // শুধুমাত্র অ্যাক্টিভ থাকলেই ট্র্যাক করবে
+            if (window.dataLayer && isPageActive) {
                 const timeSpent = Date.now() - startTime.current;
                 
-                // Note: এখানে timeSpent প্যারামিটার reset হচ্ছে না, বরং গত 30 সেকেন্ডের সময় যোগ করা হচ্ছে।
                 window.dataLayer.push({
                     event: 'session_time_elapsed',
                     event_category: 'Engagement',
@@ -204,11 +200,11 @@ export function DataLayerInitializer() {
         }, SESSION_TRACKING_INTERVAL_MS);
 
         return () => clearInterval(intervalId);
-    }, [isPageActive]); // isPageActive পরিবর্তন হলে ইন্টারভ্যাল পুনরায় সেট হবে
+    }, [isPageActive]);
 
     // B. ডেটা লেয়ার ইনিশিয়ালাইজেশন এবং পেজ ভিউ ট্র্যাকিং
     useEffect(() => {
-        // নিশ্চিত করুন যে GTM এবং সমস্ত প্রাথমিক ডেটা (যেমন ইউজার আইডি) লোড হয়েছে
+        // GTM এবং সমস্ত প্রাথমিক ডেটা লোড হয়েছে কিনা নিশ্চিত করুন
         if (
             typeof window === 'undefined' ||
             !window.dataLayer ||
@@ -247,7 +243,7 @@ export function DataLayerInitializer() {
         viewport.width,
         viewport.height,
         nonLoggedInUserId,
-        isPageActive, // এখন ফোকাস স্টেট পরিবর্তনের সাথেও ডেটা আপডেট হবে
+        isPageActive,
         ...locationDependencies,
     ]);
 

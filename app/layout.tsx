@@ -1,5 +1,7 @@
+// app/layout.tsx
 import type { Metadata } from 'next'
-import { GoogleTagManager } from '@next/third-parties/google'
+// Note: npm install @next/third-parties/google করা হয়েছে ধরে নিচ্ছি
+import { GoogleTagManager } from '@next/third-parties/google' 
 
 import { Inter, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -7,11 +9,10 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import { HelpSidebar } from './components/HelpSlider'
-
 import NextAuthProvider from '@/provider/NextAuthProvider'
-
 import { ClientToaster } from './components/ClientToaster'
-import { DataLayerInitializer } from './components/DataLayerInitializer'
+import { DataLayerInitializer } from './components/DataLayerInitializer' // আপনার ইনিশিয়ালাইজার
+
 // 2. Initialize Inter and create a CSS variable for it
 const inter = Inter({
   variable: '--font-inter',
@@ -38,10 +39,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <GoogleTagManager gtmId={`${process.env.GTM_ID}`} />
+      {/* GoogleTagManager: এটি window.dataLayer ইনিশিয়ালাইজ করে */}
+      <GoogleTagManager gtmId={`${process.env.GTM_ID}`} /> 
 
       <body className={`${inter.variable} ${geistMono.variable} antialiased `}>
-        <DataLayerInitializer />
+        {/* DataLayerInitializer: এটি GTM লোড হওয়ার পরেই ডেটা পুশ করে */}
+        <DataLayerInitializer /> 
+        
         <NextAuthProvider>
           <ClientToaster />
           <header>
