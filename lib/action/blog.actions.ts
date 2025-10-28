@@ -14,7 +14,7 @@ import {
   GetAllBlogsParams,
   GetAllBlogsResponse,
 } from '@/types/blog.types'
-import { Blog } from '@/models/Blog.model'
+import { Blog } from '../../models/Blog.model'
 
 // -----------------------------------------------------------------
 // Export ActionState so the client component can import it
