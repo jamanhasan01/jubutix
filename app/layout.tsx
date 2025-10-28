@@ -12,7 +12,7 @@ import { HelpSidebar } from './components/HelpSlider'
 import NextAuthProvider from '@/provider/NextAuthProvider'
 import { ClientToaster } from './components/ClientToaster'
 import DataLayerInitializer from './components/DataLayerInitializer'
-import SessionAuthWrapper from '@/provider/SessionAuthWrapper'
+
 
 // 2. Initialize Inter and create a CSS variable for it
 const inter = Inter({
@@ -44,22 +44,18 @@ export default function RootLayout({
       <GoogleTagManager gtmId={`${process.env.GTM_ID}`} />
 
       <body className={`${inter.variable} ${geistMono.variable} antialiased `}>
-        {/* DataLayerInitializer: এটি GTM লোড হওয়ার পরেই ডেটা পুশ করে */}
-
         <NextAuthProvider>
-          <SessionAuthWrapper>
-            <DataLayerInitializer />
-            <ClientToaster />
-            <header>
-              <Navbar />
-            </header>
-            <main>{children}</main>
-            <footer>
-              <Footer />
-            </footer>
-            <ScrollToTopButton />
-            <HelpSidebar />
-          </SessionAuthWrapper>
+          <DataLayerInitializer />
+          <ClientToaster />
+          <header>
+            <Navbar />
+          </header>
+          <main>{children}</main>
+          <footer>
+            <Footer />
+          </footer>
+          <ScrollToTopButton />
+          <HelpSidebar />
         </NextAuthProvider>
       </body>
     </html>

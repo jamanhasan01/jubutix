@@ -8,12 +8,7 @@ import { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 import { auth } from '../auth'
 
-import {
-  BlogPost,
-  BlogQueryFilter,
-  GetAllBlogsParams,
-  GetAllBlogsResponse,
-} from '@/types/blog.types'
+import { BlogQueryFilter, GetAllBlogsParams, GetAllBlogsResponse } from '@/types/blog.types'
 import { Blog } from '../../models/Blog.model'
 
 // -----------------------------------------------------------------
@@ -299,7 +294,6 @@ export async function getAllBlogs({
   }
 }
 
-
 // =================================================================
 // 5. ACTION: this blog fetch based on id for (edit,view , delete)
 // =================================================================
@@ -339,7 +333,6 @@ export async function getBlogsByStatus(status: 'published' | 'draft') {
   }
 }
 
-
 // =================================================================
 // 6. ACTION: this is all blogs coute (totalPosts,publishedCount , draftCount)
 // =================================================================
@@ -357,26 +350,25 @@ export async function getBlogsByStatus(status: 'published' | 'draft') {
 
 // NEW ACTION: Get Blog Metrics
 export async function getBlogMetrics(): Promise<{
-  totalPosts: number
-  publishedCount: number
-  draftCount: number
+  totalPosts: number
+  publishedCount: number
+  draftCount: number
 }> {
-  try {
-    await connectDB()
+  try {
+    await connectDB()
 
-    const totalPosts = await Blog.countDocuments({})
-    const publishedCount = await Blog.countDocuments({ status: 'published' })
-    const draftCount = await Blog.countDocuments({ status: 'draft' })
+    const totalPosts = await Blog.countDocuments({})
+    const publishedCount = await Blog.countDocuments({ status: 'published' })
+    const draftCount = await Blog.countDocuments({ status: 'draft' })
 
-    return {
-      totalPosts,
-      publishedCount,
-      draftCount,
-    }
-  } catch (error) {
-
-    return { totalPosts: 0, publishedCount: 0, draftCount: 0 }
-  }
+    return {
+      totalPosts,
+      publishedCount,
+      draftCount,
+    }
+  } catch (error) {
+    return { totalPosts: 0, publishedCount: 0, draftCount: 0 }
+  }
 }
 
 // ... (Existing getBlogsByStatus function)
@@ -392,9 +384,7 @@ export async function getBlogMetrics(): Promise<{
 // ... (Existing getAllBlogs, getBlogMetrics)
 
 // NEW ACTION: Get Category Breakdown for ALL Data
-export async function getCategoryBreakdown(): Promise<
-  { category: string; count: number }[]
-> {
+export async function getCategoryBreakdown(): Promise<{ category: string; count: number }[]> {
   try {
     await connectDB()
 
@@ -423,6 +413,5 @@ export async function getCategoryBreakdown(): Promise<
     return []
   }
 }
-
 
 // ... (Existing getBlogPost and getBlogsByStatus functions)
