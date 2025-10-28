@@ -7,13 +7,14 @@ import { revalidatePath } from 'next/cache'
 import { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 import { auth } from '../auth'
-import { Blog } from '@/models/Blog.model'
+
 import {
   BlogPost,
   BlogQueryFilter,
   GetAllBlogsParams,
   GetAllBlogsResponse,
 } from '@/types/blog.types'
+import { Blog } from '@/models/Blog.model'
 
 // -----------------------------------------------------------------
 // Export ActionState so the client component can import it
