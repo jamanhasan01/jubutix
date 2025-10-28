@@ -25,6 +25,7 @@ type NavSubMenu = {
     icon: ReactNode
   }[]
   link?: string
+  roles?: string[] // Added
 }
 
 type NavLink = {
@@ -32,6 +33,7 @@ type NavLink = {
   link: string
   icon: ReactNode
   subItems?: never
+  roles?: string[] // Added
 }
 
 type NavItemType = NavLink | NavSubMenu
@@ -40,10 +42,15 @@ type NavItemProps = {
   item: NavItemType
 }
 
-// --- Navigation Data ---
+// --- Navigation Data (Modified to exclude 'moderator' from 'Users' route) ---
 const navLinks: NavItemType[] = [
   { name: 'Dashboard', link: '/dashboard', icon: <FaHome className='w-5 h-5' /> },
-  { name: 'Users', link: '/dashboard/users', icon: <FaUser className='w-5 h-5' /> },
+  {
+    name: 'Users',
+    link: '/dashboard/users',
+    icon: <FaUser className='w-5 h-5' />,
+    roles: ['admin'], // Users with role 'moderator' will NOT see this.
+  },
   {
     name: 'Posts',
     link: '/dashboard/posts',
@@ -63,18 +70,12 @@ const navLinks: NavItemType[] = [
   },
 ]
 
-// --- MODIFIED NavItem Component for Hybrid Menu ---
+// --- NavItem Component ---
 const NavItem = ({ item }: NavItemProps) => {
   const pathname = usePathname()
-const { data: session, status } = useSession();
-  const userRole = session?.user?.role; 
 
-
-
-  
   const isParentActive = item.subItems?.some((subItem) => subItem.link === pathname) ?? false
 
-  // 1. We need two state variables now
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false)
   const [isDropdownVisible, setIsDropdownVisible] = useState(isParentActive)
 
@@ -82,15 +83,7 @@ const { data: session, status } = useSession();
     e.preventDefault()
     setIsDropdownVisible(!isDropdownVisible)
   }
-    if (status === 'loading') {
-    return (
-      <aside className='flex flex-col h-full bg-white border-r border-gray-200'>
-        <div className='p-4 text-center text-gray-500'>Loading navigation...</div>
-      </aside>
-    );
-  }
 
-console.log('user log from side nav' , session);
   if (item.subItems) {
     return (
       <li
@@ -140,7 +133,6 @@ console.log('user log from side nav' , session);
           </ul>
         )}
 
-        {/* 5. Conditionally render the DROPDOWN menu (on click) */}
         {isDropdownVisible && (
           <ul className='pl-6 mt-2 space-y-2 border-l border-gray-200'>
             {item.subItems.map((subItem) => (
@@ -181,8 +173,31 @@ console.log('user log from side nav' , session);
   )
 }
 
-// --- Main Sidebar Component ---
+// --- Main Sidebar Component (Filtering Logic) ---
 const AsideNav = () => {
+  const { data: session, status } = useSession()
+  const userRole = session?.user?.role // Get the current user's role
+
+  if (status === 'loading') {
+    return (
+      <aside className='flex flex-col h-full bg-white border-r border-gray-200'>
+        <div className='p-4 text-center text-gray-500'>Loading navigation...</div>
+      </aside>
+    )
+  }
+
+  // Filter the navigation links based on user role
+  const filteredNavLinks = navLinks.filter((item) => {
+    // If no 'roles' property is specified, the item is visible to all.
+    if (!item.roles) {
+      return true
+    }
+    // If 'roles' is specified, check if the current user's role is included.
+    // Since 'Users' is defined with roles: ['admin', 'user'],
+    // a 'moderator' will cause this check to return false, hiding the link.
+    return item.roles.includes(userRole as string)
+  })
+
   return (
     <aside className='flex flex-col h-full bg-white border-r border-gray-200'>
       <div className='flex items-center justify-center h-16 border-b border-gray-200'>
@@ -190,7 +205,7 @@ const AsideNav = () => {
       </div>
       <nav className='flex-grow p-4'>
         <ul className='space-y-2'>
-          {navLinks.map((item) => (
+          {filteredNavLinks.map((item) => (
             <NavItem key={item.name} item={item} />
           ))}
         </ul>
