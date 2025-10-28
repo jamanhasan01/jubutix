@@ -373,7 +373,7 @@ export async function getBlogMetrics(): Promise<{
       draftCount,
     }
   } catch (error) {
-    console.error('Error fetching blog metrics:', error)
+
     return { totalPosts: 0, publishedCount: 0, draftCount: 0 }
   }
 }
@@ -419,7 +419,6 @@ export async function getCategoryBreakdown(): Promise<
 
     return JSON.parse(JSON.stringify(breakdown))
   } catch (error) {
-    console.error('Error fetching category breakdown:', error)
     return []
   }
 }

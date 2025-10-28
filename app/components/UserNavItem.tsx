@@ -14,10 +14,11 @@ import Link from 'next/link'
 import React from 'react'
 import Button from './Button'
 
+
 const FALLBACK_IMAGE_SRC = '/default-avatar.png'
 
 const UserNavItem = () => {
-  const { data: session } = useSession()
+  const { data: session, status} = useSession()
 
   
   // Function to handle logout

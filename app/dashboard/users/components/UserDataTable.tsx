@@ -25,6 +25,7 @@ import {
 import { UserType } from '@/types/user.types' // Assuming UserType is here
 import { OptionsSectionDialog } from '../../components/OptionsChnageDialog'
 import { editUserRole } from '@/lib/action/user.action'
+import { toast } from 'sonner'
 
 interface UserDataTableProps {
   users: UserType[]
@@ -33,9 +34,12 @@ interface UserDataTableProps {
 const userRoleOfArr = ['admin', 'moderator', 'user']
 
 const UserDataTable = ({ users: recentUsers }: UserDataTableProps) => {
-  const getValueOfRole = (value: string) => {
-    editUserRole(value)
-
+  const getValueOfUser = async (role: string, userId: string) => {
+    const res = await editUserRole(role, userId)
+   if (res.success==true) {
+    return toast.success(`${res.message}`)
+   }
+   return toast.error(`${res.message}`)
   }
 
   return (
@@ -83,14 +87,14 @@ const UserDataTable = ({ users: recentUsers }: UserDataTableProps) => {
                         </div>
                       </TableCell>
 
-                      <TableCell className='font-medium'>{user.name}</TableCell>
+                      <TableCell className='font-medium capitalize'>{user.name}</TableCell>
                       <TableCell className='text-sm text-muted-foreground'>{user.email}</TableCell>
 
                       {/* Role Badge Cell */}
                       <TableCell>
                         <Badge
                           variant='outline'
-                          className={`uppercase ${
+                          className={`capitalize ${
                             user.role === 'admin'
                               ? 'bg-red-500/10 text-red-600'
                               : 'bg-blue-500/10 text-blue-600'
@@ -119,7 +123,7 @@ const UserDataTable = ({ users: recentUsers }: UserDataTableProps) => {
                             <OptionsSectionDialog
                               items={userRoleOfArr}
                               level={'select role'}
-                              getValue={getValueOfRole}
+                              getValue={(role) => getValueOfUser(role, user._id)}
                               title='Change User Role'
                               desc={` Select a new role from the list below to update the user's access permissions within the system.`}
                             ></OptionsSectionDialog>

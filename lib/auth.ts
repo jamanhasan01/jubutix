@@ -33,8 +33,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           if (!isPasswordMatch) {
             throw new Error('Incorrect password.')
           }
-          if (user.role !== 'admin') {
-            throw new Error('You are not authorized to access the admin dashboard.')
+          if (user.role !== 'admin' && user.role !== 'moderator') {
+            throw new Error('You are not authorized to access the  dashboard.')
           }
           return {
             id: user._id.toString(),

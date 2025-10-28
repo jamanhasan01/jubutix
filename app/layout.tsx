@@ -1,7 +1,7 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
 // Note: npm install @next/third-parties/google করা হয়েছে ধরে নিচ্ছি
-import { GoogleTagManager } from '@next/third-parties/google' 
+import { GoogleTagManager } from '@next/third-parties/google'
 
 import { Inter, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -12,7 +12,7 @@ import { HelpSidebar } from './components/HelpSlider'
 import NextAuthProvider from '@/provider/NextAuthProvider'
 import { ClientToaster } from './components/ClientToaster'
 import DataLayerInitializer from './components/DataLayerInitializer'
-
+import SessionAuthWrapper from '@/provider/SessionAuthWrapper'
 
 // 2. Initialize Inter and create a CSS variable for it
 const inter = Inter({
@@ -41,23 +41,25 @@ export default function RootLayout({
   return (
     <html lang='en'>
       {/* GoogleTagManager: এটি window.dataLayer ইনিশিয়ালাইজ করে */}
-      <GoogleTagManager gtmId={`${process.env.GTM_ID}`} /> 
+      <GoogleTagManager gtmId={`${process.env.GTM_ID}`} />
 
       <body className={`${inter.variable} ${geistMono.variable} antialiased `}>
         {/* DataLayerInitializer: এটি GTM লোড হওয়ার পরেই ডেটা পুশ করে */}
-        
+
         <NextAuthProvider>
-        <DataLayerInitializer /> 
-          <ClientToaster />
-          <header>
-            <Navbar />
-          </header>
-          <main>{children}</main>
-          <footer>
-            <Footer />
-          </footer>
-          <ScrollToTopButton />
-          <HelpSidebar />
+          <SessionAuthWrapper>
+            <DataLayerInitializer />
+            <ClientToaster />
+            <header>
+              <Navbar />
+            </header>
+            <main>{children}</main>
+            <footer>
+              <Footer />
+            </footer>
+            <ScrollToTopButton />
+            <HelpSidebar />
+          </SessionAuthWrapper>
         </NextAuthProvider>
       </body>
     </html>

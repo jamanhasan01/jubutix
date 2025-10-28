@@ -13,6 +13,7 @@ import {
   FaUser,
 } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 // --- Type Definitions ---
 type NavSubMenu = {
@@ -65,6 +66,12 @@ const navLinks: NavItemType[] = [
 // --- MODIFIED NavItem Component for Hybrid Menu ---
 const NavItem = ({ item }: NavItemProps) => {
   const pathname = usePathname()
+const { data: session, status } = useSession();
+  const userRole = session?.user?.role; 
+
+
+
+  
   const isParentActive = item.subItems?.some((subItem) => subItem.link === pathname) ?? false
 
   // 1. We need two state variables now
@@ -75,7 +82,15 @@ const NavItem = ({ item }: NavItemProps) => {
     e.preventDefault()
     setIsDropdownVisible(!isDropdownVisible)
   }
+    if (status === 'loading') {
+    return (
+      <aside className='flex flex-col h-full bg-white border-r border-gray-200'>
+        <div className='p-4 text-center text-gray-500'>Loading navigation...</div>
+      </aside>
+    );
+  }
 
+console.log('user log from side nav' , session);
   if (item.subItems) {
     return (
       <li
